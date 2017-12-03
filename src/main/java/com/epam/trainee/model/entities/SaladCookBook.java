@@ -2,5 +2,5 @@ package com.epam.trainee.model.entities;
 
 public interface SaladCookBook {
 
-    Meal cookCesar();
+    Meal cookSalad(String name);
 }

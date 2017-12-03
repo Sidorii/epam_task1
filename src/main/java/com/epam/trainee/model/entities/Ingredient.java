@@ -2,8 +2,6 @@ package com.epam.trainee.model.entities;
 
 public interface Ingredient extends Item {
 
-    CookState getCookState();
-
     boolean isFresh();
 
     double getWeight();
@@ -14,7 +12,6 @@ public interface Ingredient extends Item {
     
     abstract class IngredientBuilder<T extends Ingredient,I extends IngredientBuilder>{
 
-        protected CookState cookState;
         protected boolean isFresh;
         protected double weight;
         protected float calories;
@@ -22,11 +19,6 @@ public interface Ingredient extends Item {
         protected String description;
         protected String name;
         protected IngredientType type;
-
-        public I setCookState(CookState cookState) {
-            this.cookState = cookState;
-            return (I) this;
-        }
 
         public I setFresh(boolean fresh) {
             isFresh = fresh;

@@ -1,13 +1,9 @@
-package com.epam.trainee.model.tmpimpl;
+package com.epam.trainee.model.entities;
 
 import com.epam.trainee.model.SaladVisitor;
-import com.epam.trainee.model.entities.CookState;
-import com.epam.trainee.model.entities.Ingredient;
-import com.epam.trainee.model.entities.IngredientType;
 
 public class SaladIngredient implements Ingredient {
 
-    private CookState cookState;
     private boolean isFresh;
     private double weight;
     private float calories;
@@ -16,9 +12,6 @@ public class SaladIngredient implements Ingredient {
     private String name;
     private IngredientType type;
 
-    public CookState getCookState() {
-        return cookState;
-    }
 
     public boolean isFresh() {
         return isFresh;
@@ -68,7 +61,6 @@ public class SaladIngredient implements Ingredient {
 
         public SaladIngredient createIngredient() {
             ingredient.calories = calories;
-            ingredient.cookState = cookState;
             ingredient.description = description;
             ingredient.isFresh = isFresh;
             ingredient.name = name;
@@ -83,8 +75,7 @@ public class SaladIngredient implements Ingredient {
     @Override
     public String toString() {
         return "SaladIngredient{" +
-                "cookState=" + cookState +
-                ", isFresh=" + isFresh +
+                "  isFresh=" + isFresh +
                 ", weight=" + weight +
                 ", calories=" + calories +
                 ", price=" + price +

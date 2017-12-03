@@ -1,7 +1,7 @@
 package com.epam.trainee.model;
 
 import com.epam.trainee.model.entities.PackingType;
-import com.epam.trainee.model.tmpimpl.SaladIngredient;
+import com.epam.trainee.model.entities.SaladIngredient;
 
 public class WeightSaladVisitor implements SaladVisitor {
 
