@@ -3,18 +3,15 @@ package com.epam.trainee.model.entities.dishes;
 import com.epam.trainee.model.SaladVisitor;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.Meal;
-import com.epam.trainee.model.entities.Packing;
 
-import java.util.Set;
+import java.util.List;
 
 public class Salad implements Meal {
 
-    private Set<Ingredient> ingredients;
-    private Packing packing;
+    private List<Ingredient> ingredients;
 
-    public Salad(Set<Ingredient> ingredients, Packing packing) {
+    public Salad(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
-        this.packing = packing;
     }
 
     public float getTotalCalories() {
@@ -23,11 +20,11 @@ public class Salad implements Meal {
                 .sum();
     }
 
-    public float getTotalWeight() {
+    public double getTotalWeight() {
         return 0;
     }
 
-    public float getFoodWeight() {
+    public double getWeight() {
         return 0;
     }
 
@@ -48,6 +45,6 @@ public class Salad implements Meal {
     }
 
     public void acceptVisitor(SaladVisitor visitor) {
-
+        ingredients.forEach(ingr -> visitor.visitIngredient((ingr)));
     }
 }

@@ -8,6 +8,8 @@ public interface Item {
 
     float getPrice();
 
+    double getWeight();
+
     String getDescription();
 
     void acceptVisitor(SaladVisitor visitor);

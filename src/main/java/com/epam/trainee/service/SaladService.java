@@ -5,11 +5,16 @@ import com.epam.trainee.model.entities.dishes.Salad;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface SaladService {
 
     Salad orderSalad(List<Ingredient> ingredients);
+
+    Salad orderSalad(String name);
+
+    void createSaladRecipe(Map<String, Integer> recipe);
 
     float calculateCalories(String saladName);
 

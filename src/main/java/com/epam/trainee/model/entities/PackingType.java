@@ -4,15 +4,17 @@ import com.epam.trainee.model.SaladVisitor;
 
 public enum PackingType implements Packing {
 
-    BOX(0.25f,true),
-    PLATE(0.25f,false);
+    BOX(0.25f, .1,true),
+    PLATE(0.25f,.3,false);
 
 
     private float price;
     private boolean isPortable;
+    private double weight;
 
-    PackingType(float price, boolean isPortable) {
+    PackingType(float price, double weight, boolean isPortable) {
         this.price = price;
+        this.weight = weight;
         this.isPortable = isPortable;
     }
 
@@ -26,6 +28,10 @@ public enum PackingType implements Packing {
 
     public String getDescription() {
         return "";
+    }
+
+    public double getWeight() {
+        return weight;
     }
 
     public void acceptVisitor(SaladVisitor visitor) {

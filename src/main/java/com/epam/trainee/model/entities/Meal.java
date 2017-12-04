@@ -4,9 +4,7 @@ public interface Meal extends Item {
 
     float getTotalCalories();
 
-    float getTotalWeight();
-
-    float getFoodWeight();
+    double getTotalWeight();
 
     boolean isVegan();
 }

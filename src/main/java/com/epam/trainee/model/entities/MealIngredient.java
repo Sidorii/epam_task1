@@ -2,7 +2,7 @@ package com.epam.trainee.model.entities;
 
 import com.epam.trainee.model.SaladVisitor;
 
-public class SaladIngredient implements Ingredient {
+public class MealIngredient implements Ingredient {
 
     private boolean isFresh;
     private double weight;
@@ -29,7 +29,6 @@ public class SaladIngredient implements Ingredient {
         return name;
     }
 
-
     public float getPrice() {
         return price;
     }
@@ -46,20 +45,28 @@ public class SaladIngredient implements Ingredient {
         return type;
     }
 
-    public static SaladIngredientBuilder getIngredientBuilder(double weight) {
-        return new SaladIngredientBuilder(weight);
+    public static IngredientBuilder getIngredientBuilder(double weight) {
+        return new IngredientBuilder(weight);
     }
 
-    public static class SaladIngredientBuilder extends IngredientBuilder<SaladIngredient, SaladIngredientBuilder>{
+    static IngredientBuilder getIngredientBuilder() {
+        return new IngredientBuilder();
+    }
 
-        private SaladIngredient ingredient;
+    public static class IngredientBuilder extends Ingredient.IngredientBuilder {
 
-        public SaladIngredientBuilder(double weight) {
-            this.weight = weight*0.001;
-            this.ingredient = new SaladIngredient();
+        private MealIngredient ingredient;
+
+        private IngredientBuilder() {
+            this.ingredient = new MealIngredient();
         }
 
-        public SaladIngredient createIngredient() {
+        private IngredientBuilder(double weight){
+            this();
+            setWeight(weight * 0.001);
+        }
+
+        public MealIngredient createIngredient() {
             ingredient.calories = calories;
             ingredient.description = description;
             ingredient.isFresh = isFresh;
@@ -69,6 +76,18 @@ public class SaladIngredient implements Ingredient {
             ingredient.weight = weight;
 
             return ingredient;
+        }
+
+        @Override
+        public IngredientBuilder setName(String name) {
+            super.setName(name);
+            return this;
+        }
+
+        @Override
+        public IngredientBuilder setType(IngredientType type) {
+            super.setType(type);
+            return this;
         }
     }
 
