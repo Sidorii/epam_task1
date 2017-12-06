@@ -149,19 +149,19 @@ public class SaladServiceTest {
         salad.setName("test");
         saladDao.createSalad(salad);
         replay(saladDao);
-        saladService.createSaladRecipe(database);
+        saladService.createSaladRecipe("test",database);
         verify(saladDao);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateSaladRecipeWithNullIngredients() {
         Set<Ingredient> ingredients = null;
-        saladService.createSaladRecipe(ingredients);
+        saladService.createSaladRecipe("test",ingredients);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateSaladRecipeWithEmptyIngredients() {
         Set<Ingredient> ingredients = new HashSet<>();
-        saladService.createSaladRecipe(ingredients);
+        saladService.createSaladRecipe("test",ingredients);
     }
 }

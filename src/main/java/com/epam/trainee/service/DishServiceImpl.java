@@ -31,6 +31,12 @@ public class DishServiceImpl implements DishService {
         }
     }
 
+    private void throwIfInvalidName(String name) {
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Invalid salad name: " + '\'' + name + '\'');
+        }
+    }
+
     private Dish createDish(Set<Ingredient> ingredients) {
         Salad salad = saladService.orderSalad(ingredients);
         Packing packing = PackingType.PLATE;
@@ -43,15 +49,14 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public Dish orderSalad(String name) {
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("Invalid salad name: " + '\'' + name + '\'');
-        }
+        throwIfInvalidName(name);
         return newDish(saladService.orderSalad(name), PackingType.PLATE);
     }
 
     @Override
-    public void createSaladRecipe(Set<Ingredient> ingredients) {
+    public void createSaladRecipe(String saladName, Set<Ingredient> ingredients) {
         throwIfInvalidIngredients(ingredients);
-        saladService.createSaladRecipe(ingredients);
+        throwIfInvalidName(saladName);
+        saladService.createSaladRecipe(saladName, ingredients);
     }
 }

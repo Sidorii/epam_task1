@@ -3,18 +3,23 @@ package com.epam.trainee;
 
 import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
+import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.*;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
 import com.epam.trainee.service.DishService;
+import com.epam.trainee.service.DishServiceImpl;
 import com.epam.trainee.service.SaladService;
+import com.epam.trainee.service.SaladServiceImpl;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public class ArchitectureTest {
@@ -23,14 +28,16 @@ public class ArchitectureTest {
     private SaladService saladService;
     private IngredientDao ingredientDao;
     private DaoFactory daoFactory;
+    private SaladDao saladDao;
 
 
     @Before
     public void setUp() {
-        dishService = createMock(DishService.class);
-        saladService = createMock(SaladService.class);
         daoFactory = createMock(DaoFactory.class);
         ingredientDao = createMock(IngredientDao.class);
+        saladDao = createMock(SaladDao.class);
+        saladService = new SaladServiceImpl(saladDao, ingredientDao);
+        dishService = new DishServiceImpl(saladService);
     }
 
     @Test
@@ -47,35 +54,28 @@ public class ArchitectureTest {
                 .setType(IngredientType.VEGETABLE)
                 .createIngredient();
 
+        DaoFactory.setInstance(daoFactory);
+
         Set<Ingredient> ingredients = new HashSet<>();
         ingredients.add(ingredient);
         ingredients.add(ingredient1);
 
         Salad salad = new Salad(ingredients);
-        Dish saladDish = new SaladDish(salad, PackingType.BOX);
-
-        expect(dishService.orderSalad(ingredients))
-                .andReturn(saladDish);
-        expect(saladService.orderSalad(ingredients))
-                .andReturn(salad);
-        expect(daoFactory.getIngredientDao())
-                .andReturn(ingredientDao);
-
+        Dish saladDish = new SaladDish(salad, PackingType.PLATE);
 
         expect(ingredientDao.getIngredients(ingredients))
-                .andReturn(new HashSet<>(ingredients));
-
+                .andReturn(ingredients);
         Dish orderedSalad = saladDish;
+        ingredientDao.batchUpdate(ingredients);
 
-        replay(dishService, saladService,  daoFactory, ingredientDao);
+        replay(saladDao,daoFactory, ingredientDao);
 
         Dish resultSalad = dishService.orderSalad(ingredients);
-
-        assertSame(orderedSalad, resultSalad);
+        assertEquals(orderedSalad, resultSalad);
     }
 
     @After
     public void tearDown() {
-        verify(dishService, saladService, daoFactory, ingredientDao);
+        verify(saladDao,daoFactory, ingredientDao);
     }
 }

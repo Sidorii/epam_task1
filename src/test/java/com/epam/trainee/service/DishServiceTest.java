@@ -6,7 +6,9 @@ import com.epam.trainee.model.entities.dishes.SaladDish;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
@@ -99,11 +101,10 @@ public class DishServiceTest {
 
     @Test
     public void testCreateRecipe() {
-
-        saladService.createSaladRecipe(saladIngredients);
+        saladService.createSaladRecipe("test", saladIngredients);
         replay(saladService);
 
-        dishService.createSaladRecipe(saladIngredients);
+        dishService.createSaladRecipe("test", saladIngredients);
         verify(saladService);
     }
 }

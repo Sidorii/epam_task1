@@ -11,7 +11,11 @@ public class IngredientStorage {
     private Set<Ingredient> storage;
 
     public IngredientStorage(Set<Ingredient> storage) {
-        this.storage = storage;
+        if (storage == null) {
+            this.storage = new HashSet<>();
+        }else {
+            this.storage = storage;
+        }
     }
 
     public Set<Ingredient> getStoredIngredients() {

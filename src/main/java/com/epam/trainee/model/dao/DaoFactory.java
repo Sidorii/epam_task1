@@ -22,4 +22,8 @@ public abstract class DaoFactory {
         }
         return instance;
     }
+
+    public static void setInstance(DaoFactory daoFactory) {
+        instance = daoFactory;
+    }
 }

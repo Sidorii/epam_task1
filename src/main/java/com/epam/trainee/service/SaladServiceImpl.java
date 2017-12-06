@@ -47,11 +47,12 @@ public class SaladServiceImpl implements SaladService {
     }
 
     @Override
-    public void createSaladRecipe(Set<Ingredient> recipe) {
+    public void createSaladRecipe(String name, Set<Ingredient> recipe) {
         if (recipe == null || recipe.size() == 0) {
             throw new IllegalArgumentException("Ingredients set for salad creating can't be null or empty");
         }
         Salad salad = new Salad(recipe);
+        salad.setName(name);
         saladDao.createSalad(salad);
     }
 
