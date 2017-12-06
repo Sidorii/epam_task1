@@ -2,18 +2,17 @@ package com.epam.trainee.model.dao;
 
 import com.epam.trainee.model.entities.Ingredient;
 
-import java.util.List;
 import java.util.Set;
 
 public interface IngredientDao {
 
     void addIngredient(Ingredient ingredient);
 
-    Ingredient getIngredientByName(String name);
+    Ingredient getIngredient(Ingredient ingredient);
 
-    Set<Ingredient> getIngredientsByNames(List<String> names);
+    Set<Ingredient> getIngredients(Set<Ingredient> ingredients);
 
-    void removeIngredientByName(String name);
+    void removeIngredient(Ingredient ingredient);
 
     void updateIngredient(Ingredient ingredient);
 

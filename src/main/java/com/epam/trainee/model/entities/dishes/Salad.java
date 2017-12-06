@@ -2,38 +2,37 @@ package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.SaladVisitor;
 import com.epam.trainee.model.entities.Ingredient;
+import com.epam.trainee.model.entities.Dish;
 import com.epam.trainee.model.entities.Meal;
 
 import java.util.List;
+import java.util.Set;
 
-public class Salad implements Meal {
+public class Salad implements Meal{
 
-    private List<Ingredient> ingredients;
+    protected Set<Ingredient> ingredients;
+    private String name;
 
-    public Salad(List<Ingredient> ingredients) {
+    public Salad(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public float getTotalCalories() {
+    public float getCalories() {
         return (float) ingredients.stream()
                 .mapToDouble(Ingredient::getCalories)
                 .sum();
-    }
-
-    public double getTotalWeight() {
-        return 0;
     }
 
     public double getWeight() {
         return 0;
     }
 
-    public boolean isVegan() {
-        return false;
-    }
-
     public String getName() {
         return null;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public float getPrice() {
@@ -46,5 +45,24 @@ public class Salad implements Meal {
 
     public void acceptVisitor(SaladVisitor visitor) {
         ingredients.forEach(ingr -> visitor.visitIngredient((ingr)));
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        //TODO: rewrite equals and hashcode according to real class implementation
+        System.out.println("Temporary equals");
+        if (this == o) return true;
+        if (!(o instanceof Salad)) return false;
+
+        Salad salad = (Salad) o;
+
+        return ingredients != null ? ingredients.equals(salad.ingredients) : salad.ingredients == null;
+    }
+
+    @Override
+    public int hashCode() {
+        System.out.println("Temporary equals");
+        return ingredients != null ? ingredients.hashCode() : 0;
     }
 }

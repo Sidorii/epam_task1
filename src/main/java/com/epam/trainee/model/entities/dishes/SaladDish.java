@@ -1,10 +1,10 @@
 package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.SaladVisitor;
-import com.epam.trainee.model.entities.Meal;
+import com.epam.trainee.model.entities.Dish;
 import com.epam.trainee.model.entities.Packing;
 
-public class SaladDish implements Meal {
+public class SaladDish implements Dish {
 
     private Salad salad;
     private Packing packing;
@@ -15,13 +15,13 @@ public class SaladDish implements Meal {
     }
 
     @Override
-    public float getTotalCalories() {
-        return salad.getTotalCalories();
+    public float getCalories() {
+        return salad.getCalories();
     }
 
     @Override
     public double getTotalWeight() {
-        return salad.getTotalWeight() + packing.getWeight();
+        return salad.getWeight() + packing.getWeight();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class SaladDish implements Meal {
 
     @Override
     public boolean isVegan() {
-        return salad.isVegan();
-    }
+        return true;
+    } //TODO: implement isVegan method
 
     public Packing getPacking() {
         return packing;

@@ -10,15 +10,11 @@ import java.util.Set;
 
 public interface SaladService {
 
-    Salad orderSalad(List<Ingredient> ingredients);
+    Salad orderSalad(Set<Ingredient> ingredients);
 
     Salad orderSalad(String name);
 
-    void createSaladRecipe(Map<String, Integer> recipe);
-
-    float calculateCalories(String saladName);
-
-    double calculateWeight(String saladName);
+    void createSaladRecipe(Set<Ingredient> recipe);
 
     Set<Ingredient> sortIngredients(Salad salad, Comparator<Ingredient> comparator);
 

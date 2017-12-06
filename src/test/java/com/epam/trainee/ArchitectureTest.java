@@ -1,83 +1,81 @@
 package com.epam.trainee;
 
 
-import com.epam.trainee.model.dao.DAOFactory;
+import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.entities.*;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
-import com.epam.trainee.service.MealService;
+import com.epam.trainee.service.DishService;
 import com.epam.trainee.service.SaladService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertSame;
 
 public class ArchitectureTest {
 
-    private MealService mealService;
+    private DishService dishService;
     private SaladService saladService;
     private IngredientDao ingredientDao;
-    private DAOFactory daoFactory;
+    private DaoFactory daoFactory;
 
 
     @Before
     public void setUp() {
-        mealService = createMock(MealService.class);
+        dishService = createMock(DishService.class);
         saladService = createMock(SaladService.class);
-        daoFactory = createMock(DAOFactory.class);
+        daoFactory = createMock(DaoFactory.class);
         ingredientDao = createMock(IngredientDao.class);
     }
 
     @Test
     public void testOrderSalad() {
-        Ingredient ingredient = MealIngredient.getIngredientBuilder(10)
+        Ingredient ingredient = IngredientImpl.getIngredientBuilder()
+                .setName("Cucumber")
+                .setWeight(10)
                 .setType(IngredientType.VEGETABLE)
                 .createIngredient();
 
-        Ingredient ingredient1 = MealIngredient.getIngredientBuilder(20)
+        Ingredient ingredient1 = IngredientImpl.getIngredientBuilder()
+                .setName("Potato")
+                .setWeight(20)
                 .setType(IngredientType.VEGETABLE)
                 .createIngredient();
 
-        List<Ingredient> ingredients = new ArrayList<>();
+        Set<Ingredient> ingredients = new HashSet<>();
         ingredients.add(ingredient);
         ingredients.add(ingredient1);
 
         Salad salad = new Salad(ingredients);
-        Meal saladDish = new SaladDish(salad, PackingType.BOX);
+        Dish saladDish = new SaladDish(salad, PackingType.BOX);
 
-        expect(mealService.orderSalad(new ArrayList<>(ingredients)))
+        expect(dishService.orderSalad(ingredients))
                 .andReturn(saladDish);
-        expect(saladService.orderSalad(new ArrayList<>(ingredients)))
+        expect(saladService.orderSalad(ingredients))
                 .andReturn(salad);
         expect(daoFactory.getIngredientDao())
                 .andReturn(ingredientDao);
 
-        List<String> ingrNames = ingredients.stream()
-                .map(Item::getName)
-                .collect(Collectors.toList());
 
-        expect(ingredientDao.getIngredientsByNames(ingrNames))
+        expect(ingredientDao.getIngredients(ingredients))
                 .andReturn(new HashSet<>(ingredients));
 
-        Iterator<Ingredient> it = ingredients.iterator();
+        Dish orderedSalad = saladDish;
 
-        Meal orderedSalad = saladDish;
+        replay(dishService, saladService,  daoFactory, ingredientDao);
 
-        replay(mealService, saladService,  daoFactory, ingredientDao);
-
-        Meal resultSalad = mealService.orderSalad(new ArrayList<>(ingredients));
+        Dish resultSalad = dishService.orderSalad(ingredients);
 
         assertSame(orderedSalad, resultSalad);
     }
 
     @After
     public void tearDown() {
-        verify(mealService, saladService, daoFactory, ingredientDao);
+        verify(dishService, saladService, daoFactory, ingredientDao);
     }
 }

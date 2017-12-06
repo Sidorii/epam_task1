@@ -1,26 +1,27 @@
 package com.epam.trainee.service;
 
+import com.epam.trainee.model.entities.Dish;
 import com.epam.trainee.model.entities.Ingredient;
-import com.epam.trainee.model.entities.Meal;
 import com.epam.trainee.model.entities.Packing;
 import com.epam.trainee.model.entities.PackingType;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
-public class MealServiceImpl implements MealService {
+public class DishServiceImpl implements DishService {
 
     private SaladService saladService;
 
-    public MealServiceImpl(SaladService saladService) {
+    public DishServiceImpl(SaladService saladService) {
         this.saladService = saladService;
     }
 
     @Override
-    public Meal orderSalad(List<Ingredient> ingredients) {
+    public Dish orderSalad(Set<Ingredient> ingredients) {
         throwIfInvalidIngredients(ingredients);
-        return createSaladDish(ingredients);
+        return createDish(ingredients);
     }
 
     private void throwIfInvalidIngredients(Collection ingredients) {
@@ -30,30 +31,27 @@ public class MealServiceImpl implements MealService {
         }
     }
 
-    private SaladDish createSaladDish(List<Ingredient> ingredients) {
+    private Dish createDish(Set<Ingredient> ingredients) {
         Salad salad = saladService.orderSalad(ingredients);
         Packing packing = PackingType.PLATE;
-        return newSaladDish(salad, packing);
+        return newDish(salad, packing);
     }
 
-    private SaladDish newSaladDish(Salad salad, Packing packing) {
+    private Dish newDish(Salad salad, Packing packing) {
         return new SaladDish(salad, packing);
     }
 
     @Override
-    public Meal orderSalad(String name) {
+    public Dish orderSalad(String name) {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Invalid salad name: " + '\'' + name + '\'');
         }
-        return newSaladDish(saladService.orderSalad(name), PackingType.PLATE);
+        return newDish(saladService.orderSalad(name), PackingType.PLATE);
     }
 
-
     @Override
-    public void createSaladRecipe(Map<String, Integer> ingredients) {
-        if (ingredients != null) {
-            throwIfInvalidIngredients(ingredients.entrySet());
-            saladService.createSaladRecipe(ingredients);
-        }
+    public void createSaladRecipe(Set<Ingredient> ingredients) {
+        throwIfInvalidIngredients(ingredients);
+        saladService.createSaladRecipe(ingredients);
     }
 }

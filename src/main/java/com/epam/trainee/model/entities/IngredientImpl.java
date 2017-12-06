@@ -2,7 +2,7 @@ package com.epam.trainee.model.entities;
 
 import com.epam.trainee.model.SaladVisitor;
 
-public class MealIngredient implements Ingredient {
+public class IngredientImpl implements Ingredient {
 
     private boolean isFresh;
     private double weight;
@@ -12,6 +12,11 @@ public class MealIngredient implements Ingredient {
     private String name;
     private IngredientType type;
 
+    @Override
+    public void setWeight(double weight) {
+        IngredientBuilder.checkRange(weight, "weight");
+        this.weight = weight;
+    }
 
     public boolean isFresh() {
         return isFresh;
@@ -22,7 +27,7 @@ public class MealIngredient implements Ingredient {
     }
 
     public float getCalories() {
-        return calories;
+        return (float) (weight*0.001*calories);
     }
 
     public String getName() {
@@ -30,7 +35,7 @@ public class MealIngredient implements Ingredient {
     }
 
     public float getPrice() {
-        return price;
+        return (float) (0.001*weight*price);
     }
 
     public String getDescription() {
@@ -45,28 +50,19 @@ public class MealIngredient implements Ingredient {
         return type;
     }
 
-    public static IngredientBuilder getIngredientBuilder(double weight) {
-        return new IngredientBuilder(weight);
-    }
-
-    static IngredientBuilder getIngredientBuilder() {
+    public static IngredientBuilder getIngredientBuilder() {
         return new IngredientBuilder();
     }
 
     public static class IngredientBuilder extends Ingredient.IngredientBuilder {
 
-        private MealIngredient ingredient;
+        private IngredientImpl ingredient;
 
         private IngredientBuilder() {
-            this.ingredient = new MealIngredient();
+            this.ingredient = new IngredientImpl();
         }
 
-        private IngredientBuilder(double weight){
-            this();
-            setWeight(weight * 0.001);
-        }
-
-        public MealIngredient createIngredient() {
+        public IngredientImpl createIngredient() {
             ingredient.calories = calories;
             ingredient.description = description;
             ingredient.isFresh = isFresh;
@@ -89,6 +85,41 @@ public class MealIngredient implements Ingredient {
             super.setType(type);
             return this;
         }
+
+        @Override
+        public IngredientBuilder setWeight(double weight) {
+            super.setWeight(weight);
+            return this;
+        }
+
+        public IngredientBuilder createFrom(Ingredient ingredient) {
+            weight = ingredient.getWeight();
+            calories = (float) (ingredient.getCalories()/(weight*0.001)); //TODO: fix weight converting mismatch
+            price = (float) (ingredient.getPrice()/(weight*0.001));
+            description = ingredient.getDescription();
+            isFresh = ingredient.isFresh();
+            name = ingredient.getName();
+            type = ingredient.getType();
+            return this;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IngredientImpl)) return false;
+
+        IngredientImpl that = (IngredientImpl) o;
+
+        if (!getName().equals(that.getName())) return false;
+        return getType() == that.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getName().hashCode();
+        result = 31 * result + getType().hashCode();
+        return result;
     }
 
     @Override
@@ -96,8 +127,8 @@ public class MealIngredient implements Ingredient {
         return "SaladIngredient{" +
                 "  isFresh=" + isFresh +
                 ", weight=" + weight +
-                ", calories=" + calories +
-                ", price=" + price +
+                ", calories=" + getCalories() +
+                ", price=" + getPrice() +
                 ", description='" + description + '\'' +
                 ", name='" + name + '\'' +
                 ", type=" + type +

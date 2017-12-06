@@ -7,7 +7,6 @@ public enum PackingType implements Packing {
     BOX(0.25f, .1,true),
     PLATE(0.25f,.3,false);
 
-
     private float price;
     private boolean isPortable;
     private double weight;
@@ -34,11 +33,11 @@ public enum PackingType implements Packing {
         return weight;
     }
 
-    public void acceptVisitor(SaladVisitor visitor) {
-
-    }
-
     public boolean isPortable() {
         return isPortable;
+    }
+
+    public void acceptVisitor(SaladVisitor visitor) {
+
     }
 }

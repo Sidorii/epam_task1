@@ -1,12 +1,12 @@
 package com.epam.trainee.model.entities;
 
-public interface Ingredient extends Item {
+public interface Ingredient extends Meal{
 
     boolean isFresh();
 
-    float getCalories();
-
     IngredientType getType();
+
+    void setWeight(double weight);
     
     abstract class IngredientBuilder<T extends Ingredient,I extends IngredientBuilder>{
 
@@ -24,13 +24,15 @@ public interface Ingredient extends Item {
         }
 
         I setCalories(float calories) {
-            this.calories = (float) weight*calories;
+            checkRange(calories, "calories");
+            this.calories = calories;
             return (I) this;
 
         }
 
         I setPrice(float price) {
-            this.price = (float) weight*price;
+            checkRange(price,"price");
+            this.price = price;
             return (I) this;
         }
 
@@ -40,6 +42,7 @@ public interface Ingredient extends Item {
         }
 
         I setWeight(double weight) {
+            checkRange(weight, "weight");
             this.weight = weight;
             return (I) this;
         }
@@ -52,6 +55,12 @@ public interface Ingredient extends Item {
         I setType(IngredientType type) {
             this.type = type;
             return (I) this;
+        }
+
+        static void checkRange(double weight, String name) {
+            if (weight < 0) {
+                throw new IllegalArgumentException("Ingredient " + name + " can't be less then 0");
+            }
         }
 
         abstract T createIngredient();

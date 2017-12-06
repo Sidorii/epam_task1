@@ -3,7 +3,7 @@ package com.epam.trainee.model;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.Packing;
 import com.epam.trainee.model.entities.PackingType;
-import com.epam.trainee.model.entities.MealIngredient;
+import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.dishes.Salad;
 
 public class WeightSaladVisitor implements SaladVisitor {
@@ -24,7 +24,7 @@ public class WeightSaladVisitor implements SaladVisitor {
 
     }
 
-    public void visitIngredient(MealIngredient ingredient) {
+    public void visitIngredient(IngredientImpl ingredient) {
 
     }
 
