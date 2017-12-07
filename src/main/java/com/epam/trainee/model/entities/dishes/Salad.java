@@ -2,19 +2,30 @@ package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.SaladVisitor;
 import com.epam.trainee.model.entities.Ingredient;
-import com.epam.trainee.model.entities.Dish;
+import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.entities.Meal;
 
-import java.util.List;
 import java.util.Set;
 
-public class Salad implements Meal{
+public class Salad implements Meal {
 
     protected Set<Ingredient> ingredients;
     private String name;
+    private String description;
 
     public Salad(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public Salad(String name, Set<Ingredient> ingredients) {
+        this.name = name;
+        this.ingredients = ingredients;
+    }
+
+    public boolean isVegan() {
+        return ingredients.stream()
+                .noneMatch(i -> i.getType() == null ||
+                        i.getType().equals(IngredientType.MEAT));
     }
 
     public float getCalories() {
@@ -24,11 +35,13 @@ public class Salad implements Meal{
     }
 
     public double getWeight() {
-        return 0;
+        return ingredients.stream()
+                .mapToDouble(Ingredient::getWeight)
+                .sum();
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public void setName(String name) {
@@ -36,33 +49,36 @@ public class Salad implements Meal{
     }
 
     public float getPrice() {
-        return 0;
+        return (float) ingredients.stream()
+                .mapToDouble(Ingredient::getPrice)
+                .sum();
     }
 
     public String getDescription() {
-        return null;
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void acceptVisitor(SaladVisitor visitor) {
         ingredients.forEach(ingr -> visitor.visitIngredient((ingr)));
     }
 
-
     @Override
     public boolean equals(Object o) {
-        //TODO: rewrite equals and hashcode according to real class implementation
-        System.out.println("Temporary equals");
         if (this == o) return true;
         if (!(o instanceof Salad)) return false;
 
         Salad salad = (Salad) o;
-
+        if (name != null && !name.equals(salad.getName())) return false;
         return ingredients != null ? ingredients.equals(salad.ingredients) : salad.ingredients == null;
     }
 
     @Override
     public int hashCode() {
-        System.out.println("Temporary equals");
-        return ingredients != null ? ingredients.hashCode() : 0;
+        int result = 31 * (name != null ? name.hashCode() : 0);
+        return result + (ingredients != null ? ingredients.hashCode() : 0);
     }
 }

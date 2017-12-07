@@ -46,8 +46,8 @@ public class SaladDish implements Dish {
 
     @Override
     public boolean isVegan() {
-        return true;
-    } //TODO: implement isVegan method
+        return salad.isVegan();
+    }
 
     public Packing getPacking() {
         return packing;

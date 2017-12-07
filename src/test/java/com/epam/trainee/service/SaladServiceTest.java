@@ -27,6 +27,7 @@ public class SaladServiceTest {
     public void setUp() {
         saladDao = createMock(SaladDao.class);
         ingredientDao = createMock(IngredientDao.class);
+
         saladService = new SaladServiceImpl(saladDao, ingredientDao);
         database = new HashSet<>();
 
@@ -149,19 +150,19 @@ public class SaladServiceTest {
         salad.setName("test");
         saladDao.createSalad(salad);
         replay(saladDao);
-        saladService.createSaladRecipe("test",database);
+        saladService.createSaladRecipe("test", database);
         verify(saladDao);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateSaladRecipeWithNullIngredients() {
         Set<Ingredient> ingredients = null;
-        saladService.createSaladRecipe("test",ingredients);
+        saladService.createSaladRecipe("test", ingredients);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateSaladRecipeWithEmptyIngredients() {
         Set<Ingredient> ingredients = new HashSet<>();
-        saladService.createSaladRecipe("test",ingredients);
+        saladService.createSaladRecipe("test", ingredients);
     }
 }
