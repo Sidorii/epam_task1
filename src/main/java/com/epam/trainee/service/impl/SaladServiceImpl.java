@@ -1,4 +1,4 @@
-package com.epam.trainee.service;
+package com.epam.trainee.service.impl;
 
 import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
@@ -6,6 +6,7 @@ import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientStorage;
 import com.epam.trainee.model.entities.dishes.Salad;
+import com.epam.trainee.service.SaladService;
 
 import java.util.*;
 

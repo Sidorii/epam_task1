@@ -6,6 +6,7 @@ import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.entities.dishes.Salad;
+import com.epam.trainee.service.impl.SaladServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 

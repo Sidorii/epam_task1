@@ -4,6 +4,7 @@ import com.epam.trainee.model.SaladVisitor;
 
 public class IngredientImpl implements Ingredient {
 
+    private Integer id;
     private boolean isFresh;
     private double weight;
     private float calories;
@@ -12,10 +13,22 @@ public class IngredientImpl implements Ingredient {
     private String name;
     private IngredientType type;
 
+    private IngredientImpl() {
+    }
+
     @Override
     public void setWeight(double weight) {
-        IngredientBuilder.checkRange(weight, "weight");
+        IngredientBuilderImpl.checkRange(weight, "weight");
         this.weight = weight;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public boolean isFresh() {
@@ -27,7 +40,7 @@ public class IngredientImpl implements Ingredient {
     }
 
     public float getCalories() {
-        return (float) (weight*0.001*calories);
+        return (float) (weight * 0.001 * calories);
     }
 
     public String getName() {
@@ -35,7 +48,7 @@ public class IngredientImpl implements Ingredient {
     }
 
     public float getPrice() {
-        return (float) (0.001*weight*price);
+        return (float) (0.001 * weight * price);
     }
 
     public String getDescription() {
@@ -50,60 +63,6 @@ public class IngredientImpl implements Ingredient {
         return type;
     }
 
-    public static IngredientBuilder getIngredientBuilder() {
-        return new IngredientBuilder();
-    }
-
-    public static class IngredientBuilder extends Ingredient.IngredientBuilder {
-
-        private IngredientImpl ingredient;
-
-        private IngredientBuilder() {
-            this.ingredient = new IngredientImpl();
-        }
-
-        public IngredientImpl createIngredient() {
-            ingredient.calories = calories;
-            ingredient.description = description;
-            ingredient.isFresh = isFresh;
-            ingredient.name = name;
-            ingredient.price = price;
-            ingredient.type = type;
-            ingredient.weight = weight;
-
-            return ingredient;
-        }
-
-        @Override
-        public IngredientBuilder setName(String name) {
-            super.setName(name);
-            return this;
-        }
-
-        @Override
-        public IngredientBuilder setType(IngredientType type) {
-            super.setType(type);
-            return this;
-        }
-
-        @Override
-        public IngredientBuilder setWeight(double weight) {
-            super.setWeight(weight);
-            return this;
-        }
-
-        public IngredientBuilder createFrom(Ingredient ingredient) {
-            weight = ingredient.getWeight();
-            calories = (float) (ingredient.getCalories()/(weight*0.001)); //TODO: fix weight converting mismatch
-            price = (float) (ingredient.getPrice()/(weight*0.001));
-            description = ingredient.getDescription();
-            isFresh = ingredient.isFresh();
-            name = ingredient.getName();
-            type = ingredient.getType();
-            return this;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,15 +70,22 @@ public class IngredientImpl implements Ingredient {
 
         IngredientImpl that = (IngredientImpl) o;
 
+        if (id != null && that.getId() != null) {
+            return id.equals(that.getId());
+        }
+
         if (!getName().equals(that.getName())) return false;
         return getType() == that.getType();
     }
 
     @Override
     public int hashCode() {
-        int result = getName().hashCode();
-        result = 31 * result + getType().hashCode();
-        return result;
+        if (id != null) {
+            return id;
+        }
+
+        int result = 31 * (name != null ? name.hashCode() : 0);
+        return result + (type != null ? type.hashCode() : 0);
     }
 
     @Override
@@ -133,5 +99,45 @@ public class IngredientImpl implements Ingredient {
                 ", name='" + name + '\'' +
                 ", type=" + type +
                 '}';
+    }
+
+    public static IngredientBuilderImpl getIngredientBuilder() {
+        return new IngredientBuilderImpl();
+    }
+
+
+    public static class IngredientBuilderImpl
+            extends Ingredient.IngredientBuilder<IngredientImpl, IngredientBuilderImpl> {
+
+        private IngredientImpl ingredient;
+
+        private IngredientBuilderImpl() {
+            this.ingredient = new IngredientImpl();
+        }
+
+        public IngredientImpl createIngredient() {
+            ingredient.id = id;
+            ingredient.calories = calories;
+            ingredient.description = description;
+            ingredient.isFresh = isFresh;
+            ingredient.name = name;
+            ingredient.price = price;
+            ingredient.type = type;
+            ingredient.weight = weight;
+
+            return ingredient;
+        }
+
+        public IngredientBuilderImpl createFrom(Ingredient ingredient) {
+            id = ingredient.getId();
+            weight = ingredient.getWeight();
+            calories = (float) (ingredient.getCalories() / (weight * 0.001)); //TODO: fix weight converting mismatch
+            price = (float) (ingredient.getPrice() / (weight * 0.001));
+            description = ingredient.getDescription();
+            isFresh = ingredient.isFresh();
+            name = ingredient.getName();
+            type = ingredient.getType();
+            return this;
+        }
     }
 }

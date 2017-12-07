@@ -1,6 +1,6 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.exceptions.MissingIngredientException;
+import com.epam.trainee.model.exceptions.MissingItemException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -76,7 +76,7 @@ public class IngredientStorageTest {
         storage.produceIngredient(null);
     }
 
-    @Test(expected = MissingIngredientException.class)
+    @Test(expected = MissingItemException.class)
     public void testPullMoreThanStorageHas() {
         Ingredient ingredient = IngredientImpl.getIngredientBuilder()
                 .setWeight(100500)
@@ -132,7 +132,7 @@ public class IngredientStorageTest {
         storage.produceIngredients(new HashSet<>());
     }
 
-    @Test(expected = MissingIngredientException.class)
+    @Test(expected = MissingItemException.class)
     public void testPullMoreIngredientsThanStorageHas() {
         Ingredient ingredient = IngredientImpl.getIngredientBuilder()
                 .setWeight(100500)

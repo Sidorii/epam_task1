@@ -1,8 +1,10 @@
 package com.epam.trainee.service;
 
 import com.epam.trainee.model.entities.*;
+import com.epam.trainee.model.entities.dishes.Dish;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
+import com.epam.trainee.service.impl.DishServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 

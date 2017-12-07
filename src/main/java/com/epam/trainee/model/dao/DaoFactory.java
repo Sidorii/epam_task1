@@ -8,6 +8,8 @@ public abstract class DaoFactory {
 
     public abstract IngredientDao getIngredientDao();
 
+    public abstract IngredientTypeDao getIngredientTypeDao();
+
     public abstract PackingDao getPackingDao();
 
     public abstract SaladDao getSaladDao();

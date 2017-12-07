@@ -1,7 +1,6 @@
 package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.SaladVisitor;
-import com.epam.trainee.model.entities.Dish;
 import com.epam.trainee.model.entities.Packing;
 
 public class SaladDish implements Dish {
@@ -12,6 +11,11 @@ public class SaladDish implements Dish {
     public SaladDish(Salad salad, Packing packing) {
         this.salad = salad;
         this.packing = packing;
+    }
+
+    @Override
+    public Integer getId() {
+        return salad.getId();
     }
 
     @Override

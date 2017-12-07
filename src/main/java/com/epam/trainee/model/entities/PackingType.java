@@ -21,6 +21,11 @@ public enum PackingType implements Packing {
         return this.name().toLowerCase();
     }
 
+    @Override
+    public Integer getId() {
+        return this.ordinal();
+    }
+
     public float getPrice() {
         return price;
     }

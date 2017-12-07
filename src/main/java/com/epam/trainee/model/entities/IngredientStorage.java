@@ -1,6 +1,6 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.exceptions.MissingIngredientException;
+import com.epam.trainee.model.exceptions.MissingItemException;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,20 +51,20 @@ public class IngredientStorage {
                 .createIngredient();
     }
 
-    private Ingredient findIngredientByName(String name) throws MissingIngredientException{
+    private Ingredient findIngredientByName(String name) throws MissingItemException {
         return storage.stream()
                 .filter(ingredient -> name.equals(ingredient.getName()))
                 .findFirst()
-                .orElseThrow(() -> new MissingIngredientException(name));
+                .orElseThrow(() -> new MissingItemException(name));
     }
 
-    private void subtractIngredientWeight(Ingredient ingredient, double weight) throws MissingIngredientException{
+    private void subtractIngredientWeight(Ingredient ingredient, double weight) throws MissingItemException {
         double newWeight = ingredient.getWeight() - weight;
         try {
             ingredient.setWeight(newWeight);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
-            throw new MissingIngredientException(ingredient,
+            throw new MissingItemException(ingredient,
                     "Store has less ingredient supply than salad " +
                     "producing required. Required weight = " + weight +
                     ", actual stock = " + ingredient.getWeight());

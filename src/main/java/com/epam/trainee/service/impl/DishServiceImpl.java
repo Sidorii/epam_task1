@@ -1,11 +1,13 @@
-package com.epam.trainee.service;
+package com.epam.trainee.service.impl;
 
-import com.epam.trainee.model.entities.Dish;
+import com.epam.trainee.model.entities.dishes.Dish;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.Packing;
 import com.epam.trainee.model.entities.PackingType;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
+import com.epam.trainee.service.DishService;
+import com.epam.trainee.service.SaladService;
 
 import java.util.Collection;
 import java.util.Set;

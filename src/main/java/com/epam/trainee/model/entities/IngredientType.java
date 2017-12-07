@@ -4,5 +4,6 @@ public enum IngredientType {
 
     VEGETABLE,
     MEAT,
-    FRUIT
+    FRUIT,;
+
 }

@@ -5,15 +5,15 @@ import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.*;
+import com.epam.trainee.model.entities.dishes.Dish;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
 import com.epam.trainee.service.DishService;
-import com.epam.trainee.service.DishServiceImpl;
+import com.epam.trainee.service.impl.DishServiceImpl;
 import com.epam.trainee.service.SaladService;
-import com.epam.trainee.service.SaladServiceImpl;
+import com.epam.trainee.service.impl.SaladServiceImpl;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;

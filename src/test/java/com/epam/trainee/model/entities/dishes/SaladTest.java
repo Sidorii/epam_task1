@@ -2,8 +2,6 @@ package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientType;
-import com.epam.trainee.model.entities.Packing;
-import com.epam.trainee.model.entities.PackingType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,7 +102,7 @@ public class SaladTest {
         expect(tomato.getType())
                 .andReturn(IngredientType.VEGETABLE)
                 .anyTimes();
-        replay(cucumber,pork, tomato);
+        replay(cucumber, pork, tomato);
 
         assertFalse(salad.isVegan());
         ingredients.remove(pork);

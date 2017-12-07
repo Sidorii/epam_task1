@@ -1,15 +1,17 @@
 package com.epam.trainee.model.entities;
 
-public interface Ingredient extends Meal{
+public interface Ingredient extends Meal {
 
     boolean isFresh();
 
     IngredientType getType();
 
     void setWeight(double weight);
-    
-    abstract class IngredientBuilder<T extends Ingredient,I extends IngredientBuilder>{
 
+    @SuppressWarnings(value = "unchecked")
+    abstract class IngredientBuilder<T extends Ingredient, I extends IngredientBuilder> {
+
+        Integer id;
         boolean isFresh;
         double weight;
         float calories;
@@ -18,41 +20,46 @@ public interface Ingredient extends Meal{
         String name;
         IngredientType type;
 
-        I setFresh(boolean fresh) {
+        public I setId(int id) {
+            this.id = id;
+            return (I) this;
+        }
+
+        public I setFresh(boolean fresh) {
             isFresh = fresh;
             return (I) this;
         }
 
-        I setCalories(float calories) {
+        public I setCalories(float calories) {
             checkRange(calories, "calories");
             this.calories = calories;
             return (I) this;
 
         }
 
-        I setPrice(float price) {
-            checkRange(price,"price");
+        public I setPrice(float price) {
+            checkRange(price, "price");
             this.price = price;
             return (I) this;
         }
 
-        I setDescription(String description) {
+        public I setDescription(String description) {
             this.description = description;
             return (I) this;
         }
 
-        I setWeight(double weight) {
+        public I setWeight(double weight) {
             checkRange(weight, "weight");
             this.weight = weight;
             return (I) this;
         }
 
-        I setName(String name) {
+        public I setName(String name) {
             this.name = name;
             return (I) this;
         }
 
-        I setType(IngredientType type) {
+        public I setType(IngredientType type) {
             this.type = type;
             return (I) this;
         }
@@ -63,6 +70,6 @@ public interface Ingredient extends Meal{
             }
         }
 
-        abstract T createIngredient();
+        public abstract T createIngredient();
     }
 }

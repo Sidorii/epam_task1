@@ -4,6 +4,8 @@ import com.epam.trainee.model.SaladVisitor;
 
 public interface Item {
 
+    Integer getId();
+
     String getName();
 
     float getPrice();

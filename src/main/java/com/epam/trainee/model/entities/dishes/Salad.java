@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class Salad implements Meal {
 
+    private Integer id;
     protected Set<Ingredient> ingredients;
     private String name;
     private String description;
@@ -20,6 +21,15 @@ public class Salad implements Meal {
     public Salad(String name, Set<Ingredient> ingredients) {
         this.name = name;
         this.ingredients = ingredients;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public boolean isVegan() {
