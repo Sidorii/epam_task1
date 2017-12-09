@@ -20,4 +20,5 @@ public abstract class ObjectMapper<T> {
     }
 
     protected abstract T map(ResultSet rs) throws SQLException;
+
 }

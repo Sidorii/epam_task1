@@ -5,6 +5,7 @@ import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.entities.Meal;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Salad implements Meal {
@@ -14,6 +15,10 @@ public class Salad implements Meal {
     private String name;
     private String description;
 
+    public Salad() {
+        ingredients = new HashSet<>();
+    }
+
     public Salad(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
@@ -21,6 +26,20 @@ public class Salad implements Meal {
     public Salad(String name, Set<Ingredient> ingredients) {
         this.name = name;
         this.ingredients = ingredients;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        if (ingredients == null) {
+            ingredients = new HashSet<>();
+        }
+        ingredients.add(ingredient);
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        if (ingredients == null) {
+            return;
+        }
+        ingredients.remove(ingredient);
     }
 
     @Override
