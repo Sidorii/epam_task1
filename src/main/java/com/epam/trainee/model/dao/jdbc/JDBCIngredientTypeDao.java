@@ -2,6 +2,8 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientTypeMapper;
+import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
+import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
@@ -11,85 +13,65 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JDBCIngredientTypeDao extends JDBCDao implements IngredientTypeDao {
+public class JDBCIngredientTypeDao extends JdbcCrudDao<IngredientType> implements IngredientTypeDao {
+
 
     @Override
-    public void addType(IngredientType type) {
-        if (contains(type)) {
-            throw new DuplicatedEntryException(type);
-        }
-        final String query = "INSERT INTO task1.ingredient_type VALUES(?,?)";
-
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, type.ordinal());
-            ps.setString(2, type.name());
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new MissingEntityException(type);
-        }
+    public void updateEntity(IngredientType type) {
+       /*empty because enum can't be updated in runtime*/
     }
 
     @Override
-    public void removeType(int id) {
-        final String query = "DELETE FROM task1.ingredient_type WHERE type_id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public IngredientType getType(int id) {
-        if (id < 0) {
-            throw new IllegalArgumentException("id (id = " + id + ") cant be less then 0.");
-        }
-        final String query = "SELECT * FROM task1.ingredient_type WHERE type_id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            return new IngredientTypeMapper().extractFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new MissingEntityException("Ingredient with id = " + id + " not found");
-        }
-    }
-
-    @Override
-    public void updateType(int oldId, IngredientType type) {
-        final String query = "UPDATE task1.ingredient_type SET type_id = ?, ingredient_name = ? WHERE type_id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, type.ordinal());
-            ps.setString(2, type.name());
-            ps.setInt(3, oldId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean contains(IngredientType ingredientType) {
+    public boolean contains(IngredientType ingredientType, Connection connection) throws SQLException {
         final String query = "SELECT COUNT(type_id) FROM task1.ingredient_type WHERE type_id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement ps = connection.prepareStatement(query)) {
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, ingredientType.ordinal());
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return rs.next() && rs.getInt(1) > 0;
         }
-        return false;
+    }
+
+    @Override
+    protected PreparedStatement prepareCreate(IngredientType type, TransactionalConnection connection)
+            throws SQLException {
+
+        final String query = "INSERT INTO task1.ingredient_type VALUES(?,?)";
+        PreparedStatement ps = connection.getConnection().prepareStatement(query);
+        ps.setInt(1, type.ordinal());
+        ps.setString(2, type.name());
+        return ps;
+    }
+
+    @Override
+    public IngredientType find(IngredientType entity, Connection connection) throws MissingEntityException {
+        return entity;
+    }
+
+    @Override
+    public PreparedStatement prepareRead(Integer id, Connection connection) throws SQLException {
+        final String query = "SELECT * FROM task1.ingredient_type WHERE type_id = ?";
+        return prepareOnlyByIdStatement(id, connection.prepareStatement(query));
+    }
+
+    private PreparedStatement prepareOnlyByIdStatement(Integer id, PreparedStatement ps) throws SQLException {
+        ps.setInt(1, id);
+        return ps;
+    }
+
+    @Override
+    protected PreparedStatement prepareUpdate(IngredientType entity, TransactionalConnection connection) {
+        return null;
+    }
+
+    @Override
+    protected PreparedStatement prepareDelete(Integer id, TransactionalConnection connection) throws SQLException {
+        final String query = "DELETE FROM task1.ingredient_type WHERE type_id = ?";
+        return prepareOnlyByIdStatement(id, connection.getConnection().prepareStatement(query));
+    }
+
+    @Override
+    protected ObjectMapper<IngredientType> getMapper() {
+        return new IngredientTypeMapper();
     }
 }

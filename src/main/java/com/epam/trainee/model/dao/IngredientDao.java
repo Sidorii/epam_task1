@@ -4,21 +4,11 @@ import com.epam.trainee.model.entities.Ingredient;
 
 import java.util.Set;
 
-public interface IngredientDao {
+public interface IngredientDao extends GenericDao<Ingredient> {
 
-    Ingredient addIngredient(Ingredient ingredient);
-
-    Ingredient getIngredient(Ingredient ingredient);
-
-    Ingredient getIngredientByName(Ingredient ingredient);
+    Ingredient getIngredientByName(String name);
 
     Set<Ingredient> getIngredients(Set<Ingredient> ingredients);
 
-    void removeIngredient(Ingredient ingredient);
-
-    void updateIngredient(Ingredient ingredient);
-
     void batchUpdate(Set<Ingredient> ingredients);
-
-    boolean contains(Integer id);
 }

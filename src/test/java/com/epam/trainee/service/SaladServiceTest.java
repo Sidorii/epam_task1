@@ -124,7 +124,7 @@ public class SaladServiceTest {
     @Test
     public void testOrderSaladByName() {
         Salad salad = new Salad(database);
-        expect(saladDao.getSalad("test"))
+        expect(saladDao.getSaladByName("test"))
                 .andReturn(salad);
         replay(saladDao);
 
@@ -149,7 +149,8 @@ public class SaladServiceTest {
     public void testCreateSaladRecipe() {
         Salad salad = new Salad(database);
         salad.setName("test");
-        saladDao.createSalad(salad);
+        expect(saladDao.addEntity(salad))
+        .andReturn(salad);
         replay(saladDao);
         saladService.createSaladRecipe("test", database);
         verify(saladDao);

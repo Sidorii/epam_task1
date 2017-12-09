@@ -6,10 +6,7 @@ import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import org.h2.tools.RunScript;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,8 +32,9 @@ public class JDBCIngredientTypeDaoTest {
     }
 
     @Test
+    @Ignore("is ignored because all instances automatically added during static enum initialization")
     public void testAdd() throws SQLException {
-        dao.addType(IngredientType.VEGETABLE);
+        dao.addEntity(IngredientType.VEGETABLE);
         try (Connection connection = ((JDBCDao) dao).getConnection()) {
             ResultSet rs = connection.createStatement()
                     .executeQuery("SELECT * FROM task1.ingredient_type");
@@ -50,15 +48,17 @@ public class JDBCIngredientTypeDaoTest {
     }
 
     @Test(expected = DuplicatedEntryException.class)
+    @Ignore("is ignored because all instances automatically added during static enum initialization")
     public void testAddDuplicate() {
-        dao.addType(IngredientType.FRUIT);
-        dao.addType(IngredientType.FRUIT);
+        dao.addEntity(IngredientType.FRUIT);
+        dao.addEntity(IngredientType.FRUIT);
     }
 
     @Test
+    @Ignore("is ignored because all instances automatically added during static enum initialization")
     public void testAddMultiply() throws SQLException {
-        dao.addType(IngredientType.VEGETABLE);
-        dao.addType(IngredientType.FRUIT);
+        dao.addEntity(IngredientType.VEGETABLE);
+        dao.addEntity(IngredientType.FRUIT);
         try (Connection connection = ((JDBCDao) dao).getConnection()) {
             ResultSet rs = connection
                     .createStatement()
@@ -66,10 +66,9 @@ public class JDBCIngredientTypeDaoTest {
 
             if (rs.next()) {
                 Set<IngredientType> result = new IngredientTypeMapper().extractSetFromResultSet(rs);
-                System.out.println(result);
                 assertTrue(result.size() == 2);
-                assertSame(IngredientType.VEGETABLE, result.toArray()[0]);
-                assertSame(IngredientType.FRUIT, result.toArray()[1]);
+                assertTrue(result.contains(IngredientType.VEGETABLE));
+                assertTrue(result.contains(IngredientType.FRUIT));
             } else {
                 fail();
             }
@@ -78,29 +77,19 @@ public class JDBCIngredientTypeDaoTest {
 
     @Test
     public void testGet() {
-        dao.addType(IngredientType.MEAT);
-        IngredientType result = dao.getType(IngredientType.MEAT.ordinal());
+        IngredientType result = dao.getEntity(IngredientType.MEAT.ordinal());
         assertEquals(IngredientType.MEAT, result);
     }
 
     @Test(expected = MissingEntityException.class)
     public void testTryToGetValueThatNotContainsInDB() {
-        dao.getType(IngredientType.MEAT.ordinal());
+        dao.getEntity(100500);
     }
 
     @Test(expected = MissingEntityException.class)
     public void testRemove() {
-        dao.addType(IngredientType.MEAT);
-        dao.removeType(IngredientType.MEAT.ordinal());
-        dao.getType(IngredientType.MEAT.ordinal());
-    }
-
-    @Test
-    public void testUpdate() throws SQLException {
-        dao.addType(IngredientType.FRUIT);
-        dao.updateType(IngredientType.FRUIT.ordinal(), IngredientType.MEAT);
-        IngredientType result = dao.getType(IngredientType.MEAT.ordinal());
-        assertEquals(IngredientType.MEAT, result);
+        dao.removeEntity(IngredientType.MEAT.ordinal());
+        dao.getEntity(IngredientType.MEAT.ordinal());
     }
 
     @After
@@ -108,11 +97,12 @@ public class JDBCIngredientTypeDaoTest {
         try (Connection connection = ((JDBCDao) dao).getConnection()) {
             connection.createStatement()
                     .executeUpdate("DELETE FROM task1.ingredient_type");
+            connection.commit();
         }
     }
 
     @AfterClass
     public static void tearDown() throws SQLException {
-        ((JDBCDao) dao).dataSource.close();
+        JDBCDao.dataSource.close();
     }
 }

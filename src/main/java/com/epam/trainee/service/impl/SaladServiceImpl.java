@@ -44,7 +44,7 @@ public class SaladServiceImpl implements SaladService {
         if (name == null || name.equals("")) {
             throw new IllegalArgumentException("Invalid name for salad: " + name);
         }
-        return saladDao.getSalad(name);
+        return saladDao.getSaladByName(name);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SaladServiceImpl implements SaladService {
         }
         Salad salad = new Salad(recipe);
         salad.setName(name);
-        saladDao.createSalad(salad);
+        saladDao.addEntity(salad);
     }
 
     //TODO:implement methods below

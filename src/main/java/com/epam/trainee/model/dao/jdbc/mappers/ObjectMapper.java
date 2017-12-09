@@ -7,12 +7,6 @@ import java.util.Set;
 
 public abstract class ObjectMapper<T> {
 
-    public T extractFromResultSet(ResultSet rs) throws SQLException {
-        return map(rs);
-    }
-
-    protected abstract T map(ResultSet rs) throws SQLException;
-
     public Set<T> extractSetFromResultSet(ResultSet rs) throws SQLException {
         Set<T> ingredientTypes = new HashSet<>();
         do {
@@ -20,4 +14,10 @@ public abstract class ObjectMapper<T> {
         }while (rs.next());
         return ingredientTypes;
     }
+
+    public T extractFromResultSet(ResultSet rs) throws SQLException {
+        return map(rs);
+    }
+
+    protected abstract T map(ResultSet rs) throws SQLException;
 }

@@ -6,21 +6,32 @@ import com.epam.trainee.model.entities.dishes.Salad;
 public class JDBCSaladDao implements SaladDao {
 
     @Override
-    public void createSalad(Salad salad) {
-    }
-
-    @Override
-    public void removeSalad(String name) {
-
-    }
-
-    @Override
-    public void updateSalad(Salad salad) {
-
-    }
-
-    @Override
-    public Salad getSalad(String name) {
+    public Salad addEntity(Salad entity) {
         return null;
+    }
+
+    @Override
+    public Salad getEntity(Integer id) {
+        return null;
+    }
+
+    @Override
+    public void updateEntity(Salad oldEntity) {
+
+    }
+
+    @Override
+    public Salad getSaladByName(String name) {
+        return null;
+    }
+
+    @Override
+    public void removeEntity(Integer id) {
+
+    }
+
+    @Override
+    public boolean contains(Salad entity) {
+        return false;
     }
 }

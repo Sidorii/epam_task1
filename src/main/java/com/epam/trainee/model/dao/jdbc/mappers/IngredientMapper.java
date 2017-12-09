@@ -18,9 +18,10 @@ public class IngredientMapper extends ObjectMapper<Ingredient> {
         float price = rs.getFloat("price");
         String description = rs.getString("description");
         boolean isFlesh = rs.getBoolean("fresh");
-        IngredientType type = new IngredientTypeMapper().map(rs); //TODO: use strategy for binding entities such as CASCADE, NONE, REMOVE, ADD, etc.
+        IngredientType type = extractType(rs);
 
         return IngredientImpl.getIngredientBuilder()
+                .setId(id)
                 .setName(name)
                 .setPrice(price)
                 .setWeight(weight)
@@ -29,6 +30,16 @@ public class IngredientMapper extends ObjectMapper<Ingredient> {
                 .setDescription(description)
                 .setType(type)
                 .createIngredient();
+    }
+
+    //TODO: use strategy for binding entities such as CASCADE, NONE, REMOVE, ADD, etc. (strategy should be in dao)
+    private IngredientType extractType(ResultSet rs) {
+        try {
+            return new IngredientTypeMapper().extractFromResultSet(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

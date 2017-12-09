@@ -23,6 +23,4 @@ public class JDBCDaoFactory extends DaoFactory {
     public SaladDao getSaladDao() {
         return new JDBCSaladDao();
     }
-
-
 }
