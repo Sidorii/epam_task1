@@ -25,14 +25,14 @@ public abstract class JDBCDao{
     private static Properties properties;
 
     static {
-        try (InputStream is = ClassLoader.getSystemResourceAsStream(DATASOURCE_PATH);) {
+        try (InputStream is = JDBCDao.class.getClassLoader().getResourceAsStream(DATASOURCE_PATH);) {
             dataSource = new BasicDataSource();
             properties = new Properties();
             properties.load(is);
             configureDataSource();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new IllegalStateException("Can't find datasource properties: " + DATASOURCE_PATH);
+            throw new IllegalStateException("Can't load datasource properties: " + DATASOURCE_PATH);
         }
     }
 

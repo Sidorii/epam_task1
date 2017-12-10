@@ -11,5 +11,7 @@ public interface DishService {
 
     Dish orderSalad(String name);
 
+    Set<Dish> getAllSalads();
+
     void createSaladRecipe(String saladName, Set<Ingredient> ingredients);
 }

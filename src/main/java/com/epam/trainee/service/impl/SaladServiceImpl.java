@@ -57,6 +57,11 @@ public class SaladServiceImpl implements SaladService {
         saladDao.addEntity(salad);
     }
 
+    @Override
+    public Set<Salad> getAllSalads() {
+        return saladDao.getAll();
+    }
+
     //TODO:implement methods below
     @Override
     public Set<Ingredient> sortIngredients(Salad salad, Comparator<Ingredient> comparator) {

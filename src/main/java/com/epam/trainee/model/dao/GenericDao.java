@@ -1,5 +1,7 @@
 package com.epam.trainee.model.dao;
 
+import java.util.Set;
+
 public interface GenericDao<T> {
 
     T addEntity(T entity);
@@ -11,4 +13,6 @@ public interface GenericDao<T> {
     void removeEntity(Integer id);
 
     boolean contains(T entity);
+
+    Set<T> getAll();
 }

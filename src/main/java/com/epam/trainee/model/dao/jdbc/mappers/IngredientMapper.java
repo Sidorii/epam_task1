@@ -44,7 +44,7 @@ public class IngredientMapper extends ObjectMapper<Ingredient> {
                 .createIngredient();
     }
 
-    //TODO: use strategy for binding entities such as CASCADE, NONE, REMOVE, ADD, etc. (strategy should be in dao)
+
     private class DemoExtractStrategy implements ExtractStrategy<IngredientType> {
 
         @Override

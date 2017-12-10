@@ -16,6 +16,8 @@ public interface SaladService {
 
     void createSaladRecipe(String name, Set<Ingredient> recipe);
 
+    Set<Salad> getAllSalads();
+
     Set<Ingredient> sortIngredients(Salad salad, Comparator<Ingredient> comparator);
 
     Set<Ingredient> sortIngredients(Salad salad);

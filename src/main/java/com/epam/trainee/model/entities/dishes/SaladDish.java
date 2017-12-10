@@ -1,7 +1,10 @@
 package com.epam.trainee.model.entities.dishes;
 
 import com.epam.trainee.model.SaladVisitor;
+import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.Packing;
+
+import java.util.Set;
 
 public class SaladDish implements Dish {
 
@@ -53,6 +56,11 @@ public class SaladDish implements Dish {
         return salad.isVegan();
     }
 
+    @Override
+    public Set<Ingredient> getIngredients() {
+        return salad.getIngredients();
+    }
+
     public Packing getPacking() {
         return packing;
     }
@@ -79,5 +87,13 @@ public class SaladDish implements Dish {
         int result = salad.hashCode();
         result = 31 * result + getPacking().hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "SaladDish{" +
+                "salad=" + salad +
+                ", packing=" + packing +
+                '}';
     }
 }

@@ -11,6 +11,7 @@ import com.epam.trainee.service.SaladService;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DishServiceImpl implements DishService {
 
@@ -53,6 +54,13 @@ public class DishServiceImpl implements DishService {
     public Dish orderSalad(String name) {
         throwIfInvalidName(name);
         return newDish(saladService.orderSalad(name), PackingType.PLATE);
+    }
+
+    @Override
+    public Set<Dish> getAllSalads() {
+        return saladService.getAllSalads().stream()
+                .map((salad -> new SaladDish(salad, PackingType.PLATE)))
+                .collect(Collectors.toSet());
     }
 
     @Override

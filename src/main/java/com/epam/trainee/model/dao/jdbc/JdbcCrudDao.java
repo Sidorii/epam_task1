@@ -6,12 +6,26 @@ import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
+
+    @Override
+    public Set<T> getAll() {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet rs = findAll(statement);
+            rs.next();
+            return getMapper().extractSetFromResultSet(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MissingEntityException("No entities found");
+        }
+    }
+
+    protected abstract ResultSet findAll(Statement statement) throws SQLException;
 
     @Override
     public T addEntity(T entity) {

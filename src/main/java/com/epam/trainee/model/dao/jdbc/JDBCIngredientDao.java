@@ -11,10 +11,7 @@ import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import com.epam.trainee.model.exceptions.MissingItemException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Set;
 /*TODO: fix issue when using MissingIngredientException instead of MissingEntityException everywhere*/
 public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements IngredientDao {
@@ -38,6 +35,16 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             e.printStackTrace();
             throw new MissingItemException("Ingredient by name = \'" + name + "\' not found");
         }
+    }
+
+    @Override
+    protected ResultSet findAll(Statement statement) throws SQLException {
+        final String query = "" +
+                " SELECT * " +
+                " FROM task1.ingredient" +
+                " LEFT JOIN task1.ingredient_type " +
+                " ON task1.ingredient.type_id = task1.ingredient_type.type_id";
+        return statement.executeQuery(query);
     }
 
     private Ingredient getIngredientByName(String name, Connection connection) throws SQLException {
@@ -98,7 +105,6 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
         ps.setString(6, ingredient.getDescription());
         IngredientType type = ingredient.getType();
 
-            /*TODO: fix issue during strategy implementation*/
         if (!ingredientTypeDao.contains(type)) {
             throw new MissingEntityException(type, "Invalid ingredient type");
         }

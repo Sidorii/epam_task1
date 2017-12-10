@@ -22,6 +22,20 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
         return getByName(name, getConnection());
     }
 
+    @Override
+    protected ResultSet findAll(Statement statement) throws SQLException {
+        final String query =  "" +
+                " SELECT * " +
+                " FROM task1.salad " +
+                " LEFT JOIN task1.salad_ingredient " +
+                " ON task1.salad.salad_id = task1.salad_ingredient.salad_id " +
+                " LEFT JOIN task1.ingredient " +
+                " ON task1.ingredient.ingredient_id = task1.salad_ingredient.ingredient_id " +
+                " LEFT JOIN task1.ingredient_type " +
+                " ON task1.ingredient.type_id = task1.ingredient_type.type_id ";
+        return statement.executeQuery(query);
+    }
+
     private Salad getByName(String name, Connection connection) {
         final String query = "" +
                 " SELECT * " +

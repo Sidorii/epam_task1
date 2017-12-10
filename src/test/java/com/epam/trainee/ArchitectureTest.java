@@ -1,26 +1,28 @@
 package com.epam.trainee;
 
-
 import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.SaladDao;
-import com.epam.trainee.model.entities.*;
+import com.epam.trainee.model.entities.Ingredient;
+import com.epam.trainee.model.entities.IngredientImpl;
+import com.epam.trainee.model.entities.IngredientType;
+import com.epam.trainee.model.entities.PackingType;
 import com.epam.trainee.model.entities.dishes.Dish;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.entities.dishes.SaladDish;
 import com.epam.trainee.service.DishService;
-import com.epam.trainee.service.impl.DishServiceImpl;
 import com.epam.trainee.service.SaladService;
+import com.epam.trainee.service.impl.DishServiceImpl;
 import com.epam.trainee.service.impl.SaladServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 public class ArchitectureTest {
 
@@ -68,7 +70,7 @@ public class ArchitectureTest {
         Dish orderedSalad = saladDish;
         ingredientDao.batchUpdate(ingredients);
 
-        replay(saladDao,daoFactory, ingredientDao);
+        replay(saladDao, daoFactory, ingredientDao);
 
         Dish resultSalad = dishService.orderSalad(ingredients);
         assertEquals(orderedSalad, resultSalad);
@@ -76,6 +78,6 @@ public class ArchitectureTest {
 
     @After
     public void tearDown() {
-        verify(saladDao,daoFactory, ingredientDao);
+        verify(saladDao, daoFactory, ingredientDao);
     }
 }

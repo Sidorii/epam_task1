@@ -7,10 +7,7 @@ import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBCIngredientTypeDao extends JdbcCrudDao<IngredientType> implements IngredientTypeDao {
 
@@ -18,6 +15,12 @@ public class JDBCIngredientTypeDao extends JdbcCrudDao<IngredientType> implement
     @Override
     public void updateEntity(IngredientType type) {
        /*empty because enum can't be updated in runtime*/
+    }
+
+    @Override
+    protected ResultSet findAll(Statement statement) throws SQLException {
+        final String query = "SELECT * FROM task1.ingredient_type";
+        return statement.executeQuery(query);
     }
 
     @Override
