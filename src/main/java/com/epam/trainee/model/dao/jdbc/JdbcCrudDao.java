@@ -34,7 +34,7 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
     protected abstract PreparedStatement prepareCreate(T entity, TransactionalConnection connection)
             throws MissingEntityException, SQLException;
 
-    public abstract T find(T entity, Connection connection) throws MissingEntityException;
+    public abstract T find(T entity, Connection connection) throws MissingEntityException, SQLException;
 
     @Override
     public T getEntity(Integer id) {

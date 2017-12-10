@@ -7,6 +7,7 @@ import java.util.Set;
 
 public abstract class ObjectMapper<T> {
 
+
     public Set<T> extractSetFromResultSet(ResultSet rs) throws SQLException {
         Set<T> ingredientTypes = new HashSet<>();
         do {

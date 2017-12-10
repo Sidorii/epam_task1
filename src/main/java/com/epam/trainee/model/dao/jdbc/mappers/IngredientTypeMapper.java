@@ -9,7 +9,7 @@ public class IngredientTypeMapper extends ObjectMapper<IngredientType> {
 
     @Override
     protected IngredientType map(ResultSet rs) throws SQLException {
-        String name = rs.getString("ingredient_name");
+        String name = rs.getString("type_name");
         return IngredientType.valueOf(name);
     }
 }

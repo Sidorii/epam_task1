@@ -5,6 +5,7 @@ import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.entities.Meal;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,10 @@ public class Salad implements Meal {
             return;
         }
         ingredients.remove(ingredient);
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return Collections.unmodifiableSet(ingredients);
     }
 
     @Override
@@ -109,5 +114,15 @@ public class Salad implements Meal {
     public int hashCode() {
         int result = 31 * (name != null ? name.hashCode() : 0);
         return result + (ingredients != null ? ingredients.hashCode() : 0);
+    }
+
+    @Override
+    public String toString() {
+        return "Salad{" +
+                "id=" + id +
+                ", ingredients=" + ingredients +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

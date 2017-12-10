@@ -2,6 +2,7 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.IngredientTypeDao;
+import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientMapper;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
 import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
@@ -39,22 +40,19 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
         }
     }
 
-    private Ingredient getIngredientByName(String name, Connection connection) {
+    private Ingredient getIngredientByName(String name, Connection connection) throws SQLException {
         final String query = "" +
                 " SELECT DISTINCT * " +
                 " FROM task1.ingredient" +
                 " LEFT JOIN task1.ingredient_type" +
                 " ON task1.ingredient.type_id = task1.ingredient_type.type_id" +
-                " WHERE name = ?";
+                " WHERE i_name = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return new IngredientMapper().extractFromResultSet(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new MissingItemException("Ingredient by name = \'" + name + "\' not found");
+            return new IngredientMapper(ExtractType.FULL).extractFromResultSet(rs);
         }
     }
 
@@ -75,7 +73,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             }
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return new IngredientMapper().extractSetFromResultSet(rs);
+            return new IngredientMapper(ExtractType.FULL).extractSetFromResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new MissingEntityException(ingredients, "One of ingredients is not found");
@@ -111,8 +109,8 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
     public void batchUpdate(Set<Ingredient> ingredients) {
         final String query = "" +
                 "UPDATE task1.ingredient SET " +
-                "name = ?, weight = ?, calories = ?, price = ?, fresh = ?," +
-                "description = ?, type_id = ? " +
+                "i_name = ?, weight = ?, calories = ?, price = ?, fresh = ?," +
+                "i_description = ?, type_id = ? " +
                 "WHERE ingredient_id = ?";
 
         try (TransactionalConnection connection = getTransactionalConnection();
@@ -133,7 +131,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
     protected PreparedStatement prepareCreate(Ingredient ingredient, TransactionalConnection connection)
             throws MissingEntityException, SQLException {
         final String query = "" +
-                "INSERT INTO task1.ingredient(name, weight, calories, price, fresh, description, type_id)" +
+                "INSERT INTO task1.ingredient(i_name, weight, calories, price, fresh, i_description, type_id)" +
                 "VALUES (?,?,?,?,?,?,?)";
 
         PreparedStatement ps = connection.getConnection().prepareStatement(query);
@@ -142,7 +140,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
     }
 
     @Override
-    public Ingredient find(Ingredient entity, Connection connection) throws MissingEntityException {
+    public Ingredient find(Ingredient entity, Connection connection) throws MissingEntityException, SQLException {
         return getIngredientByName(entity.getName(), connection);
     }
 
@@ -164,8 +162,8 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
     protected PreparedStatement prepareUpdate(Ingredient ingredient, TransactionalConnection connection) throws SQLException {
         final String query = "" +
                 "UPDATE task1.ingredient SET " +
-                "name = ?, weight = ?, calories = ?, price = ?, fresh = ?," +
-                "description = ?, type_id = ? " +
+                "i_name = ?, weight = ?, calories = ?, price = ?, fresh = ?," +
+                "i_description = ?, type_id = ? " +
                 "WHERE ingredient_id = ?";
 
         PreparedStatement ps = connection.getConnection().prepareStatement(query);
@@ -204,6 +202,6 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
 
     @Override
     protected ObjectMapper<Ingredient> getMapper() {
-        return new IngredientMapper();
+        return new IngredientMapper(ExtractType.FULL);
     }
 }

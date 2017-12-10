@@ -2,6 +2,7 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.IngredientTypeDao;
+import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientMapper;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientImpl;
@@ -79,7 +80,7 @@ public class JDBCIngredientDaoTest {
                         "LEFT JOIN task1.ingredient_type " +
                         "ON task1.ingredient.type_id = task1.ingredient_type.type_id");
         rs.next();
-        Ingredient result = new IngredientMapper().extractFromResultSet(rs);
+        Ingredient result = new IngredientMapper(ExtractType.FULL).extractFromResultSet(rs);
         assertEquals(pork, result);
     }
 
@@ -90,9 +91,9 @@ public class JDBCIngredientDaoTest {
                 .executeQuery("" +
                         "SELECT * " +
                         "FROM task1.ingredient " +
-                        "WHERE name = 'Pork'");
+                        "WHERE i_name = 'Pork'");
         rs.next();
-        Ingredient order = new IngredientMapper().extractFromResultSet(rs);
+        Ingredient order = new IngredientMapper(ExtractType.DEMO).extractFromResultSet(rs);
 
         Ingredient result = dao.getEntity(order.getId());
         assertEquals(pork, result);
@@ -125,9 +126,9 @@ public class JDBCIngredientDaoTest {
                 .executeQuery("" +
                         "SELECT * " +
                         "FROM task1.ingredient " +
-                        "WHERE name = 'Pork'");
+                        "WHERE i_name = 'Pork'");
         rs.next();
-        Ingredient order = new IngredientMapper().extractFromResultSet(rs);
+        Ingredient order = new IngredientMapper(ExtractType.DEMO).extractFromResultSet(rs);
 
         dao.removeEntity(order.getId());
 
@@ -137,7 +138,7 @@ public class JDBCIngredientDaoTest {
                         " FROM task1.ingredient " +
                         " LEFT JOIN task1.ingredient_type " +
                         " ON task1.ingredient.type_id = task1.ingredient_type.type_id" +
-                        " WHERE name = 'Pork'");
+                        " WHERE i_name = 'Pork'");
         rs.next();
         int foundRows = rs.getInt(1);
         assertTrue(foundRows == 0);
@@ -157,18 +158,10 @@ public class JDBCIngredientDaoTest {
                         "FROM task1.ingredient " +
                         "LEFT JOIN task1.ingredient_type " +
                         "ON task1.ingredient.type_id = task1.ingredient_type.type_id " +
-                        "WHERE NAME = 'Pork'");
+                        "WHERE i_name = 'Pork'");
         rs.next();
         int foundRows = rs.getInt(1);
         assertTrue(foundRows == 1);
-    }
-
-    @Test
-    public void testRemoveMissedIngredient() {
-        Ingredient ingredient = IngredientImpl.getIngredientBuilder()
-                .setId(1)
-                .createIngredient();
-        dao.removeEntity(ingredient.getId());
     }
 
     @Test
