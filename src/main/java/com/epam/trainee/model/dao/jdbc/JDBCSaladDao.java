@@ -4,7 +4,7 @@ import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
 import com.epam.trainee.model.dao.jdbc.mappers.SaladMapper;
-import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
@@ -45,7 +45,6 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
         }
     }
 
-
     @Override
     public Salad addEntity(Salad entity) {
         if (contains(entity)) {
@@ -75,19 +74,21 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
 
     private void saveSalad(Salad salad, Connection connection) throws SQLException {
         final String query = "INSERT INTO task1.salad(s_name, s_description) VALUES (?,?)";
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setString(1, salad.getName());
-        ps.setString(2, salad.getDescription());
-        ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, salad.getName());
+            ps.setString(2, salad.getDescription());
+            ps.execute();
+        }
     }
 
     private Salad getSaladDemo(Salad salad, Connection connection) throws SQLException {
         final String query = "SELECT * FROM task1.salad WHERE s_name = ?";
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setString(1, salad.getName());
-        ResultSet rs = ps.executeQuery();
-        rs.next();
-        return new SaladMapper(ExtractType.DEMO).extractFromResultSet(rs);
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, salad.getName());
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return new SaladMapper(ExtractType.DEMO).extractFromResultSet(rs);
+        }
     }
 
     private PreparedStatement prepareIngredientsCreation(Salad salad, Connection connection) throws SQLException {
@@ -140,11 +141,12 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
                 " SET s_name = ?, s_description = ?" +
                 " WHERE salad_id = ?";
 
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setString(1, salad.getName());
-        ps.setString(2, salad.getDescription());
-        ps.setInt(3, salad.getId());
-        ps.execute();
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, salad.getName());
+            ps.setString(2, salad.getDescription());
+            ps.setInt(3, salad.getId());
+            ps.execute();
+        }
     }
 
     private PreparedStatement updateDependencies(Salad salad, Connection connection) throws SQLException {
@@ -159,11 +161,12 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
                 " FROM task1.salad" +
                 " WHERE salad_id = ? OR s_name = ?";
         Optional<Integer> id = Optional.ofNullable(entity.getId());
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setInt(1, id.orElseGet(() -> -1));
-        ps.setString(2, entity.getName());
-        ResultSet rs = ps.executeQuery();
-        return rs.next() && rs.getInt(1) > 0;
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id.orElseGet(() -> -1));
+            ps.setString(2, entity.getName());
+            ResultSet rs = ps.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        }
     }
 
     @Override
@@ -175,9 +178,10 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
     private void deleteDependencies(Integer id, Connection connection) throws SQLException {
         final String query = "DELETE FROM task1.salad_ingredient WHERE salad_id = ?";
 
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setInt(1, id);
-        ps.executeUpdate();
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
     }
 
     private PreparedStatement prepareDeleteSalad(Integer id, Connection connection) throws SQLException {

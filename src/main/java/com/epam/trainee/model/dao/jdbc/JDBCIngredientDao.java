@@ -5,7 +5,7 @@ import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientMapper;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
-import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.MissingEntityException;
@@ -183,10 +183,11 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
                 " FROM task1.ingredient" +
                 " WHERE ingredient_id = ?";
 
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setInt(1, ingredient.getId());
-        ResultSet resultSet = ps.executeQuery();
-        return resultSet.next() && resultSet.getInt(1) > 0;
+        try(PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, ingredient.getId());
+            ResultSet resultSet = ps.executeQuery();
+            return resultSet.next() && resultSet.getInt(1) > 0;
+        }
     }
 
     @Override

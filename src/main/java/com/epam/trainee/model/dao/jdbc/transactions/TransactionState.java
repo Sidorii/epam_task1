@@ -1,7 +1,6 @@
-package com.epam.trainee.model.dao.jdbc.transaction;
+package com.epam.trainee.model.dao.jdbc.transactions;
 
 import java.sql.SQLException;
-import java.sql.Savepoint;
 
 public interface TransactionState extends AutoCloseable{
 

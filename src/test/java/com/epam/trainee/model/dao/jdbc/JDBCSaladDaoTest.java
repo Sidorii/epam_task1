@@ -13,14 +13,11 @@ import org.junit.*;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class JDBCSaladDaoTest {
@@ -165,6 +162,6 @@ public class JDBCSaladDaoTest {
 
     @AfterClass
     public static void destroy() throws SQLException {
-        connection.close();
+        JDBCDao.dataSource.close();
     }
 }

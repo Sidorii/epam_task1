@@ -1,4 +1,4 @@
-package com.epam.trainee.model.dao.jdbc.transaction;
+package com.epam.trainee.model.dao.jdbc.transactions;
 
 import java.sql.Connection;
 import java.sql.SQLException;

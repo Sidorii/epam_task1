@@ -2,7 +2,7 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.GenericDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
-import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
@@ -20,7 +20,8 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
         }
 
         try (TransactionalConnection connection = getTransactionalConnection();
-             PreparedStatement ps = prepareCreate(entity, connection)) {
+             PreparedStatement ps =
+                     prepareCreate(entity, connection)) {
             ps.execute();
             entity = find(entity, connection.getConnection());
             connection.commit();
@@ -43,7 +44,8 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
         }
 
         try (Connection connection = getConnection();
-             PreparedStatement ps = prepareRead(id, connection)) {
+             PreparedStatement ps =
+                     prepareRead(id, connection)) {
             ResultSet rs = ps.executeQuery();
             rs.next();
             return getMapper().extractFromResultSet(rs);
@@ -59,7 +61,8 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
     @Override
     public void updateEntity(T oldEntity) {
         try (TransactionalConnection connection = getTransactionalConnection();
-             PreparedStatement ps = prepareUpdate(oldEntity, connection)) {
+             PreparedStatement ps =
+                     prepareUpdate(oldEntity, connection)) {
             ps.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
@@ -72,7 +75,8 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
     @Override
     public void removeEntity(Integer id) {
         try (TransactionalConnection connection = getTransactionalConnection();
-             PreparedStatement ps = prepareDelete(id, connection)) {
+             PreparedStatement ps =
+                     prepareDelete(id, connection)) {
             ps.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

@@ -3,9 +3,8 @@ package com.epam.trainee.model.dao.jdbc;
 import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientTypeMapper;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
-import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.IngredientType;
-import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
 import java.sql.Connection;

@@ -1,6 +1,6 @@
 package com.epam.trainee.model.dao.jdbc;
 
-import com.epam.trainee.model.dao.jdbc.transaction.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.io.IOException;
