@@ -6,13 +6,9 @@ import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.IngredientType;
-import com.epam.trainee.model.entities.PackingType;
 import com.epam.trainee.model.entities.dishes.Dish;
 import com.epam.trainee.model.entities.dishes.Salad;
-import com.epam.trainee.model.entities.dishes.SaladDish;
-import com.epam.trainee.service.DishService;
 import com.epam.trainee.service.SaladService;
-import com.epam.trainee.service.impl.DishServiceImpl;
 import com.epam.trainee.service.impl.SaladServiceImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 
 public class ArchitectureTest {
 
-    private DishService dishService;
     private SaladService saladService;
     private IngredientDao ingredientDao;
     private DaoFactory daoFactory;
@@ -39,7 +34,6 @@ public class ArchitectureTest {
         ingredientDao = createMock(IngredientDao.class);
         saladDao = createMock(SaladDao.class);
         saladService = new SaladServiceImpl(saladDao, ingredientDao);
-        dishService = new DishServiceImpl(saladService);
     }
 
     @Test
@@ -62,8 +56,7 @@ public class ArchitectureTest {
         ingredients.add(ingredient);
         ingredients.add(ingredient1);
 
-        Salad salad = new Salad(ingredients);
-        Dish saladDish = new SaladDish(salad, PackingType.PLATE);
+        Dish saladDish = new Salad(ingredients);
 
         expect(ingredientDao.getIngredients(ingredients))
                 .andReturn(ingredients);
@@ -72,7 +65,7 @@ public class ArchitectureTest {
 
         replay(saladDao, daoFactory, ingredientDao);
 
-        Dish resultSalad = dishService.orderSalad(ingredients);
+        Dish resultSalad = saladService.orderSalad(ingredients);
         assertEquals(orderedSalad, resultSalad);
     }
 

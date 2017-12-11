@@ -2,7 +2,10 @@ package com.epam.trainee.controller;
 
 public enum Page {
 
-    ALL_SALADS("salads"), MISSED_ENTITY("missedEntity"), NOT_FOUND("notFound");
+    ALL_SALADS("salads"),
+    MISSED_ENTITY("missedEntity"),
+    NOT_FOUND("notFound"),
+    SINGLE_SALAD("salad");
 
     private static final String prefix = "/WEB-INF/";
     private static final String suffix = ".jsp";

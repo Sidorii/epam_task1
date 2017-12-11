@@ -8,8 +8,6 @@ public abstract class ServiceFactory {
 
     public abstract SaladService getSaladService();
 
-    public abstract DishService getDishService();
-
     public static ServiceFactory getInstance() {
         if (instance == null) {
             synchronized (ServiceFactory.class) {

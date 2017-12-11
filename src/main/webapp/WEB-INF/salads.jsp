@@ -9,8 +9,9 @@
 <form>
     <table>
         <c:forEach items="${requestScope.dishes}" var="dish">
+            <c:url var="salad" value="/salad?name=${dish.name}"/>
             <tr>
-                <td><b>Name: ${dish.name}</b></td>
+                <td><b><a href="${salad}">Name: ${dish.name}</a></b></td>
                 <td><b>Price: ${dish.price}</b></td>
                 <td><b>Calories: ${dish.calories}</b></td>
                 <td><b>Weight: ${dish.weight}</b></td>

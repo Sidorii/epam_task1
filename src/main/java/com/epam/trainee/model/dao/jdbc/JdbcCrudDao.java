@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
+public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T>{
 
     @Override
     public Set<T> getAll() {

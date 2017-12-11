@@ -8,7 +8,9 @@ import com.epam.trainee.model.entities.IngredientStorage;
 import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.service.SaladService;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Set;
 
 public class SaladServiceImpl implements SaladService {
 
@@ -27,9 +29,8 @@ public class SaladServiceImpl implements SaladService {
 
     @Override
     public Salad orderSalad(Set<Ingredient> ingredients) {
-        if (ingredients == null || ingredients.size() == 0) {
-            throw new IllegalArgumentException("Ingredients set for salad creating can't be null or empty");
-        }
+        throwIfInvalidIngredients(ingredients);
+
         Set<Ingredient> storedIngredients = ingredientDao.getIngredients(ingredients);
         IngredientStorage storage = new IngredientStorage(storedIngredients);
         ingredients = storage.produceIngredients(ingredients);
@@ -39,19 +40,30 @@ public class SaladServiceImpl implements SaladService {
         return salad;
     }
 
+    private void throwIfInvalidIngredients(Collection ingredients) {
+        if ((ingredients == null || ingredients.size() < 1)) {
+            throw new IllegalArgumentException("Ingredients is null or has" +
+                    " invalid size: " + ingredients);
+        }
+    }
+
     @Override
     public Salad orderSalad(String name) {
-        if (name == null || name.equals("")) {
-            throw new IllegalArgumentException("Invalid name for salad: " + name);
-        }
+        throwIfInvalidName(name);
         return saladDao.getSaladByName(name);
+    }
+
+    private void throwIfInvalidName(String name) {
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Invalid salad name: " + '\'' + name + '\'');
+        }
     }
 
     @Override
     public void createSaladRecipe(String name, Set<Ingredient> recipe) {
-        if (recipe == null || recipe.size() == 0) {
-            throw new IllegalArgumentException("Ingredients set for salad creating can't be null or empty");
-        }
+        throwIfInvalidIngredients(recipe);
+        throwIfInvalidName(name);
+
         Salad salad = new Salad(recipe);
         salad.setName(name);
         saladDao.addEntity(salad);

@@ -1,5 +1,6 @@
 package com.epam.trainee.model.dao.jdbc;
 
+import com.epam.trainee.model.dao.GenericDao;
 import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import org.apache.commons.dbcp.BasicDataSource;
 
@@ -9,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public abstract class JDBCDao{
+public abstract class JDBCDao {
 
     private static final String DATASOURCE_PATH = "datasource.properties";
 

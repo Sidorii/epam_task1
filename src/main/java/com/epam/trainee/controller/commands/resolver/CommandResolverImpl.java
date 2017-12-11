@@ -11,24 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CommandResolverImpl extends CommandResolver {
 
-    private static final Matcher baseBodyMatcher = Pattern
-            .compile("^(http[s]?://[a-zA-ZА-Яа-я[ЇїІієЄ]0-9-:_]+/)")
-            .matcher("");
 
     private static Map<String, Class<? extends Command>> commandsUrl = new HashMap<>();
 
     static {
         Function<? super Class<?>, ? extends String> keyMapper = (clazz) ->
         {
-            String url = clazz.getAnnotation(WebUrl.class).value();
+            String url = trimSlashes(clazz.getAnnotation(WebUrl.class).value());
             if (commandsUrl.containsKey(url)) {
-                throw new IllegalStateException("Command with url [" + url + "] already exist");
+                throw new IllegalStateException("Duplication url: " + url);
             }
             return url;
         };
@@ -41,26 +36,32 @@ public class CommandResolverImpl extends CommandResolver {
 
     @Override
     public Command resolveCommand(HttpServletRequest req) {
-        StringBuffer request = req.getRequestURL();
-        String subRequest = prepareRequest(request);
+        System.out.println(req.getServletPath());
+        String subRequest = trimSlashes(req.getServletPath());
         try {
             return commandsUrl.getOrDefault(subRequest, NotFoundCommand.class).newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
-            throw new MissingEntityException(request, "Request handler not found");
+            throw new MissingEntityException(req.getRequestURI(), "Request handler not found");
         }
     }
 
-    private String prepareRequest(StringBuffer request) {
-        String subRequest = baseBodyMatcher.reset(request).replaceFirst("");
-
-        if (!subRequest.isEmpty() && isEndOnSlash(subRequest)) {
-            subRequest = subRequest.substring(0, subRequest.length() - 1);
+    private static String trimSlashes(String url) {
+        if (!url.isEmpty() && isEndOnSlash(url)) {
+            url = url.substring(0, url.length() - 1);
         }
-        return subRequest;
+
+        if (!url.isEmpty() && isStartWithSlash(url)) {
+            url = url.substring(1, url.length());
+        }
+        return url;
     }
 
-    private boolean isEndOnSlash(String subRequest) {
-        return subRequest.charAt(subRequest.length()-1) == '/';
+    private static boolean isEndOnSlash(String url) {
+        return url.charAt(url.length() - 1) == '/';
+    }
+
+    private static boolean isStartWithSlash(String url) {
+        return url.charAt(0) == '/';
     }
 }

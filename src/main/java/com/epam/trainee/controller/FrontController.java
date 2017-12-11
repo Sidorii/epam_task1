@@ -17,12 +17,15 @@ public class FrontController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Page page;
+        req.setCharacterEncoding("UTF-8");
         try {
             Command command = CommandResolver.getInstance().resolveCommand(req);
             page = command.execute(req, resp);
         } catch (MissingEntityException e) {
             e.printStackTrace();
             page = processErrorPage(req, e);
+        } catch (IllegalArgumentException e) {
+            page = Page.NOT_FOUND;
         }
         req.getRequestDispatcher(page.getView()).forward(req, resp);
     }

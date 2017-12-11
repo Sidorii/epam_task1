@@ -7,8 +7,6 @@ import java.util.Set;
 
 public interface Dish extends Meal {
 
-    double getTotalWeight();
-
     boolean isVegan();
 
     Set<Ingredient> getIngredients();

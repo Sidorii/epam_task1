@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Salad implements Meal {
+public class Salad implements Dish{
 
     private Integer id;
     protected Set<Ingredient> ingredients;
