@@ -9,9 +9,15 @@ import java.util.Set;
 
 public class IngredientServiceImpl implements IngredientService {
 
+    private static final IngredientService INSTANCE = new IngredientServiceImpl();
+
     private IngredientDao ingredientDao;
 
-    public IngredientServiceImpl() {
+    public static IngredientService getInstance() {
+        return INSTANCE;
+    }
+
+    private IngredientServiceImpl() {
         ingredientDao = DaoFactory.getInstance().getIngredientDao();
     }
 

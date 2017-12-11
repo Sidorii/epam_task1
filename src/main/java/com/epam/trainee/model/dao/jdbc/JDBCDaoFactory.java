@@ -6,12 +6,12 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public IngredientDao getIngredientDao() {
-        return new JDBCIngredientDao(getIngredientTypeDao());
+        return JDBCIngredientDao.getInstance();
     }
 
     @Override
     public IngredientTypeDao getIngredientTypeDao() {
-        return new JDBCIngredientTypeDao();
+        return JDBCIngredientTypeDao.getInstance();
     }
 
     @Override
@@ -21,6 +21,6 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public SaladDao getSaladDao() {
-        return new JDBCSaladDao();
+        return JDBCSaladDao.getInstance();
     }
 }

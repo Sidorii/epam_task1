@@ -27,7 +27,7 @@ public class JDBCSaladDaoTest {
 
     @BeforeClass
     public static void setUp() throws SQLException {
-        dao = new JDBCSaladDao();
+        dao = JDBCSaladDao.getInstance();
         connection = ((JDBCDao) dao).getConnection();
     }
 

@@ -25,7 +25,7 @@ public class JDBCIngredientTypeDaoTest {
 
     @BeforeClass
     public static void init() throws SQLException, IOException {
-        dao = new JDBCIngredientTypeDao();
+        dao = JDBCIngredientTypeDao.getInstance();
         InputStream is = ClassLoader.getSystemResourceAsStream("schema.sql");
         RunScript.execute(((JDBCDao) dao).getConnection(), new InputStreamReader(is));
         is.close();

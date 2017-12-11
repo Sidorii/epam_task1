@@ -1,4 +1,4 @@
-package com.epam.trainee.service;
+package com.epam.trainee.service.impl;
 
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.SaladDao;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 public class SaladServiceTest {
 
-    private SaladService saladService;
+    private SaladServiceImpl saladService;
     private SaladDao saladDao;
     private IngredientDao ingredientDao;
     private Set<Ingredient> database;
@@ -29,7 +29,9 @@ public class SaladServiceTest {
         saladDao = createMock(SaladDao.class);
         ingredientDao = createMock(IngredientDao.class);
 
-        saladService = new SaladServiceImpl(saladDao, ingredientDao);
+        saladService = SaladServiceImpl.getInstance();
+        saladService.saladDao = saladDao;
+        saladService.ingredientDao = ingredientDao;
         database = new HashSet<>();
 
         Ingredient cucumber = IngredientImpl.getIngredientBuilder()

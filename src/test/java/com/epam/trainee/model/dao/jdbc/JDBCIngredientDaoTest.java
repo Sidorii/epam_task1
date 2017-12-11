@@ -33,7 +33,7 @@ public class JDBCIngredientDaoTest {
 
     @BeforeClass
     public static void setUp() throws SQLException {
-        dao = new JDBCIngredientDao(new JDBCIngredientTypeDao());
+        dao = JDBCIngredientDao.getInstance();
         connection = ((JDBCDao) dao).getConnection();
         InputStream is = ClassLoader.getSystemResourceAsStream("schema.sql");
         RunScript.execute(connection, new InputStreamReader(is));

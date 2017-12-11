@@ -1,5 +1,6 @@
 package com.epam.trainee.model.dao.jdbc;
 
+import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
@@ -16,14 +17,13 @@ import java.util.Set;
 /*TODO: fix issue when using MissingIngredientException instead of MissingEntityException everywhere*/
 public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements IngredientDao {
 
-    private IngredientTypeDao ingredientTypeDao;
+    private static final JDBCIngredientDao INSTANCE = new JDBCIngredientDao();
 
-    public JDBCIngredientDao(IngredientTypeDao ingredientTypeDao) {
-        this.ingredientTypeDao = ingredientTypeDao;
+    private JDBCIngredientDao() {
     }
 
-    public void setIngredientTypeDao(IngredientTypeDao ingredientTypeDao) {
-        this.ingredientTypeDao = ingredientTypeDao;
+    public static JDBCIngredientDao getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -86,7 +86,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             throw new MissingEntityException(ingredients, "One of ingredients is not found");
         }
     }
-
+    //TODO: fix it
     private String buildInClause(int elementsCount) {
         StringBuilder sb = new StringBuilder(" IN (");
         for (int i = 0; i < elementsCount - 1; i++) {
@@ -103,11 +103,6 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
         ps.setFloat(4, ingredient.getPrice());
         ps.setBoolean(5, ingredient.isFresh());
         ps.setString(6, ingredient.getDescription());
-        IngredientType type = ingredient.getType();
-
-        if (!ingredientTypeDao.contains(type)) {
-            throw new MissingEntityException(type, "Invalid ingredient type");
-        }
         ps.setInt(7, ingredient.getType().ordinal());
     }
 

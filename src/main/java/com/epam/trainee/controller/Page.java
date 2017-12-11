@@ -3,6 +3,7 @@ package com.epam.trainee.controller;
 public enum Page {
 
     ALL_SALADS("salads"),
+    ALL_INGREDIENTS("ingredients"),
     MISSED_ENTITY("missedEntity"),
     NOT_FOUND("notFound"),
     SINGLE_SALAD("salad");

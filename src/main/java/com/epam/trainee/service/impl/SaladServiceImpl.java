@@ -14,17 +14,18 @@ import java.util.Set;
 
 public class SaladServiceImpl implements SaladService {
 
-    private SaladDao saladDao;
-    private IngredientDao ingredientDao;
+    private static final SaladServiceImpl INSTANCE = new SaladServiceImpl();
 
-    public SaladServiceImpl() {
+    protected SaladDao saladDao;
+    protected IngredientDao ingredientDao;
+
+    private SaladServiceImpl() {
         saladDao = DaoFactory.getInstance().getSaladDao();
         ingredientDao = DaoFactory.getInstance().getIngredientDao();
     }
 
-    public SaladServiceImpl(SaladDao saladDao, IngredientDao ingredientDao) {
-        this.saladDao = saladDao;
-        this.ingredientDao = ingredientDao;
+    public static SaladServiceImpl getInstance() {
+        return INSTANCE;
     }
 
     @Override

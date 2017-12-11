@@ -17,6 +17,15 @@ import java.util.Optional;
 
 public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
 
+    private static final JDBCSaladDao INSTANCE = new JDBCSaladDao();
+
+    private JDBCSaladDao() {
+    }
+
+    public static JDBCSaladDao getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public Salad getSaladByName(String name) {
         return getByName(name, getConnection());
@@ -24,7 +33,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
 
     @Override
     protected ResultSet findAll(Statement statement) throws SQLException {
-        final String query =  "" +
+        final String query = "" +
                 " SELECT * " +
                 " FROM task1.salad " +
                 " LEFT JOIN task1.salad_ingredient " +
@@ -88,7 +97,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
 
     private void saveSalad(Salad salad, Connection connection) throws SQLException {
         final String query = "INSERT INTO task1.salad(s_name, s_description) VALUES (?,?)";
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, salad.getName());
             ps.setString(2, salad.getDescription());
             ps.execute();
@@ -97,7 +106,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
 
     private Salad getSaladDemo(Salad salad, Connection connection) throws SQLException {
         final String query = "SELECT * FROM task1.salad WHERE s_name = ?";
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, salad.getName());
             ResultSet rs = ps.executeQuery();
             rs.next();
@@ -155,7 +164,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
                 " SET s_name = ?, s_description = ?" +
                 " WHERE salad_id = ?";
 
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setString(1, salad.getName());
             ps.setString(2, salad.getDescription());
             ps.setInt(3, salad.getId());
@@ -175,7 +184,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
                 " FROM task1.salad" +
                 " WHERE salad_id = ? OR s_name = ?";
         Optional<Integer> id = Optional.ofNullable(entity.getId());
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id.orElseGet(() -> -1));
             ps.setString(2, entity.getName());
             ResultSet rs = ps.executeQuery();
@@ -192,7 +201,7 @@ public class JDBCSaladDao extends JdbcCrudDao<Salad> implements SaladDao {
     private void deleteDependencies(Integer id, Connection connection) throws SQLException {
         final String query = "DELETE FROM task1.salad_ingredient WHERE salad_id = ?";
 
-        try(PreparedStatement ps = connection.prepareStatement(query)) {
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }

@@ -11,6 +11,14 @@ import java.sql.*;
 
 public class JDBCIngredientTypeDao extends JdbcCrudDao<IngredientType> implements IngredientTypeDao {
 
+    private static final JDBCIngredientTypeDao INSTANCE = new JDBCIngredientTypeDao();
+
+    private JDBCIngredientTypeDao() {
+    }
+
+    public static JDBCIngredientTypeDao getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public void updateEntity(IngredientType type) {
