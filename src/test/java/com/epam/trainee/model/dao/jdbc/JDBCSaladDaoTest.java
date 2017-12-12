@@ -1,7 +1,7 @@
 package com.epam.trainee.model.dao.jdbc;
 
-import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
+import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.entities.dishes.Salad;

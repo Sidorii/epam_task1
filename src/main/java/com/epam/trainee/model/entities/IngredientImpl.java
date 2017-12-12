@@ -40,7 +40,7 @@ public class IngredientImpl implements Ingredient {
     }
 
     public float getCalories() {
-        return (float) (weight * 0.001 * calories);
+        return (float) (weight * 0.001 * calories); //TODO: fix Nan producing in some cases
     }
 
     public String getName() {

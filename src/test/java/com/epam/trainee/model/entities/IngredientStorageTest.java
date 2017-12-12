@@ -103,7 +103,7 @@ public class IngredientStorageTest {
         order.add(ingredient2);
 
         TreeSet<Ingredient> result = new TreeSet<>(Comparator.comparing(Item::getName));
-        result.addAll(storage.produceIngredients(order));
+        result.addAll(storage.produceIngredientsFromStorage(order));
         Ingredient result1 = result.first();
 
         assertEquals("Cucumber", result1.getName());
@@ -124,12 +124,12 @@ public class IngredientStorageTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testPullWithNullArg() {
-        storage.produceIngredients(null);
+        storage.produceIngredientsFromStorage(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testPullWithEmptyArg() {
-        storage.produceIngredients(new HashSet<>());
+        storage.produceIngredientsFromStorage(new HashSet<>());
     }
 
     @Test(expected = MissingItemException.class)
@@ -141,6 +141,6 @@ public class IngredientStorageTest {
                 .createIngredient();
         Set<Ingredient> order = new HashSet<>();
         order.add(ingredient);
-        storage.produceIngredients(order);
+        storage.produceIngredientsFromStorage(order);
     }
 }

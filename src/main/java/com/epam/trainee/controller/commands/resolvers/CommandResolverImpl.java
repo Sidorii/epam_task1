@@ -1,8 +1,8 @@
-package com.epam.trainee.controller.commands.resolver;
+package com.epam.trainee.controller.commands.resolvers;
 
 import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.commands.NotFoundCommand;
-import com.epam.trainee.controller.commands.WebUrl;
+import com.epam.trainee.controller.utils.WebUrl;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import org.reflections.Reflections;
 
@@ -28,7 +28,7 @@ public class CommandResolverImpl extends CommandResolver {
             return url;
         };
 
-        Reflections reflection = new Reflections();
+        Reflections reflection = new Reflections("com.epam.trainee");
         Set<Class<?>> classes = reflection.getTypesAnnotatedWith(WebUrl.class);
         commandsUrl = classes.stream().filter(clazz -> !(classes instanceof Command))
                 .collect(Collectors.toMap(keyMapper, clazz -> (Class<? extends Command>) clazz));

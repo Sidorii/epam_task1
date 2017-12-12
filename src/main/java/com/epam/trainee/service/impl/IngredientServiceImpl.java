@@ -1,11 +1,13 @@
 package com.epam.trainee.service.impl;
 
-import com.epam.trainee.model.dao.DaoFactory;
-import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.service.IngredientService;
+import com.epam.trainee.model.dao.DaoFactory;
+import com.epam.trainee.model.dao.IngredientDao;
 
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class IngredientServiceImpl implements IngredientService {
 
@@ -19,10 +21,6 @@ public class IngredientServiceImpl implements IngredientService {
 
     private IngredientServiceImpl() {
         ingredientDao = DaoFactory.getInstance().getIngredientDao();
-    }
-
-    public void setIngredientDao(IngredientDao ingredientDao) {
-        this.ingredientDao = ingredientDao;
     }
 
     @Override
@@ -60,10 +58,17 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void updateIngredients(Set<Ingredient> ingredients) {
-        if (ingredients == null || ingredients.isEmpty()) {
-            throw new IllegalArgumentException("Can't update empty ingredients");
+    public Set<Ingredient> getIngredientsById(Set<Integer> idSet) {
+        return ingredientDao.findIngredientsById(idSet.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet()));
+    }
+
+    @Override
+    public void removeIngredient(Integer id) {
+        if (id == null) {
+            return;
         }
-        ingredientDao.batchUpdate(ingredients);
+        ingredientDao.removeEntity(id);
     }
 }

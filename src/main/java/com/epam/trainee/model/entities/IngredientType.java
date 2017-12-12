@@ -1,7 +1,7 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientTypeDao;
+import com.epam.trainee.model.dao.DaoFactory;
 
 public enum IngredientType {
 

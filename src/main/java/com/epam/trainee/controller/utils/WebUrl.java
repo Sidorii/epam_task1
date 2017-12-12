@@ -1,4 +1,4 @@
-package com.epam.trainee.controller.commands;
+package com.epam.trainee.controller.utils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

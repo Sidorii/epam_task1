@@ -1,16 +1,15 @@
 package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.GenericDao;
-import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
 import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
+import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
 import java.sql.*;
-import java.util.HashSet;
 import java.util.Set;
 
-public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T>{
+public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
 
     @Override
     public Set<T> getAll() {

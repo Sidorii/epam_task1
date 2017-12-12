@@ -1,12 +1,13 @@
 package com.epam.trainee.service.impl;
 
 import com.epam.trainee.model.dao.DaoFactory;
-import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientStorage;
-import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.service.SaladService;
+import com.epam.trainee.model.dao.IngredientDao;
+import com.epam.trainee.model.entities.dishes.Salad;
+import com.epam.trainee.model.exceptions.MissingItemException;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -29,15 +30,19 @@ public class SaladServiceImpl implements SaladService {
     }
 
     @Override
-    public Salad orderSalad(Set<Ingredient> ingredients) {
+    public Salad orderSalad(Salad salad) {
+        if (salad == null) {
+            throw new MissingItemException("Salad can't be null");
+        }
+        Set<Ingredient> ingredients = salad.getIngredients();
         throwIfInvalidIngredients(ingredients);
 
         Set<Ingredient> storedIngredients = ingredientDao.getIngredients(ingredients);
         IngredientStorage storage = new IngredientStorage(storedIngredients);
-        ingredients = storage.produceIngredients(ingredients);
-        Salad salad = new Salad(ingredients);
+        ingredients = storage.produceIngredientsFromStorage(ingredients);
+        salad.setIngredients(ingredients);
         storedIngredients = storage.getStoredIngredients();
-        ingredientDao.batchUpdate(storedIngredients);
+        ingredientDao.mergeIngredientsWeight(storedIngredients);
         return salad;
     }
 
@@ -49,7 +54,7 @@ public class SaladServiceImpl implements SaladService {
     }
 
     @Override
-    public Salad orderSalad(String name) {
+    public Salad getSaladByName(String name) {
         throwIfInvalidName(name);
         return saladDao.getSaladByName(name);
     }
@@ -84,5 +89,18 @@ public class SaladServiceImpl implements SaladService {
     @Override
     public Set<Ingredient> sortIngredients(Salad salad) {
         return null;
+    }
+
+    @Override
+    public void removeSalad(Integer id) {
+        if (id == null) {
+            return;
+        }
+        saladDao.removeEntity(id);
+    }
+
+    @Override
+    public void updateSalad(Salad salad) {
+
     }
 }

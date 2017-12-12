@@ -30,7 +30,7 @@
             <h1>Salad:</h1>
         </div>
         <div class="col-sm-6">
-            <h2><a href="/order/salad/custom/">Make custom salad for yourself</a></h2>
+            <h2><a href="/order/custom/salad">Make custom salad for yourself</a></h2>
         </div>
     </div>
     <div class="jumbotron">

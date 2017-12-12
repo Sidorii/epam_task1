@@ -1,13 +1,13 @@
-package ua.epam.trainee.controller.commands;
+package com.epam.trainee.controller.commands;
 
-import ua.epam.trainee.controller.utils.WebUrl;
-import ua.epam.trainee.model.entities.Ingredient;
-import ua.epam.trainee.model.entities.IngredientImpl;
-import ua.epam.trainee.model.entities.IngredientType;
-import ua.epam.trainee.service.IngredientService;
-import ua.epam.trainee.service.ServiceFactory;
-import ua.epam.trainee.view.Page;
-import ua.epam.trainee.view.View;
+import com.epam.trainee.controller.utils.WebUrl;
+import com.epam.trainee.model.entities.Ingredient;
+import com.epam.trainee.model.entities.IngredientImpl;
+import com.epam.trainee.model.entities.IngredientType;
+import com.epam.trainee.service.IngredientService;
+import com.epam.trainee.service.ServiceFactory;
+import com.epam.trainee.view.Page;
+import com.epam.trainee.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

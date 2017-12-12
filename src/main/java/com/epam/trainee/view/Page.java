@@ -1,12 +1,17 @@
-package com.epam.trainee.controller;
+package com.epam.trainee.view;
 
-public enum Page {
+public enum Page implements View{
 
-    ALL_SALADS("salads"),
+    ALL_SALADS("newSalads"),
     ALL_INGREDIENTS("ingredients"),
     MISSED_ENTITY("missedEntity"),
     NOT_FOUND("notFound"),
-    SINGLE_SALAD("salad");
+    SINGLE_SALAD("salad"),
+    SINGLE_INGREDIENT("singleIngredient"),
+    CREATE_SALAD("createSalad"),
+    CREATE_INGREDIENT("createIngredient"),
+    CUSTOM_SALAD("orderSalad"),
+    DUPLICATED_ENTRY("duplicatedEntry");
 
     private static final String prefix = "/WEB-INF/";
     private static final String suffix = ".jsp";
@@ -17,6 +22,7 @@ public enum Page {
         this.viewName = viewName;
     }
 
+    @Override
     public String getView() {
         return prefix.concat(viewName).concat(suffix);
     }

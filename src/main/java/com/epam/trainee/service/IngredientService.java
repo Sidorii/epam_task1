@@ -12,9 +12,11 @@ public interface IngredientService{
 
     Ingredient getIngredientByName(String name);
 
+    Set<Ingredient> getIngredientsById(Set<Integer> idSet);
+
     Set<Ingredient> getAllIngredients();
 
     void updateIngredient(Ingredient ingredient);
 
-    void updateIngredients(Set<Ingredient> ingredients);
+    void removeIngredient(Integer id);
 }

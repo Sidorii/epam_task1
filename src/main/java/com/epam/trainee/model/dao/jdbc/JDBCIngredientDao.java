@@ -1,14 +1,11 @@
 package com.epam.trainee.model.dao.jdbc;
 
-import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.IngredientDao;
-import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientMapper;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
 import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.Ingredient;
-import com.epam.trainee.model.entities.IngredientType;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import com.epam.trainee.model.exceptions.MissingItemException;
 
@@ -59,7 +56,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return new IngredientMapper(ExtractType.FULL).extractFromResultSet(rs);
+            return getMapper().extractFromResultSet(rs);
         }
     }
 
@@ -80,7 +77,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             }
             ResultSet rs = ps.executeQuery();
             rs.next();
-            return new IngredientMapper(ExtractType.FULL).extractSetFromResultSet(rs);
+            return getMapper().extractSetFromResultSet(rs);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new MissingEntityException(ingredients, "One of ingredients is not found");
@@ -107,18 +104,40 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
     }
 
     @Override
-    public void batchUpdate(Set<Ingredient> ingredients) {
+    public Set<Ingredient> findIngredientsById(Set<Integer> idSet) {
         final String query = "" +
-                "UPDATE task1.ingredient SET " +
-                "i_name = ?, weight = ?, calories = ?, price = ?, fresh = ?," +
-                "i_description = ?, type_id = ? " +
-                "WHERE ingredient_id = ?";
+                " SELECT * " +
+                " FROM task1.ingredient" +
+                " LEFT JOIN task1.ingredient_type" +
+                " ON task1.ingredient.type_id = task1.ingredient_type.type_id" +
+                " WHERE ingredient_id " + buildInClause(idSet.size());
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            int index = 1;
+            for(Integer id: idSet){
+                ps.setInt(index++, id);
+            }
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return getMapper().extractSetFromResultSet(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MissingEntityException("Not found entity in id range: " + idSet);
+        }
+    }
+
+    @Override
+    public void mergeIngredientsWeight(Set<Ingredient> ingredients) {
+        final String query = "" +
+                " UPDATE task1.ingredient SET " +
+                " weight = ?" +
+                " WHERE ingredient_id = ?";
 
         try (TransactionalConnection connection = getTransactionalConnection();
              PreparedStatement ps = connection.getConnection().prepareStatement(query)) {
             for (Ingredient ingredient : ingredients) {
-                fillPreparedStatement(ps, ingredient);
-                ps.setInt(8, ingredient.getId());
+                ps.setDouble(1, ingredient.getWeight());
+                ps.setInt(2, ingredient.getId());
                 ps.addBatch();
             }
             ps.executeBatch();

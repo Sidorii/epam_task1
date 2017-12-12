@@ -1,8 +1,11 @@
 package com.epam.trainee.controller;
 
 import com.epam.trainee.controller.commands.Command;
-import com.epam.trainee.controller.commands.resolver.CommandResolver;
+import com.epam.trainee.controller.commands.resolvers.CommandResolver;
+import com.epam.trainee.model.exceptions.DuplicatedEntryException;
+import com.epam.trainee.view.Page;
 import com.epam.trainee.model.exceptions.MissingEntityException;
+import com.epam.trainee.view.View;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,18 +19,32 @@ public class FrontController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Page page;
+       processRequest(req,resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
+    }
+
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        View view;
         req.setCharacterEncoding("UTF-8");
         try {
             Command command = CommandResolver.getInstance().resolveCommand(req);
-            page = command.execute(req, resp);
+            view = command.execute(req, resp);
         } catch (MissingEntityException e) {
             e.printStackTrace();
-            page = processErrorPage(req, e);
-        } catch (IllegalArgumentException e) {
-            page = Page.NOT_FOUND;
+            view = processErrorPage(req, e);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            e.printStackTrace();
+            view = Page.NOT_FOUND;
+        } catch (DuplicatedEntryException e) {
+            req.setAttribute("entry", e.getEntry());
+            req.setAttribute("message", e.getMessage());
+            view = Page.DUPLICATED_ENTRY;
         }
-        req.getRequestDispatcher(page.getView()).forward(req, resp);
+        req.getRequestDispatcher(view.getView()).forward(req, resp);
     }
 
     private Page processErrorPage(HttpServletRequest req, MissingEntityException e) {

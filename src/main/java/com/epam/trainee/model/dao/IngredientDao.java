@@ -10,5 +10,7 @@ public interface IngredientDao extends GenericDao<Ingredient> {
 
     Set<Ingredient> getIngredients(Set<Ingredient> ingredients);
 
-    void batchUpdate(Set<Ingredient> ingredients);
+    void mergeIngredientsWeight(Set<Ingredient> ingredients);
+
+    Set<Ingredient> findIngredientsById(Set<Integer> idSet);
 }

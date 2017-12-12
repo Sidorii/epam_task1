@@ -1,7 +1,6 @@
 package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.IngredientDao;
-import com.epam.trainee.model.dao.IngredientTypeDao;
 import com.epam.trainee.model.dao.jdbc.mappers.ExtractType;
 import com.epam.trainee.model.dao.jdbc.mappers.IngredientMapper;
 import com.epam.trainee.model.entities.Ingredient;
@@ -20,7 +19,6 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 public class JDBCIngredientDaoTest {
@@ -220,28 +218,34 @@ public class JDBCIngredientDaoTest {
         orange = dao.getIngredientByName(orange.getName());
         pork = IngredientImpl.getIngredientBuilder()
                 .createFrom(pork)
+                .setWeight(100500)
                 .setName("updated1")
                 .createIngredient();
         cucumber = IngredientImpl.getIngredientBuilder()
                 .createFrom(cucumber)
                 .setName("updated2")
+                .setWeight(100501)
                 .createIngredient();
         orange = IngredientImpl.getIngredientBuilder()
                 .createFrom(orange)
                 .setName("updated3")
+                .setWeight(100502)
                 .createIngredient();
         ingredients.add(pork);
         ingredients.add(cucumber);
         ingredients.add(orange);
 
-        dao.batchUpdate(ingredients);
+        dao.mergeIngredientsWeight(ingredients);
 
-        pork = dao.getIngredientByName(pork.getName());
-        cucumber = dao.getIngredientByName(cucumber.getName());
-        orange = dao.getIngredientByName(orange.getName());
-        assertEquals("updated1", pork.getName());
-        assertEquals("updated2", cucumber.getName());
-        assertEquals("updated3", orange.getName());
+        pork = dao.getIngredientByName("Pork");
+        cucumber = dao.getIngredientByName("Cucumber");
+        orange = dao.getIngredientByName("Orange");
+        assertNotEquals("updated1", pork.getName());
+        assertNotEquals("updated2", cucumber.getName());
+        assertNotEquals("updated3", orange.getName());
+        assertEquals(100500, pork.getWeight(), 0.001);
+        assertEquals(100501, cucumber.getWeight(), 0.001);
+        assertEquals(100502, orange.getWeight(), 0.001);
     }
 
     @After

@@ -1,4 +1,4 @@
-package com.epam.trainee.controller.commands.resolver;
+package com.epam.trainee.controller.commands.resolvers;
 
 import com.epam.trainee.controller.commands.Command;
 

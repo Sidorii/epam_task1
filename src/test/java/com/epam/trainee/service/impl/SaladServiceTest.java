@@ -1,12 +1,12 @@
 package com.epam.trainee.service.impl;
 
-import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
-import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.IngredientType;
+import com.epam.trainee.model.exceptions.MissingItemException;
+import com.epam.trainee.model.dao.IngredientDao;
+import com.epam.trainee.model.entities.IngredientImpl;
 import com.epam.trainee.model.entities.dishes.Salad;
-import com.epam.trainee.service.impl.SaladServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,7 +85,7 @@ public class SaladServiceTest {
 
         expect(ingredientDao.getIngredients(saladOrder))
                 .andReturn(database);
-        ingredientDao.batchUpdate(database);
+        ingredientDao.mergeIngredientsWeight(database);
 
         Set<Ingredient> saladIngredients = new HashSet<>();
         Iterator<Ingredient> dbIterator = database.iterator();
@@ -105,22 +105,21 @@ public class SaladServiceTest {
         replay(ingredientDao);
 
         Salad expectedSalad = new Salad(saladIngredients);
-        Salad realSalad = saladService.orderSalad(saladOrder);
+        Salad realSalad = saladService.orderSalad(expectedSalad);
 
         assertEquals(expectedSalad, realSalad);
         verify(ingredientDao);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testOrderSaladWithNullIngredients() {
-        Set<Ingredient> ingredients = null;
-        saladService.orderSalad(ingredients);
+    @Test(expected = MissingItemException.class)
+    public void testOrderSaladWithNullSalad() {
+        saladService.orderSalad(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testOrderSaladWithEmptyIngredients() {
         Set<Ingredient> ingredients = new HashSet<>();
-        saladService.orderSalad(ingredients);
+        saladService.orderSalad(new Salad(ingredients));
     }
 
     @Test
@@ -130,7 +129,7 @@ public class SaladServiceTest {
                 .andReturn(salad);
         replay(saladDao);
 
-        Salad resultSalad = saladService.orderSalad("test");
+        Salad resultSalad = saladService.getSaladByName("test");
         assertEquals(salad, resultSalad);
         verify(saladDao);
     }
@@ -138,13 +137,13 @@ public class SaladServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testOrderSaladWithNullName() {
         String name = null;
-        saladService.orderSalad(name);
+        saladService.getSaladByName(name);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testOrderSaladWithEmptyName() {
         String name = "";
-        saladService.orderSalad(name);
+        saladService.getSaladByName(name);
     }
 
     @Test
