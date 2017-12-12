@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Not found 404</title>
+    <title>Duplicated Entry!</title>
 </head>
 <body>
-Page not found!
+${requestScope.message}
+<br>Entry: ${requestScope.entry}
 </body>
 </html>
