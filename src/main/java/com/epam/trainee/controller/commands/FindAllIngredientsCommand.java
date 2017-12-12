@@ -19,6 +19,7 @@ public class FindAllIngredientsCommand implements Command {
         IngredientService ingredientService = ServiceFactory.getInstance().getIngredientService();
         Set<Ingredient> ingredients = ingredientService.getAllIngredients();
         req.setAttribute("ingredients", ingredients);
+
         return Page.ALL_INGREDIENTS;
     }
 }

@@ -17,6 +17,7 @@ public class FindSaladCommand implements Command {
     public Page executeGet(HttpServletRequest req, HttpServletResponse resp) {
         SaladService saladService = ServiceFactory.getInstance().getSaladService();
         Salad salad = saladService.getSaladByName(req.getParameter("name"));
+        salad.setIngredients(saladService.sortIngredients(salad));
         req.setAttribute("salad", salad);
         return Page.SINGLE_SALAD;
     }

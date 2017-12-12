@@ -4,6 +4,7 @@ import com.epam.trainee.model.dao.DaoFactory;
 import com.epam.trainee.model.dao.SaladDao;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientStorage;
+import com.epam.trainee.model.entities.comparators.IngredientsComparatorFactory;
 import com.epam.trainee.service.SaladService;
 import com.epam.trainee.model.dao.IngredientDao;
 import com.epam.trainee.model.entities.dishes.Salad;
@@ -12,6 +13,7 @@ import com.epam.trainee.model.exceptions.MissingItemException;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SaladServiceImpl implements SaladService {
 
@@ -80,15 +82,17 @@ public class SaladServiceImpl implements SaladService {
         return saladDao.getAll();
     }
 
-    //TODO:implement methods below
+
     @Override
     public Set<Ingredient> sortIngredients(Salad salad, Comparator<Ingredient> comparator) {
-        return null;
+        Set<Ingredient> sorted = new TreeSet<>(comparator);
+        sorted.addAll(salad.getIngredients());
+        return sorted;
     }
 
     @Override
     public Set<Ingredient> sortIngredients(Salad salad) {
-        return null;
+        return sortIngredients(salad, IngredientsComparatorFactory.getInstance().getDescending());
     }
 
     @Override

@@ -7,7 +7,8 @@ public enum IngredientType {
 
     VEGETABLE,
     MEAT,
-    FRUIT;
+    FRUIT,
+    SAUCE;
 
     static{
         IngredientTypeDao dao = DaoFactory.getInstance().getIngredientTypeDao();
