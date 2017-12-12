@@ -52,6 +52,7 @@
         Weight: <b>${requestScope.salad.weight}</b>
         Price:<b> ${requestScope.salad.price}</b>
         Calories: <b>${requestScope.salad.calories}</b>
+        Is vegan: <b>${requestScope.salad.isVegan()}</b>
         <h6>${requestScope.salad.description}</h6>
         <p>
             <c:forEach items="${requestScope.salad.ingredients}" var="ingredient">

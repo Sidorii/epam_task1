@@ -55,6 +55,7 @@
             Weight: <b>${dish.weight}</b>
             Price:<b> ${dish.price}</b>
             Calories: <b>${dish.calories}</b>
+            Is vegan: <b>${dish.isVegan()}</b>
             <h6>${dish.description}</h6>
             <p>
                 <c:forEach items="${dish.ingredients}" var="ingredient">
