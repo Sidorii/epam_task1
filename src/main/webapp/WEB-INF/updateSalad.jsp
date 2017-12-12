@@ -39,6 +39,20 @@
     </div>
 </c:if>
 <div class="container">
+    <div class=" row page-header">
+        <div class="col-sm-4">
+            <h1>Salad chef</h1>
+        </div>
+        <div class="col-sm-8">
+            <ol class="breadcrumb" style="margin-top: 25px">
+                <li><a href="/">Home</a></li>
+                <li><a href="/salads">Order salad</a></li>
+                <li><a href="/ingredients">Ingredients we use</a></li>
+                <li><a href="/create/ingredient">Create ingredient</a></li>
+                <li><a href="/create/salad">Create recipe</a></li>
+            </ol>
+        </div>
+    </div>
     <h2 class="col-sm-offset-4">Create new salad recipe:</h2>
     <form action="/update/salad/" class="form-horizontal" method="POST">
         <div class="form-group">

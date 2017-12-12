@@ -1,4 +1,4 @@
-package com.epam.trainee.controller.commands.find;
+package com.epam.trainee.controller.commands;
 
 import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.utils.WebUrl;

@@ -37,23 +37,22 @@
         <div class="col-sm-4">
             <h1>Salad chef</h1>
         </div>
-        <div class="col-sm-8">
-            <ol class="breadcrumb" style="margin-top: 25px">
-                <li><a href="/">Home</a></li>
-                <li><a href="/salads">Order salad</a></li>
-                <li><a href="/ingredients">Ingredients we use</a></li>
-                <li><a href="/create/ingredient">Create ingredient</a></li>
-                <li><a href="/create/salad">Create recipe</a></li>
-            </ol>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-3">
+            <h1>Welcome to salad chef! </h1>
         </div>
     </div>
-    <h1>Entity not found</h1>
-    <c:if test="${not empty requestScope.entity}">
-        <p> Entity by name: ${requestScope.entity.name}</p>
-    </c:if>
-    <c:if test="${not empty requestScope.message}">
-        <p>${requestScope.message}</p>
-    </c:if>
+    <div class="col-sm-offset-2 col-sm-8">
+        <ol class="breadcrumb" style="margin-top: 25px">
+            <li class="active">Home</li>
+            <li><a href="/salads">Order salad</a></li>
+            <li><a href="/ingredients">Ingredients we use</a></li>
+            <li><a href="/create/ingredient">Create ingredient</a></li>
+            <li><a href="/create/salad">Create recipe</a></li>
+        </ol>
+    </div>
 </div>
 </body>
 </html>
+

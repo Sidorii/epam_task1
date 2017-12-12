@@ -98,9 +98,4 @@ public class SaladServiceImpl implements SaladService {
         }
         saladDao.removeEntity(id);
     }
-
-    @Override
-    public void updateSalad(Salad salad) {
-
-    }
 }

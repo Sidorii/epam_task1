@@ -22,8 +22,11 @@ public class OrderCustomSaladCommand implements Command {
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
         IngredientService service = ServiceFactory.getInstance().getIngredientService();
         req.setAttribute("ingredients", service.getAllIngredients());
-        return Page.CUSTOM_SALAD;
+        req.setAttribute("action", "/order/custom/salad");
+        req.setAttribute("title", "Create custom salad for yourself:");
+        return Page.CREATE_SALAD;
     }
+
     @Override
     public View executePost(HttpServletRequest req, HttpServletResponse resp) {
         SaladService saladService = ServiceFactory.getInstance().getSaladService();
@@ -41,7 +44,7 @@ public class OrderCustomSaladCommand implements Command {
         } catch (Exception e) {
             req.setAttribute("exception", e.getMessage());
             executeGet(req, resp);
-            return Page.CUSTOM_SALAD;
+            return Page.CREATE_SALAD;
         }
     }
 

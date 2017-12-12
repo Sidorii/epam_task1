@@ -26,12 +26,26 @@
 </head>
 <body>
 <div class="container">
+    <div class=" row page-header">
+        <div class="col-sm-4">
+            <h1>Salad chef</h1>
+        </div>
+        <div class="col-sm-8">
+            <ol class="breadcrumb" style="margin-top: 25px">
+                <li><a href="/">Home</a></li>
+                <li class="active">Order salad</li>
+                <li><a href="/ingredients">Ingredients we use</a></li>
+                <li><a href="/create/ingredient">Create ingredient</a></li>
+                <li><a href="/create/salad">Create recipe</a></li>
+            </ol>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <h1>Salads to order:</h1>
         </div>
         <div class="col-sm-6">
-            <h2><a href="/order/salad/custom/">Make custom salad for yourself</a></h2>
+            <h2><a href="/order/custom/salad">Make custom salad for yourself</a></h2>
         </div>
     </div>
     <c:forEach items="${requestScope.dishes}" var="dish">

@@ -32,12 +32,26 @@
     </style>
 </head>
 <body>
-<c:if test="${not empty requestScope.exception}">
-    <div style="color: red">
-        <h5>${requestScope.exception}</h5>
-    </div>
-</c:if>
 <div class="container">
+    <div class=" row page-header">
+        <div class="col-sm-4">
+            <h1>Salad chef</h1>
+        </div>
+        <div class="col-sm-8">
+            <ol class="breadcrumb" style="margin-top: 25px">
+                <li><a href="/">Home</a></li>
+                <li><a href="/salads">Order salad</a></li>
+                <li><a href="/ingredients">Ingredients we use</a></li>
+                <li class="active">Create ingredient</li>
+                <li><a href="/create/salad">Create recipe</a></li>
+            </ol>
+        </div>
+    </div>
+    <c:if test="${not empty requestScope.exception}">
+        <div style="color: red">
+            <h5>${requestScope.exception}</h5>
+        </div>
+    </c:if>
     <h2 class="col-sm-offset-4">Create new ingredient:</h2>
     <form action="/create/ingredient/" method="POST">
         <div class="form-group" style="padding-bottom: 30px">
@@ -46,40 +60,40 @@
                 <input type="text" class="form-control" placeholder="Enter name" name="name">
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2">Weight:</label>
             <div class="col-sm-10">
                 <input type="number" min="10" value="1000" class="form-control" placeholder="Enter weight"
                        name="weight">
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2">Calories:</label>
             <div class="col-sm-10">
                 <input type="number" min="0" value="1000" class="form-control" placeholder="Enter calories"
                        name="calories">
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2">Price:</label>
             <div class="col-sm-10">
                 <input type="number" min="0" value="1000" class="form-control" placeholder="Enter price" name="price">
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2 radio-inline">Fresh:</label>
             <div class="col-sm-10">
                 <input type="radio" checked value="true" name="fresh">True
                 <input type="radio" value="false" name="fresh">False
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2">Description:</label>
             <div class="col-sm-10">
                 <textarea rows="4" class="form-control" placeholder="Enter description" name="description"></textarea>
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <label class="control-label col-sm-2 radio-inline">Type:</label>
             <div class="col-sm-10">
                 <c:forEach var="type" items="${requestScope.types}">
@@ -88,7 +102,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="form-group"  style="padding-bottom: 30px">
+        <div class="form-group" style="padding-bottom: 30px">
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-default">Create</button>
             </div>

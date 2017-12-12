@@ -10,8 +10,8 @@ public enum Page implements View{
     SINGLE_INGREDIENT("singleIngredient"),
     CREATE_SALAD("createSalad"),
     CREATE_INGREDIENT("createIngredient"),
-    CUSTOM_SALAD("orderSalad"),
-    DUPLICATED_ENTRY("duplicatedEntry");
+    DUPLICATED_ENTRY("duplicatedEntry"),
+    HOME("home");
 
     private static final String prefix = "/WEB-INF/";
     private static final String suffix = ".jsp";

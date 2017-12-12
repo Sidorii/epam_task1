@@ -21,6 +21,4 @@ public interface SaladService {
     Set<Ingredient> sortIngredients(Salad salad);
 
     void removeSalad(Integer id);
-
-    void updateSalad(Salad salad);
 }

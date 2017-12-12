@@ -33,14 +33,28 @@
     </style>
 </head>
 <body>
-<c:if test="${not empty requestScope.exception}">
-    <div style="color: red">
-        <h5>${requestScope.exception}</h5>
-    </div>
-</c:if>
 <div class="container">
-    <h2 class="col-sm-offset-4">Create new salad recipe:</h2>
-    <form action="/create/salad/" class="form-horizontal" method="POST">
+    <div class=" row page-header">
+        <div class="col-sm-4">
+            <h1>Salad chef</h1>
+        </div>
+        <div class="col-sm-8">
+            <ol class="breadcrumb" style="margin-top: 25px">
+                <li><a href="/">Home</a></li>
+                <li><a href="/salads">Order salad</a></li>
+                <li><a href="/ingredients">Ingredients we use</a></li>
+                <li><a href="/create/ingredient">Create ingredient</a></li>
+                <li class="active">Create recipe</li>
+            </ol>
+        </div>
+    </div>
+    <c:if test="${not empty requestScope.exception}">
+        <div style="color: red">
+            <h4>${requestScope.exception}</h4>
+        </div>
+    </c:if>
+    <h2 class="col-sm-offset-4">${requestScope.title}</h2>
+    <form action="${requestScope.action}" class="form-horizontal" method="POST">
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Name:</label>
             <div class="col-sm-10">
@@ -50,7 +64,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <c:forEach items="${requestScope.ingredients}" var="ingredient">
-                    <div class="dlk-radio btn-group">
+                    <div class="dlk-radio btn-group" style="margin-bottom: 10px; margin-right: 5px">
                         <label class="btn btn-success">
                             <input name="id" class="form-control" type="checkbox" value="${ingredient.id}">
                             <i class="fa fa-check glyphicon glyphicon-ok"></i>

@@ -40,7 +40,7 @@ public class CreateIngredientCommand implements Command {
             return Page.CREATE_INGREDIENT;
         }
 
-        ingredientService.createIngredient(ingredient);
+        ingredient = ingredientService.createIngredient(ingredient);
         req.setAttribute("ingredient", ingredient);
         return Page.SINGLE_INGREDIENT;
     }
