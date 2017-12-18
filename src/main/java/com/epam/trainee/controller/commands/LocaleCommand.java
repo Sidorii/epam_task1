@@ -6,15 +6,15 @@ import com.epam.trainee.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ResourceBundle;
 
-@WebUrl("/")
-public class HomeCommand implements Command {
+@WebUrl("/locale")
+public class LocaleCommand implements Command {
 
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("MessageBundle");
-        req.setAttribute("bundle", resourceBundle);
-        return Page.HOME;
+        String locale = req.getParameter("locale");
+        req.getSession().removeAttribute("locale");
+        req.getSession().setAttribute("locale", locale);
+        return Page.valueOf(String.valueOf(req.getSession().getAttribute("page")));
     }
 }

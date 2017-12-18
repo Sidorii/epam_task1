@@ -1,6 +1,5 @@
 package com.epam.trainee.controller.commands;
 
-import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.utils.WebUrl;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.service.IngredientService;

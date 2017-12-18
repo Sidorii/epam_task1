@@ -1,6 +1,5 @@
 package com.epam.trainee.model.entities.dishes;
 
-import com.epam.trainee.model.SaladVisitor;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.entities.IngredientType;
 
@@ -100,10 +99,6 @@ public class Salad implements Dish{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void acceptVisitor(SaladVisitor visitor) {
-        ingredients.forEach(ingr -> visitor.visitIngredient((ingr)));
     }
 
     @Override

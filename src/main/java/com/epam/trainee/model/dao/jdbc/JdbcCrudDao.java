@@ -1,8 +1,8 @@
 package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.GenericDao;
-import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.dao.jdbc.mappers.ObjectMapper;
+import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 
@@ -35,7 +35,7 @@ public abstract class JdbcCrudDao<T> extends JDBCDao implements GenericDao<T> {
         try (TransactionalConnection connection = getTransactionalConnection();
              PreparedStatement ps =
                      prepareCreate(entity, connection)) {
-            ps.execute();
+            ps.executeUpdate();
             entity = find(entity, connection.getConnection());
             connection.commit();
             return entity;

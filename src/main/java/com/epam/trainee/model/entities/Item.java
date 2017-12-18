@@ -1,7 +1,5 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.SaladVisitor;
-
 public interface Item {
 
     Integer getId();
@@ -14,5 +12,4 @@ public interface Item {
 
     String getDescription();
 
-    void acceptVisitor(SaladVisitor visitor);
 }

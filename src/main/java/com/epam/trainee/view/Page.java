@@ -1,6 +1,6 @@
 package com.epam.trainee.view;
 
-public enum Page implements View{
+public enum Page implements View {
 
     ALL_SALADS("newSalads"),
     ALL_INGREDIENTS("ingredients"),
@@ -25,5 +25,14 @@ public enum Page implements View{
     @Override
     public String getView() {
         return prefix.concat(viewName).concat(suffix);
+    }
+
+    public static Page from(String viewName) {
+        for (Page page : values()) {
+            if (page.viewName.equals(viewName)) {
+                return page;
+            }
+        }
+        return Page.NOT_FOUND;
     }
 }

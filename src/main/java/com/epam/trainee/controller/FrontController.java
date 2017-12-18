@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @WebServlet("/")
 public class FrontController extends HttpServlet {
@@ -29,7 +31,11 @@ public class FrontController extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         View view;
+        Locale.setDefault(Locale.ENGLISH);
+
         req.setCharacterEncoding("UTF-8");
+        req.setAttribute("bundle", ResourceBundle.getBundle("MessageBundle"));
+
         try {
             Command command = CommandResolver.getInstance().resolveCommand(req);
             view = command.execute(req, resp);
@@ -44,6 +50,7 @@ public class FrontController extends HttpServlet {
             req.setAttribute("message", e.getMessage());
             view = Page.DUPLICATED_ENTRY;
         }
+        req.getSession().setAttribute("page", view);
         req.getRequestDispatcher(view.getView()).forward(req, resp);
     }
 

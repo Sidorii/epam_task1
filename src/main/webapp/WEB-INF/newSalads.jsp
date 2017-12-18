@@ -28,15 +28,15 @@
 <div class="container">
     <div class=" row page-header">
         <div class="col-sm-4">
-            <h1>Salad chef</h1>
+            <h1>${requestScope.bundle.getString("home.chef")}</h1>
         </div>
         <div class="col-sm-8">
             <ol class="breadcrumb" style="margin-top: 25px">
-                <li><a href="/">Home</a></li>
-                <li class="active">Order salad</li>
-                <li><a href="/ingredients">Ingredients we use</a></li>
-                <li><a href="/create/ingredient">Create ingredient</a></li>
-                <li><a href="/create/salad">Create recipe</a></li>
+                <li><a href="/">${requestScope.bundle.getString("header.home")}</a></li>
+                <li class="active">${requestScope.bundle.getString("header.order")}</li>
+                <li><a href="/ingredients">${requestScope.bundle.getString("header.ingredients")}</a></li>
+                <li><a href="/create/ingredient">${requestScope.bundle.getString("header.ingredient")}</a></li>
+                <li><a href="/create/salad">${requestScope.bundle.getString("header.recipe")}</a></li>
             </ol>
         </div>
     </div>

@@ -108,9 +108,4 @@ public class SaladTest {
         ingredients.remove(pork);
         assertTrue(salad.isVegan());
     }
-
-    @Test
-    public void acceptVisitor() {
-        //TODO: implementation required
-    }
 }

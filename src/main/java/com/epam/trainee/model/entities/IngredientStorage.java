@@ -5,6 +5,7 @@ import com.epam.trainee.model.exceptions.MissingItemException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 public class IngredientStorage {
 
     private Set<Ingredient> storage;
@@ -43,11 +44,7 @@ public class IngredientStorage {
     private Ingredient pullIngredient(Ingredient i) {
         Ingredient pulled = findIngredientByName(i.getName());
         subtractIngredientWeight(pulled, i.getWeight());
-
-        return IngredientImpl.getIngredientBuilder()
-                .createFrom(pulled)
-                .setWeight(i.getWeight())
-                .createIngredient();
+        return new IngredientPortion(pulled, i.getWeight());
     }
 
     private Ingredient findIngredientByName(String name) throws MissingItemException {

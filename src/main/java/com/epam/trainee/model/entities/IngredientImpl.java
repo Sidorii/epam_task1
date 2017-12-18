@@ -1,7 +1,5 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.SaladVisitor;
-
 public class IngredientImpl implements Ingredient {
 
     private Integer id;
@@ -40,7 +38,7 @@ public class IngredientImpl implements Ingredient {
     }
 
     public float getCalories() {
-        return (float) (weight * 0.001 * calories); //TODO: fix Nan producing in some cases
+        return calories;
     }
 
     public String getName() {
@@ -48,15 +46,11 @@ public class IngredientImpl implements Ingredient {
     }
 
     public float getPrice() {
-        return (float) (0.001 * weight * price);
+        return price;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public void acceptVisitor(SaladVisitor visitor) {
-        visitor.visitIngredient(this);
     }
 
     public IngredientType getType() {
@@ -131,8 +125,8 @@ public class IngredientImpl implements Ingredient {
         public IngredientBuilderImpl createFrom(Ingredient ingredient) {
             id = ingredient.getId();
             weight = ingredient.getWeight();
-            calories = (float) (ingredient.getCalories() / (weight * 0.001)); //TODO: fix weight converting mismatch
-            price = (float) (ingredient.getPrice() / (weight * 0.001));
+            calories = ingredient.getCalories();
+            price = ingredient.getPrice();
             description = ingredient.getDescription();
             isFresh = ingredient.isFresh();
             name = ingredient.getName();

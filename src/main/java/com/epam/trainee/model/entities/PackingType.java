@@ -1,7 +1,5 @@
 package com.epam.trainee.model.entities;
 
-import com.epam.trainee.model.SaladVisitor;
-
 public enum PackingType implements Packing {
 
     BOX(0.25f, .1,true),
@@ -42,7 +40,4 @@ public enum PackingType implements Packing {
         return isPortable;
     }
 
-    public void acceptVisitor(SaladVisitor visitor) {
-
-    }
 }
