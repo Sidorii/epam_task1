@@ -8,10 +8,11 @@ import com.epam.trainee.model.dao.jdbc.transactions.TransactionalConnection;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import com.epam.trainee.model.exceptions.MissingItemException;
+import com.epam.trainee.model.utils.SqlUtil;
 
 import java.sql.*;
 import java.util.Set;
-/*TODO: fix issue when using MissingIngredientException instead of MissingEntityException everywhere*/
+
 public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements IngredientDao {
 
     private static final JDBCIngredientDao INSTANCE = new JDBCIngredientDao();
@@ -67,7 +68,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
                 " FROM task1.ingredient " +
                 " LEFT JOIN task1.ingredient_type" +
                 " ON task1.ingredient.type_id = task1.ingredient_type.type_id" +
-                " WHERE ingredient_id " + buildInClause(ingredients.size());
+                " WHERE ingredient_id " + SqlUtil.generateInClause(ingredients.size());
 
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
@@ -83,15 +84,7 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
             throw new MissingEntityException(ingredients, "One of ingredients is not found");
         }
     }
-    //TODO: fix it
-    private String buildInClause(int elementsCount) {
-        StringBuilder sb = new StringBuilder(" IN (");
-        for (int i = 0; i < elementsCount - 1; i++) {
-            sb.append("?,");
-        }
-        sb.append("?)");
-        return sb.toString();
-    }
+
 
     private void fillPreparedStatement(PreparedStatement ps, Ingredient ingredient) throws SQLException {
         ps.setString(1, ingredient.getName());
@@ -110,7 +103,8 @@ public class JDBCIngredientDao extends JdbcCrudDao<Ingredient> implements Ingred
                 " FROM task1.ingredient" +
                 " LEFT JOIN task1.ingredient_type" +
                 " ON task1.ingredient.type_id = task1.ingredient_type.type_id" +
-                " WHERE ingredient_id " + buildInClause(idSet.size());
+                " WHERE ingredient_id " + SqlUtil.generateInClause(idSet.size());
+
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
             int index = 1;

@@ -5,6 +5,11 @@ import com.epam.trainee.model.dao.*;
 public class JDBCDaoFactory extends DaoFactory {
 
     @Override
+    public UserDao getUserDao() {
+        return JDBCUserDao.getInstance();
+    }
+
+    @Override
     public IngredientDao getIngredientDao() {
         return JDBCIngredientDao.getInstance();
     }

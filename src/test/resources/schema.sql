@@ -4,6 +4,9 @@ DROP TABLE IF EXISTS task1.salad_ingredient;
 DROP TABLE IF EXISTS task1.ingredient;
 DROP TABLE IF EXISTS task1.ingredient_type;
 DROP TABLE IF EXISTS task1.salad;
+DROP TABLE IF EXISTS task1.user_role;
+DROP TABLE IF EXISTS task1.users;
+DROP TABLE IF EXISTS task1.role;
 
 CREATE TABLE task1.ingredient_type (
   type_id   INT PRIMARY KEY,
@@ -36,6 +39,24 @@ CREATE TABLE task1.salad_ingredient (
   ingredient_id INT              NOT NULL,
   weight        DOUBLE PRECISION NOT NULL,
   UNIQUE (salad_id, ingredient_id)
+);
+
+CREATE TABLE users(
+  u_id SERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(45) NOT NULL ,
+  email VARCHAR(80) NOT NULL UNIQUE ,
+  password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE role(
+  role_id SERIAL NOT NULL PRIMARY KEY,
+  name VARCHAR(40) NOT NULL UNIQUE
+);
+
+CREATE TABLE user_role(
+  u_id INT REFERENCES users,
+  r_id INT REFERENCES role,
+  UNIQUE (u_id, r_id)
 );
 
 COMMIT;

@@ -6,6 +6,8 @@ public abstract class DaoFactory {
 
     private static DaoFactory instance;
 
+    public abstract UserDao getUserDao();
+
     public abstract IngredientDao getIngredientDao();
 
     public abstract IngredientTypeDao getIngredientTypeDao();
