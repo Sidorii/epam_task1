@@ -1,9 +1,15 @@
 package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.dao.UserDao;
+import com.epam.trainee.model.dao.jdbc.mappers.UserMapper;
+import com.epam.trainee.model.entities.Role;
 import com.epam.trainee.model.entities.User;
+import com.epam.trainee.model.exceptions.AuthenticationException;
+import com.epam.trainee.model.exceptions.MissingEntityException;
 
-public class JDBCUserDao implements UserDao {
+import java.sql.*;
+
+public class JDBCUserDao extends JDBCDao implements UserDao {
 
     private static final JDBCUserDao INSTANCE = new JDBCUserDao();
 
@@ -11,18 +17,88 @@ public class JDBCUserDao implements UserDao {
         return INSTANCE;
     }
 
+    //TODO: check duplicated email
     @Override
-    public User createUser(User user) {
-        return null;
+    public User createUser(User u) {
+        final String query = "" +
+                " INSERT INTO task1.users (name, email, password)" +
+                " VALUES (?,?,?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, u.getName());
+            ps.setString(2, u.getEmail());
+            ps.setString(3, u.getPassword());
+            ps.executeUpdate();
+            u.setId(getNewUserId(ps.getGeneratedKeys()));
+            insertUserRoles(u, connection);
+            connection.commit();
+            return u;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new AuthenticationException(u, "New user registration failed");
+        }
+    }
+
+    private void insertUserRoles(User user, Connection connection) throws SQLException {
+        final String roleQuery = "" +
+                " INSERT INTO task1.user_role" +
+                " VALUES (?,?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(roleQuery)) {
+            for (Role role : user.getRoles()) {
+                ps.setInt(1, user.getId());
+                ps.setInt(2, role.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+    }
+
+    private int getNewUserId(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return resultSet.getInt(1);
+        }
+        throw new MissingEntityException("No generated id found for new user");
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return null;
+        final String query = "" +
+                " SELECT * " +
+                " FROM task1.users" +
+                " LEFT JOIN task1.user_role" +
+                " ON task1.users.user_id = task1.user_role.u_id" +
+                " LEFT JOIN task1.role" +
+                " ON task1.user_role.r_id = task1.role.role_id" +
+                " WHERE email = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return new UserMapper().extractFromResultSet(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new MissingEntityException("User with email '" + email + "' not found");
+        }
     }
 
     @Override
     public boolean contains(User user) {
-        return false;
+        final String query = "" +
+                " SELECT COUNT(user_id)" +
+                " FROM task1.users" +
+                " WHERE user_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

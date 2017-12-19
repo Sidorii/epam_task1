@@ -38,7 +38,7 @@ CREATE TABLE task1.salad_ingredient (
 );
 
 CREATE TABLE users(
-  u_id SERIAL NOT NULL PRIMARY KEY,
+  user_id SERIAL NOT NULL PRIMARY KEY,
   name VARCHAR(45) NOT NULL ,
   email VARCHAR(80) NOT NULL UNIQUE ,
   password VARCHAR(50) NOT NULL
@@ -46,7 +46,7 @@ CREATE TABLE users(
 
 CREATE TABLE role(
   role_id SERIAL NOT NULL PRIMARY KEY,
-  name VARCHAR(40) NOT NULL UNIQUE
+  role_name VARCHAR(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE user_role(
