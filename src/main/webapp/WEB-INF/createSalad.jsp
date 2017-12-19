@@ -40,13 +40,11 @@
         </div>
         <div class="col-sm-8">
             <ol class="breadcrumb" style="margin-top: 25px">
-                <ol class="breadcrumb" style="margin-top: 25px">
-                    <li><a href="/">${requestScope.bundle.getString("header.home")}</a></li>
-                    <li><a href="/salads">${requestScope.bundle.getString("header.order")}</a></li>
-                    <li><a href="/ingredients">${requestScope.bundle.getString("header.ingredients")}</a></li>
-                    <li><a href="/create/ingredient">${requestScope.bundle.getString("header.ingredient")}</a></li>
-                    <li class="active">${requestScope.bundle.getString("header.recipe")}</li>
-                </ol>
+                <li><a href="/">${requestScope.bundle.getString("header.home")}</a></li>
+                <li><a href="/salads">${requestScope.bundle.getString("header.order")}</a></li>
+                <li><a href="/ingredients">${requestScope.bundle.getString("header.ingredients")}</a></li>
+                <li><a href="/create/ingredient">${requestScope.bundle.getString("header.ingredient")}</a></li>
+                <li class="active">${requestScope.bundle.getString("header.recipe")}</li>
             </ol>
         </div>
     </div>
