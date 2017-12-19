@@ -11,7 +11,8 @@ public enum Page implements View {
     CREATE_SALAD("createSalad"),
     CREATE_INGREDIENT("createIngredient"),
     DUPLICATED_ENTRY("duplicatedEntry"),
-    HOME("home");
+    HOME("home"),
+    LOGIN("authorization");
 
     private static final String prefix = "/WEB-INF/";
     private static final String suffix = ".jsp";

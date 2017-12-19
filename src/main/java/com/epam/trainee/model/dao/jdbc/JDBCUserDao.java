@@ -91,10 +91,10 @@ public class JDBCUserDao extends JDBCDao implements UserDao {
         final String query = "" +
                 " SELECT COUNT(user_id)" +
                 " FROM task1.users" +
-                " WHERE user_id = ?";
+                " WHERE email = ?";
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, user.getId());
+            ps.setString(1, user.getEmail());
             ResultSet rs = ps.executeQuery();
             return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {

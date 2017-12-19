@@ -10,6 +10,8 @@ public abstract class ServiceFactory {
 
     public abstract IngredientService getIngredientService();
 
+    public abstract UserService getUserService();
+
     public static ServiceFactory getInstance() {
         if (instance == null) {
             synchronized (ServiceFactory.class) {

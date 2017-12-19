@@ -31,9 +31,7 @@ public class FrontController extends HttpServlet {
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         View view;
-        Locale.setDefault(Locale.ENGLISH);
 
-        req.setCharacterEncoding("UTF-8");
         req.setAttribute("bundle", ResourceBundle.getBundle("MessageBundle"));
 
         try {
