@@ -17,9 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.epam.trainee.controller.utils.RequestAttributes.AUTHENTICATION;
-import static com.epam.trainee.controller.utils.RequestAttributes.EMAIL;
-import static com.epam.trainee.controller.utils.RequestAttributes.PASSWORD;
+import static com.epam.trainee.controller.utils.RequestAttributes.*;
 
 @WebUrl("/login")
 public class SignInCommand implements Command {
@@ -29,7 +27,7 @@ public class SignInCommand implements Command {
         if (req.getSession().getAttribute(AUTHENTICATION) != null) {
             return Page.HOME;
         }
-        req.setAttribute("roles", Role.values());
+        req.setAttribute(ROLES, Role.values());
         return Page.LOGIN;
     }
 
@@ -42,7 +40,7 @@ public class SignInCommand implements Command {
                 User user = registerUser(req)
                         .orElseThrow(() ->
                                 new AuthenticationException("Authentication failed. Invalid email or password"));
-                req.getSession().setAttribute(AUTHENTICATION, user.getRoles());
+                req.getSession().setAttribute(AUTHENTICATION, user);
                 System.out.println(user + " successful authenticated");
                 return Page.HOME;
             } else {

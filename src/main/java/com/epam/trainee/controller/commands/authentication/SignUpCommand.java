@@ -10,7 +10,6 @@ import com.epam.trainee.service.ServiceFactory;
 import com.epam.trainee.service.UserService;
 import com.epam.trainee.view.Page;
 import com.epam.trainee.view.View;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
@@ -26,7 +25,7 @@ public class SignUpCommand implements Command {
         if (req.getSession().getAttribute(AUTHENTICATION) != null) {
             return Page.HOME;
         }
-        req.setAttribute("roles", Role.values());
+        req.setAttribute(ROLES, Role.values());
         return Page.LOGIN;
     }
 
@@ -52,7 +51,7 @@ public class SignUpCommand implements Command {
             return Page.HOME;
         } else {
             String message = invalidParams.stream()
-                    .collect(Collectors.joining(" is invalid,", "|", "is invalid |"));
+                    .collect(Collectors.joining(" is invalid,", "", " is invalid"));
             req.setAttribute("invalid", message);
             return Page.LOGIN;
         }
@@ -63,10 +62,19 @@ public class SignUpCommand implements Command {
                 req.getParameter(NAME),
                 req.getParameter(EMAIL),
                 req.getParameter(PASSWORD));
-        user.addRole(Role.ADMIN);
+        String[] roles = req.getParameterValues(ROLES);
+
+        try {
+            for (String role : roles) {
+                user.addRole(Role.valueOf(role));
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new AuthenticationException(user, e.getMessage());
+        }
 
         UserService userService = ServiceFactory.getInstance().getUserService();
         User authorized = userService.registerUser(user);
-        req.getSession().setAttribute(AUTHENTICATION, authorized.getRoles());
+        req.getSession().setAttribute(AUTHENTICATION, authorized);
     }
 }

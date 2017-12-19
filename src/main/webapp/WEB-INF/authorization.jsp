@@ -8,6 +8,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
+        .dlk-radio input[type="radio"],
+        .dlk-radio input[type="checkbox"] {
+            margin-left: -99999px;
+            display: none;
+        }
+
+        .dlk-radio input[type="radio"] + .fa,
+        .dlk-radio input[type="checkbox"] + .fa {
+            opacity: 0.15
+        }
+
+        .dlk-radio input[type="radio"]:checked + .fa,
+        .dlk-radio input[type="checkbox"]:checked + .fa {
+            opacity: 1
+        }
+
         .panel-login {
             border-color: #ccc;
             -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
@@ -86,17 +102,6 @@
             border-color: #53A3CD;
         }
 
-        .forgot-password {
-            text-decoration: underline;
-            color: #888;
-        }
-
-        .forgot-password:hover,
-        .forgot-password:focus {
-            text-decoration: underline;
-            color: #666;
-        }
-
         .btn-register {
             background-color: #1CB94E;
             outline: none;
@@ -114,6 +119,10 @@
             color: #fff;
             background-color: #1CA347;
             border-color: #1CA347;
+        }
+        ul.dropper li a {
+            color: #0275d8;
+            text-decoration: none;
         }
 
     </style>
@@ -140,10 +149,10 @@
 <body>
 <div class="container">
     <div class=" row page-header">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <h1>${requestScope.bundle.getString("home.chef")}</h1>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-9">
             <ol class="breadcrumb" style="margin-top: 25px">
                 <li><a href="<c:url value="/"/>">${requestScope.bundle.getString("header.home")}</a></li>
                 <li><a href="<c:url value="/salads"/>">${requestScope.bundle.getString("header.order")}</a></li>
@@ -153,6 +162,29 @@
                     <a href="<c:url value="/create/ingredient"/>">${requestScope.bundle.getString("header.ingredient")}</a>
                 </li>
                 <li><a href="<c:url value="/create/salad"/>">${requestScope.bundle.getString("header.recipe")}</a></li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                            class="glyphicon glyphicon-menu-hamburger"></span></a>
+                    <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.auth}">
+                                <li style="text-align: center">You, <b>${sessionScope.auth.name}</b>!</li>
+                                <li class="divider"></li>
+                                <li style="text-align: center"><a href="<c:url value="/logout"/>">Logout</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li style="text-align: center"><a href="<c:url value="/login"/>">Login</a></li>
+                                <li style="text-align: center"><a href="<c:url value="/registration"/>">Registration</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <li class="divider"></li>
+                        <li style="text-align: center"><b>Select language</b></li>
+                        <li class="divider"></li>
+                        <li style="text-align: center"><a href="/locale?land=en_EN">English</a></li>
+                        <li style="text-align: center"><a href="/locale?land=ru_UA">Ukrainian</a></li>
+                        <li style="text-align: center"><a href="/locale?land=ru_RU">Russian</a></li>
+                    </ul>
+                </li>
             </ol>
         </div>
     </div>
@@ -219,10 +251,19 @@
                                            class="form-control" placeholder="Confirm Password">
                                 </div>
                                 <div class="form-group">
-                                    <c:forEach var="r" items="${requestScope.roles}">
-                                        <input type="checkbox" multiple name="roles" tabindex="2"
-                                               class="form-control" placeholder="${r.name.toLoverCase()}">
-                                    </c:forEach>
+                                    <div class="checkbox" style=" text-align: center;">
+                                        <c:forEach var="r" items="${requestScope.roles}">
+                                            <div class="dlk-radio btn-group" style="margin: 0 auto;">
+                                                <label class="btn btn-success">
+                                                    <input name="roles" class="form-control" type="checkbox"
+                                                           value="${r.name()}">
+                                                    <i class="fa fa-check glyphicon glyphicon-ok"></i>
+                                                        ${r.name()}
+                                                </label>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+
                                 </div>
                                 <div class="form-group">
                                     <div class="row">

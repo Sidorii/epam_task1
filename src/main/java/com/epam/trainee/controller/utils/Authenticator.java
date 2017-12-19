@@ -1,6 +1,7 @@
 package com.epam.trainee.controller.utils;
 
 import com.epam.trainee.model.entities.Role;
+import com.epam.trainee.model.entities.User;
 import com.epam.trainee.view.Page;
 
 import javax.servlet.FilterChain;
@@ -42,7 +43,7 @@ public class Authenticator {
         }
 
         @SuppressWarnings("unchecked")
-        Set<Role> actualRole = (Set<Role>) session.getAttribute(AUTHENTICATION);
+        Set<Role> actualRole = ((User) session.getAttribute(AUTHENTICATION)).getRoles();
         return actualRole != null && actualRole.contains(ROLE);
     }
 }

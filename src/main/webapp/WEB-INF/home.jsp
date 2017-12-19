@@ -30,6 +30,10 @@
         .dlk-radio input[type="checkbox"]:checked + .fa {
             opacity: 1
         }
+        ul.dropper li a {
+            color: #0275d8;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -38,26 +42,42 @@
         <div class="col-sm-4">
             <h1>${requestScope.bundle.getString("home.chef")}</h1>
         </div>
-        <%--<div class="col-sm-offset-10">--%>
-            <%--<form method="get" action="/locale">--%>
-                <%--<input type="submit" name="locale" value="ua">--%>
-                <%--<input type="submit" name="locale" value="ru">--%>
-                <%--<input type="submit" name="locale" value="en">--%>
-            <%--</form>--%>
-        <%--</div>--%>
     </div>
     <div class="row">
         <div class="col-sm-offset-3">
             <h1>${requestScope.bundle.getString("home.welcome")}</h1>
         </div>
     </div>
-    <div class="col-sm-offset-2 col-sm-8">
-        <ol class="breadcrumb" style="margin-top: 25px">
+    <div class="col-sm-offset-2 col-sm-9">
+        <ol class="breadcrumb" style="margin-top: 25px; padding-left: 10px;">
             <li class="active">${requestScope.bundle.getString("header.home")}</li>
             <li><a href="/salads">${requestScope.bundle.getString("header.order")}</a></li>
             <li><a href="/ingredients">${requestScope.bundle.getString("header.ingredients")}</a></li>
             <li><a href="/create/ingredient">${requestScope.bundle.getString("header.ingredient")}</a></li>
             <li><a href="/create/salad">${requestScope.bundle.getString("header.recipe")}</a></li>
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-menu-hamburger"></span></a>
+                <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
+                    <c:choose>
+                        <c:when test="${not empty sessionScope.auth}">
+                            <li style="text-align: center">You, <b>${sessionScope.auth.name}</b>!</li>
+                            <li class="divider"></li>
+                            <li style="text-align: center"><a href="<c:url value="/logout"/>">Logout</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li style="text-align: center"><a href="<c:url value="/login"/>">Login</a></li>
+                            <li style="text-align: center"><a href="<c:url value="/registration"/>">Registration</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                    <li class="divider"></li>
+                    <li style="text-align: center"><b>Select language</b></li>
+                    <li class="divider"></li>
+                    <li style="text-align: center"><a href="/locale?land=en_EN">English</a></li>
+                    <li style="text-align: center"><a href="/locale?land=ru_UA">Ukrainian</a></li>
+                    <li style="text-align: center"><a href="/locale?land=ru_RU">Russian</a></li>
+                </ul>
+            </li>
         </ol>
     </div>
 </div>

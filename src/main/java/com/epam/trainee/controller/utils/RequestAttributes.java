@@ -7,4 +7,5 @@ public final class RequestAttributes {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String CONFIRM_PASSWORD = "confirm-password";
+    public static final String ROLES = "roles";
 }

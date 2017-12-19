@@ -27,6 +27,11 @@ public class SignUpValidator extends NotNullOrEmptyValidator {
             invalidParams.add(EMAIL);
         }
 
+        String roles[] = req.getParameterValues(ROLES);
+        if (roles == null || roles.length == 0) {
+            invalidParams.add(ROLES);
+        }
+
         if (!req.getParameter(PASSWORD).equals(req.getParameter(CONFIRM_PASSWORD))) {
             invalidParams.add(CONFIRM_PASSWORD);
         }
