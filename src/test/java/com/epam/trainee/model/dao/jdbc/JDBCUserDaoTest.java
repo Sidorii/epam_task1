@@ -2,7 +2,6 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.entities.Role;
 import com.epam.trainee.model.entities.User;
-import com.epam.trainee.model.exceptions.AuthenticationException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import org.h2.tools.RunScript;
 import org.junit.After;
@@ -41,7 +40,7 @@ public class JDBCUserDaoTest {
         connection = userDao.getConnection();
         user = new User("name", "email", "password");
         roles = new HashSet<>();
-        roles.add(new Role(1, "ADMIN"));
+        roles.add(Role.ADMIN);
         user.setRoles(roles);
     }
 
@@ -52,18 +51,11 @@ public class JDBCUserDaoTest {
         assertNotNull(res.getId());
     }
 
-    @Test(expected = AuthenticationException.class)
-    public void testCreateByWrongRole() {
-        user.removeRole(roles.iterator().next());
-        user.addRole(new Role(100500,"unknown role"));
-        userDao.createUser(user);
-    }
-
     @Test
     public void testGetUserByEmail() {
         userDao.createUser(user);
         User result = userDao.getUserByEmail(user.getEmail());
-        assertEquals(user,result);
+        assertEquals(user, result);
     }
 
     @Test(expected = MissingEntityException.class)

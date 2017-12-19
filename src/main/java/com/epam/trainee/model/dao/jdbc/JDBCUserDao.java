@@ -13,6 +13,9 @@ public class JDBCUserDao extends JDBCDao implements UserDao {
 
     private static final JDBCUserDao INSTANCE = new JDBCUserDao();
 
+    private JDBCUserDao() {
+    }
+
     public static JDBCUserDao getInstance() {
         return INSTANCE;
     }
@@ -69,8 +72,6 @@ public class JDBCUserDao extends JDBCDao implements UserDao {
                 " FROM task1.users" +
                 " LEFT JOIN task1.user_role" +
                 " ON task1.users.user_id = task1.user_role.u_id" +
-                " LEFT JOIN task1.role" +
-                " ON task1.user_role.r_id = task1.role.role_id" +
                 " WHERE email = ?";
 
         try (Connection connection = getConnection();

@@ -42,15 +42,15 @@ CREATE TABLE task1.salad_ingredient (
 );
 
 CREATE TABLE task1.users (
-  user_id     SERIAL      NOT NULL PRIMARY KEY,
+  user_id  SERIAL      NOT NULL PRIMARY KEY,
   name     VARCHAR(45) NOT NULL,
   email    VARCHAR(80) NOT NULL UNIQUE,
   password VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE task1.role (
-  role_id SERIAL      NOT NULL PRIMARY KEY,
-  role_name    VARCHAR(40) NOT NULL UNIQUE
+  role_id   INT         NOT NULL PRIMARY KEY,
+  role_name VARCHAR(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE task1.user_role (
@@ -58,8 +58,5 @@ CREATE TABLE task1.user_role (
   r_id INT REFERENCES task1.role,
   UNIQUE (u_id, r_id)
 );
-
-INSERT INTO task1.role (role_name)
-VALUES ('ADMIN'), ('CHEF');
 
 COMMIT;

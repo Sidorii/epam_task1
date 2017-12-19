@@ -23,7 +23,7 @@ public class UserServiceImplTest {
         userDao = createMock(UserDao.class);
         userService = UserServiceImpl.getInstance();
         userService.setUserDao(userDao);
-        role = new Role();
+        role = Role.ADMIN;
         user = new User("name", "email", "password");
         user.addRole(role);
     }

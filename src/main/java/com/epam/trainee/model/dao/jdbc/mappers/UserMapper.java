@@ -17,10 +17,7 @@ public class UserMapper extends ObjectMapper<User> {
         user.setId(rs.getInt("user_id"));
 
         do {
-            user.addRole(new Role(
-                    rs.getInt("r_id"),
-                    rs.getString("role_name")
-            ));
+            user.addRole(Role.values()[rs.getInt("r_id")]);
         } while (rs.next());
         return user;
     }
