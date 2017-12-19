@@ -4,7 +4,6 @@ import com.epam.trainee.model.entities.Role;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcRoleDao extends JDBCDao {

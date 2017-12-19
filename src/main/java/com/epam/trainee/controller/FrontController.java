@@ -3,8 +3,8 @@ package com.epam.trainee.controller;
 import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.commands.resolvers.CommandResolver;
 import com.epam.trainee.model.exceptions.DuplicatedEntryException;
-import com.epam.trainee.view.Page;
 import com.epam.trainee.model.exceptions.MissingEntityException;
+import com.epam.trainee.view.Page;
 import com.epam.trainee.view.View;
 
 import javax.servlet.ServletException;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 @WebServlet("/")
@@ -21,7 +20,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       processRequest(req,resp);
+        processRequest(req, resp);
     }
 
     @Override
@@ -29,7 +28,7 @@ public class FrontController extends HttpServlet {
         processRequest(req, resp);
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         View view;
 
         req.setAttribute("bundle", ResourceBundle.getBundle("MessageBundle"));

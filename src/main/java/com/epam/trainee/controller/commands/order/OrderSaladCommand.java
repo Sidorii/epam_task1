@@ -1,5 +1,6 @@
-package com.epam.trainee.controller.commands;
+package com.epam.trainee.controller.commands.order;
 
+import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.utils.WebUrl;
 import com.epam.trainee.service.SaladService;
 import com.epam.trainee.service.ServiceFactory;

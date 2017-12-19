@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CommandResolverImpl extends CommandResolver {
-    
-    private static Map<String, Class<? extends Command>> commandsUrl = new HashMap<>();
+
+    private static Map<String, Class<? extends Command>> commandsUrl = new ConcurrentHashMap<>();
 
     static {
         Function<? super Class<?>, ? extends String> keyMapper = (clazz) ->

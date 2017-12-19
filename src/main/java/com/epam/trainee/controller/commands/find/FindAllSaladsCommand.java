@@ -1,4 +1,4 @@
-package com.epam.trainee.controller.commands;
+package com.epam.trainee.controller.commands.find;
 
 import com.epam.trainee.service.SaladService;
 import com.epam.trainee.service.ServiceFactory;

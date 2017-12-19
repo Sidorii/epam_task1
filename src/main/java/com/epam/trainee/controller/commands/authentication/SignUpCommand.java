@@ -13,8 +13,8 @@ import com.epam.trainee.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.epam.trainee.controller.utils.RequestAttributes.*;
 
@@ -23,28 +23,37 @@ public class SignUpCommand implements Command {
 
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
+        if (req.getSession().getAttribute(AUTHENTICATION) != null) {
+            return Page.HOME;
+        }
+        req.setAttribute("roles", Role.values());
         return Page.LOGIN;
     }
 
     @Override
     public View executePost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            Set<String> invalidParams = new SignUpValidator(req).validate();
-
-            if (invalidParams.isEmpty()) {
-                processRegistration(req);
-                return Page.HOME;
-            } else {
-                req.setAttribute("invalid", invalidParams);
-                return Page.LOGIN;
-            }
-
+            return process(req);
         } catch (AuthenticationException e) {
-            req.setAttribute("invalid", Collections.singletonList(e.getMessage()));
+            req.setAttribute("invalid", e.getMessage());
             return Page.LOGIN;
         } catch (NullPointerException e) {
             e.printStackTrace();
-            req.setAttribute("invalid", Collections.singletonList("Some data required but not set"));
+            req.setAttribute("invalid", "Some data required but not set");
+            return Page.LOGIN;
+        }
+    }
+
+    private View process(HttpServletRequest req){
+        Set<String> invalidParams = new SignUpValidator(req).validate();
+
+        if (invalidParams.isEmpty()) {
+            processRegistration(req);
+            return Page.HOME;
+        } else {
+            String message = invalidParams.stream()
+                    .collect(Collectors.joining(" is invalid,", "|", "is invalid |"));
+            req.setAttribute("invalid", message);
             return Page.LOGIN;
         }
     }

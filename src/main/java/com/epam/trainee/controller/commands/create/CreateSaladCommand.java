@@ -1,5 +1,6 @@
-package com.epam.trainee.controller.commands;
+package com.epam.trainee.controller.commands.create;
 
+import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.model.entities.Ingredient;
 import com.epam.trainee.service.IngredientService;
 import com.epam.trainee.service.SaladService;

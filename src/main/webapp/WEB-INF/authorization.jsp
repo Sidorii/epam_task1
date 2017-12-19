@@ -145,20 +145,22 @@
         </div>
         <div class="col-sm-8">
             <ol class="breadcrumb" style="margin-top: 25px">
-                <li><a href="/">${requestScope.bundle.getString("header.home")}</a></li>
-                <li><a href="/salads">${requestScope.bundle.getString("header.order")}</a></li>
-                <li><a href="/ingredients">${requestScope.bundle.getString("header.ingredients")}</a></li>
-                <li><a href="/create/ingredient">${requestScope.bundle.getString("header.ingredient")}</a></li>
-                <li><a href="/create/salad">${requestScope.bundle.getString("header.recipe")}</a></li>
+                <li><a href="<c:url value="/"/>">${requestScope.bundle.getString("header.home")}</a></li>
+                <li><a href="<c:url value="/salads"/>">${requestScope.bundle.getString("header.order")}</a></li>
+                <li><a href="<c:url value="/ingredients"/>">${requestScope.bundle.getString("header.ingredients")}</a>
+                </li>
+                <li>
+                    <a href="<c:url value="/create/ingredient"/>">${requestScope.bundle.getString("header.ingredient")}</a>
+                </li>
+                <li><a href="<c:url value="/create/salad"/>">${requestScope.bundle.getString("header.recipe")}</a></li>
             </ol>
         </div>
     </div>
-    <div  style="color: red;text-align: center">
-
-            <h4> <b>|</b>
-            <c:forEach var="invalid" items="${requestScope.invalid}">
-                ${invalid} is invalid <b>|</b>
-            </c:forEach>
+    <div style="color: red;text-align: center">
+        <h4>
+            <c:if test="${not empty requestScope.invalid}">
+                ${requestScope.invalid}
+            </c:if>
         </h4>
     </div>
     <div class="row">
@@ -178,10 +180,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" action="/login" method="post" role="form" style="display: block;">
+                            <form id="login-form" action="<c:url value="/login"/>" method="post" role="form"
+                                  style="display: block;">
                                 <div class="form-group">
-                                    <input type="text" name="name" id="username" tabindex="1" class="form-control"
-                                           placeholder="Username" value="">
+                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                           placeholder="Email Address" value="">
                                 </div>
                                 <div class="form-group">
                                     <input type="password" name="password" id="password" tabindex="2"
@@ -197,7 +200,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/registration" method="post" role="form"
+                            <form id="register-form" action="<c:url value="/registration"/>" method="post" role="form"
                                   style="display: none;">
                                 <div class="form-group">
                                     <input type="text" name="name" id="username" tabindex="1" class="form-control"
@@ -214,6 +217,12 @@
                                 <div class="form-group">
                                     <input type="password" name="confirm-password" id="confirm-password" tabindex="2"
                                            class="form-control" placeholder="Confirm Password">
+                                </div>
+                                <div class="form-group">
+                                    <c:forEach var="r" items="${requestScope.roles}">
+                                        <input type="checkbox" multiple name="roles" tabindex="2"
+                                               class="form-control" placeholder="${r.name.toLoverCase()}">
+                                    </c:forEach>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">

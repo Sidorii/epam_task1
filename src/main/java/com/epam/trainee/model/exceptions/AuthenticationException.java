@@ -10,7 +10,11 @@ public class AuthenticationException extends RuntimeException {
         this.user = user;
     }
 
-    public AuthenticationException(User user,String message) {
+    public AuthenticationException(String message) {
+        super(message);
+    }
+
+    public AuthenticationException(User user, String message) {
         super(message);
         this.user = user;
     }

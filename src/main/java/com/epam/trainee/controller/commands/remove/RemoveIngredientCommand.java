@@ -1,5 +1,6 @@
-package com.epam.trainee.controller.commands;
+package com.epam.trainee.controller.commands.remove;
 
+import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.service.IngredientService;
 import com.epam.trainee.controller.utils.WebUrl;
 import com.epam.trainee.service.ServiceFactory;
