@@ -61,7 +61,11 @@ public class UserServiceImplTest {
     @Test(expected = AuthenticationException.class)
     public void testRegisterUserWithoutRoles() {
         user.removeRole(role);
+        expect(userDao.contains(user))
+        .andReturn(false);
+        replay(userDao);
         userService.registerUser(user);
+        verify(userDao);
     }
 
     @Test
