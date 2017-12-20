@@ -29,7 +29,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testRegisterUser() {
+    public void testRegisterUser() throws AuthenticationException {
         User storedUser = new User(user.getName(), user.getEmail(), user.getPassword());
         storedUser.setId(1);
 
@@ -45,7 +45,7 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = AuthenticationException.class)
-    public void testRegisterUserThatExits() {
+    public void testRegisterUserThatExits() throws AuthenticationException {
         expect(userDao.contains(user))
                 .andReturn(true);
         replay(userDao);
@@ -54,12 +54,12 @@ public class UserServiceImplTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testRegisterNullUser() {
+    public void testRegisterNullUser() throws AuthenticationException {
         userService.registerUser(null);
     }
 
     @Test(expected = AuthenticationException.class)
-    public void testRegisterUserWithoutRoles() {
+    public void testRegisterUserWithoutRoles() throws AuthenticationException {
         user.removeRole(role);
         expect(userDao.contains(user))
         .andReturn(false);

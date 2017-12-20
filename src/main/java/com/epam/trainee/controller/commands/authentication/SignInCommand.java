@@ -6,6 +6,7 @@ import com.epam.trainee.controller.utils.validators.SignInValidator;
 import com.epam.trainee.model.entities.Role;
 import com.epam.trainee.model.entities.User;
 import com.epam.trainee.model.exceptions.AuthenticationException;
+import com.epam.trainee.model.exceptions.MissingEntityException;
 import com.epam.trainee.service.ServiceFactory;
 import com.epam.trainee.view.Page;
 import com.epam.trainee.view.View;
@@ -37,9 +38,8 @@ public class SignInCommand implements Command {
 
         try {
             if (invalid.isEmpty()) {
-                User user = registerUser(req)
-                        .orElseThrow(() ->
-                                new AuthenticationException("Authentication failed. Invalid email or password"));
+                User user = tryLogin(req);
+
                 req.getSession().setAttribute(AUTHENTICATION, user);
                 System.out.println(user + " successful authenticated");
                 return Page.HOME;
@@ -55,9 +55,16 @@ public class SignInCommand implements Command {
         }
     }
 
-    private Optional<User> registerUser(HttpServletRequest req) {
+    private User tryLogin(HttpServletRequest req) throws AuthenticationException {
         String email = req.getParameter(EMAIL);
-        User user = ServiceFactory.getInstance().getUserService().findUserByEmail(email);
-        return Optional.ofNullable(user.getPassword().equals(req.getParameter(PASSWORD)) ? user : null);
+        try {
+            User user = ServiceFactory.getInstance().getUserService().findUserByEmail(email);
+            if(user.getPassword().equals(req.getParameter(PASSWORD))) {
+                return user;
+            }
+        } catch (MissingEntityException e) {
+            System.out.println("User with email: " + email + " not found");
+        }
+        throw new AuthenticationException("Authentication failed. Invalid email or password");
     }
 }

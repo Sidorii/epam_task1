@@ -14,8 +14,6 @@ public class HomeCommand implements Command {
 
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("MessageBundle");
-        req.setAttribute("bundle", resourceBundle);
         return Page.HOME;
     }
 }

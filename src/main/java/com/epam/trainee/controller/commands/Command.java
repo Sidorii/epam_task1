@@ -14,15 +14,15 @@ public interface Command {
             case "POST":
                 return executePost(req, resp);
             default:
-                throw new IllegalStateException("Unsupported method");
+                throw new UnsupportedOperationException("Unsupported method");
         }
     }
 
     default View executeGet(HttpServletRequest req, HttpServletResponse resp){
-        throw new IllegalStateException("Unsupported method");
+        throw new UnsupportedOperationException("Unsupported method");
     }
 
     default View executePost(HttpServletRequest req, HttpServletResponse resp) {
-        throw new IllegalStateException("Unsupported method");
+        throw new UnsupportedOperationException("Unsupported method");
     }
 }

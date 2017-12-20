@@ -31,7 +31,6 @@ public class Authenticator {
         if (hasAccess(session)) {
             chain.doFilter(req, resp);
         } else {
-            req.setAttribute("bundle", ResourceBundle.getBundle("MessageBundle"));
             req.setAttribute("status", "Permission denied. Role " + ROLE + " required");
             req.getRequestDispatcher(Page.LOGIN.getView()).forward(req,resp);
         }
@@ -41,9 +40,11 @@ public class Authenticator {
         if (Objects.isNull(session)) {
             return false;
         }
-
-        @SuppressWarnings("unchecked")
-        Set<Role> actualRole = ((User) session.getAttribute(AUTHENTICATION)).getRoles();
+        Object roles = session.getAttribute(AUTHENTICATION);
+        if (roles == null) {
+            return false;
+        }
+        Set<Role> actualRole = ((User) roles).getRoles();
         return actualRole != null && actualRole.contains(ROLE);
     }
 }

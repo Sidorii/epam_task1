@@ -43,7 +43,7 @@ public class SignUpCommand implements Command {
         }
     }
 
-    private View process(HttpServletRequest req){
+    private View process(HttpServletRequest req) throws AuthenticationException {
         Set<String> invalidParams = new SignUpValidator(req).validate();
 
         if (invalidParams.isEmpty()) {
@@ -57,7 +57,7 @@ public class SignUpCommand implements Command {
         }
     }
 
-    private void processRegistration(HttpServletRequest req) {
+    private void processRegistration(HttpServletRequest req) throws AuthenticationException {
         User user = new User(
                 req.getParameter(NAME),
                 req.getParameter(EMAIL),

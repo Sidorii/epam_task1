@@ -37,7 +37,7 @@ public class FrontController extends HttpServlet {
         } catch (MissingEntityException e) {
             e.printStackTrace();
             view = processErrorPage(req, e);
-        } catch (IllegalArgumentException | IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException | UnsupportedOperationException e) {
             e.printStackTrace();
             view = Page.NOT_FOUND;
         } catch (DuplicatedEntryException e) {

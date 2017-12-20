@@ -22,7 +22,7 @@ public class JDBCUserDao extends JDBCDao implements UserDao {
 
     //TODO: check duplicated email
     @Override
-    public User createUser(User u) {
+    public User createUser(User u){
         final String query = "" +
                 " INSERT INTO task1.users (name, email, password)" +
                 " VALUES (?,?,?)";
@@ -39,7 +39,7 @@ public class JDBCUserDao extends JDBCDao implements UserDao {
             return u;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new AuthenticationException(u, "New user registration failed");
+            throw new MissingEntityException(u, "New user registration failed");
         }
     }
 

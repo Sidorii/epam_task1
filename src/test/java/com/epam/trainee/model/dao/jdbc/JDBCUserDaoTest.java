@@ -2,6 +2,7 @@ package com.epam.trainee.model.dao.jdbc;
 
 import com.epam.trainee.model.entities.Role;
 import com.epam.trainee.model.entities.User;
+import com.epam.trainee.model.exceptions.AuthenticationException;
 import com.epam.trainee.model.exceptions.MissingEntityException;
 import org.h2.tools.RunScript;
 import org.junit.After;
@@ -45,14 +46,14 @@ public class JDBCUserDaoTest {
     }
 
     @Test
-    public void testCreateUser() {
+    public void testCreateUser() throws AuthenticationException {
         User res = userDao.createUser(user);
         assertEquals(user, res);
         assertNotNull(res.getId());
     }
 
     @Test
-    public void testGetUserByEmail() {
+    public void testGetUserByEmail() throws AuthenticationException {
         userDao.createUser(user);
         User result = userDao.getUserByEmail(user.getEmail());
         assertEquals(user, result);
@@ -64,7 +65,7 @@ public class JDBCUserDaoTest {
     }
 
     @Test
-    public void testContains() {
+    public void testContains() throws AuthenticationException {
         user.setId(1);
         assertFalse(userDao.contains(user));
         userDao.createUser(user);

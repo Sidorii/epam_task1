@@ -2,7 +2,7 @@ package com.epam.trainee.model.exceptions;
 
 import com.epam.trainee.model.entities.User;
 
-public class AuthenticationException extends RuntimeException {
+public class AuthenticationException extends Exception {
 
     private User user;
 
