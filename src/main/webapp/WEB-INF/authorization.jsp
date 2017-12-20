@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -120,6 +121,7 @@
             background-color: #1CA347;
             border-color: #1CA347;
         }
+
         ul.dropper li a {
             color: #0275d8;
             text-decoration: none;
@@ -148,46 +150,54 @@
 </head>
 <body>
 <div class="container">
-    <div class=" row page-header">
-        <div class="col-sm-3">
-            <h1>${requestScope.bundle.getString("home.chef")}</h1>
+    <fmt:bundle basename="MessageBundle" prefix="header.">
+        <div class=" row page-header">
+            <div class="col-sm-3">
+                <h1><fmt:message key="chef"/></h1>
+            </div>
+            <div class="col-sm-9">
+                <ol class="breadcrumb" style="margin-top: 25px">
+                    <li><a href="<c:url value="/"/>"><fmt:message key="home"/></a></li>
+                    <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
+                    <li>
+                        <a href="<c:url value="/ingredients"/>"><fmt:message key="ingredients"/></a>
+                    </li>
+                    <li>
+                        <a href="<c:url value="/create/ingredient"/>"><fmt:message key="ingredient"/></a>
+                    </li>
+                    <li><a href="<c:url value="/create/salad"/>"><fmt:message key="recipe"/></a>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                                class="glyphicon glyphicon-menu-hamburger"></span></a>
+                        <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.auth}">
+                                    <li style="text-align: center"><fmt:message key="you"/>, <b>${sessionScope.auth.name}</b>!</li>
+                                    <li class="divider"></li>
+                                    <li style="text-align: center"><a href="<c:url value="/logout"/>"><fmt:message
+                                            key="logout"/></a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li style="text-align: center"><a href="<c:url value="/login"/>"><fmt:message
+                                            key="login"/></a></li>
+                                    <li style="text-align: center"><a href="<c:url value="/registration"/>"><fmt:message
+                                            key="signup"/></a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <li class="divider"></li>
+                            <li style="text-align: center"><b><fmt:message key="lang.caption"/></b></li>
+                            <li class="divider"></li>
+                            <li style="text-align: center"><a href="/locale?land=en_EN">English</a></li>
+                            <li style="text-align: center"><a href="/locale?land=ru_UA">Українська</a></li>
+                            <li style="text-align: center"><a href="/locale?land=ru_RU">Русский</a></li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
         </div>
-        <div class="col-sm-9">
-            <ol class="breadcrumb" style="margin-top: 25px">
-                <li><a href="<c:url value="/"/>">${requestScope.bundle.getString("header.home")}</a></li>
-                <li><a href="<c:url value="/salads"/>">${requestScope.bundle.getString("header.order")}</a></li>
-                <li><a href="<c:url value="/ingredients"/>">${requestScope.bundle.getString("header.ingredients")}</a>
-                </li>
-                <li>
-                    <a href="<c:url value="/create/ingredient"/>">${requestScope.bundle.getString("header.ingredient")}</a>
-                </li>
-                <li><a href="<c:url value="/create/salad"/>">${requestScope.bundle.getString("header.recipe")}</a></li>
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                            class="glyphicon glyphicon-menu-hamburger"></span></a>
-                    <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
-                        <c:choose>
-                            <c:when test="${not empty sessionScope.auth}">
-                                <li style="text-align: center">You, <b>${sessionScope.auth.name}</b>!</li>
-                                <li class="divider"></li>
-                                <li style="text-align: center"><a href="<c:url value="/logout"/>">Logout</a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li style="text-align: center"><a href="<c:url value="/login"/>">Login</a></li>
-                                <li style="text-align: center"><a href="<c:url value="/registration"/>">Registration</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                        <li class="divider"></li>
-                        <li style="text-align: center"><b>Select language</b></li>
-                        <li class="divider"></li>
-                        <li style="text-align: center"><a href="/locale?land=en_EN">English</a></li>
-                        <li style="text-align: center"><a href="/locale?land=ru_UA">Ukrainian</a></li>
-                        <li style="text-align: center"><a href="/locale?land=ru_RU">Russian</a></li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </div>
+    </fmt:bundle>
     <div style="color: red;text-align: center">
         <h4>
             <c:if test="${not empty requestScope.invalid}">
@@ -195,92 +205,96 @@
             </c:if>
         </h4>
     </div>
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-login">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <a href="#" class="active" id="login-form-link">Login</a>
+    <fmt:bundle basename="MessageBundle" prefix="header.">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#" class="active" id="login-form-link"><fmt:message key="login"/></a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#" id="register-form-link"><fmt:message key="registration"/></a>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <a href="#" id="register-form-link">Register</a>
-                        </div>
+                        <hr>
                     </div>
-                    <hr>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form id="login-form" action="<c:url value="/login"/>" method="post" role="form"
-                                  style="display: block;">
-                                <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                           placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2"
-                                           class="form-control" placeholder="Password">
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4"
-                                                   class="form-control btn btn-login" value="Log In">
-                                        </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form id="login-form" action="<c:url value="/login"/>" method="post" role="form"
+                                      style="display: block;">
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                               placeholder="Email Address" value="">
                                     </div>
-                                </div>
-                            </form>
-                            <form id="register-form" action="<c:url value="/registration"/>" method="post" role="form"
-                                  style="display: none;">
-                                <div class="form-group">
-                                    <input type="text" name="name" id="username" tabindex="1" class="form-control"
-                                           placeholder="Username" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                           placeholder="Email Address" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password" tabindex="2"
-                                           class="form-control" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2"
-                                           class="form-control" placeholder="Confirm Password">
-                                </div>
-                                <div class="form-group">
-                                    <div class="checkbox" style=" text-align: center;">
-                                        <c:forEach var="r" items="${requestScope.roles}">
-                                            <div class="dlk-radio btn-group" style="margin: 0 auto;">
-                                                <label class="btn btn-success">
-                                                    <input name="roles" class="form-control" type="checkbox"
-                                                           value="${r.name()}">
-                                                    <i class="fa fa-check glyphicon glyphicon-ok"></i>
-                                                        ${r.name()}
-                                                </label>
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                                                       class="form-control btn btn-login" value="<fmt:message key="login"/>">
                                             </div>
-                                        </c:forEach>
-                                    </div>
-
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="register-submit" id="register-submit"
-                                                   tabindex="4" class="form-control btn btn-register"
-                                                   value="Register Now">
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                                <form id="register-form" action="<c:url value="/registration"/>" method="post"
+                                      role="form"
+                                      style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" name="name" id="username" tabindex="1" class="form-control"
+                                               placeholder="Username" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                               placeholder="Email Address" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="confirm-password" id="confirm-password"
+                                               tabindex="2"
+                                               class="form-control" placeholder="Confirm Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="checkbox" style=" text-align: center;">
+                                            <c:forEach var="r" items="${requestScope.roles}">
+                                                <div class="dlk-radio btn-group" style="margin: 0 auto;">
+                                                    <label class="btn btn-success">
+                                                        <input name="roles" class="form-control" type="checkbox"
+                                                               value="${r.name()}">
+                                                        <i class="fa fa-check glyphicon glyphicon-ok"></i>
+                                                            ${r.name()}
+                                                    </label>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit"
+                                                       tabindex="4" class="form-control btn btn-register"
+                                                       value="<fmt:message key="signup"/>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </fmt:bundle>
 </div>
 </body>
 </html>

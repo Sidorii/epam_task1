@@ -31,8 +31,6 @@ public class FrontController extends HttpServlet {
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         View view;
 
-        req.setAttribute("bundle", ResourceBundle.getBundle("MessageBundle"));
-
         try {
             Command command = CommandResolver.getInstance().resolveCommand(req);
             view = command.execute(req, resp);
