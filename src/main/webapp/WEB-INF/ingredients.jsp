@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
 <html>
 <head>
     <title>Available Ingredients</title>
@@ -98,16 +99,19 @@
             Fresh: <b>${ingredient.fresh}</b>
             Type: <b>${ingredient.type.name().toLowerCase()}</b>
             <h6>${ingredient.description}</h6>
-            <div class="row">
-                <div class="col-sm-11">
+            <ex:hasRole role="STOREKEEPER">
+                <div class="row">
+                    <div class="col-sm-11">
+                    </div>
+                    <div class="col-sm-1">
+                        <form action="<c:url value="/storekeeper/remove/ingredient"/>" method="post">
+                            <input hidden name="id" value="${ingredient.id}">
+                            <input type="submit" style="background-color: lightpink" class="btn btn-danger"
+                                   value="Delete">
+                        </form>
+                    </div>
                 </div>
-                <div class="col-sm-1">
-                    <form action="/remove/ingredient" method="post">
-                        <input hidden name="id" value="${ingredient.id}">
-                        <input type="submit" style="background-color: lightpink" class="btn btn-danger" value="Delete">
-                    </form>
-                </div>
-            </div>
+            </ex:hasRole>
         </div>
     </c:forEach>
 </div>
