@@ -10,7 +10,7 @@ import com.epam.trainee.view.View;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebUrl("/remove/ingredient")
+@WebUrl("storekeeper/remove/ingredient")
 public class RemoveIngredientCommand implements Command {
 
     @Override

@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@WebUrl("/create/salad")
+@WebUrl("chef/create/salad")
 public class CreateSaladCommand implements Command {
 
     private IngredientService ingredientService;

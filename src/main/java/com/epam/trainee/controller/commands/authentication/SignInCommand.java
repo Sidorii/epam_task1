@@ -13,6 +13,7 @@ import com.epam.trainee.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.util.Optional;
 import java.util.Set;
@@ -39,8 +40,9 @@ public class SignInCommand implements Command {
         try {
             if (invalid.isEmpty()) {
                 User user = tryLogin(req);
-
-                req.getSession().setAttribute(AUTHENTICATION, user);
+                HttpSession session = req.getSession();
+                session.removeAttribute(AUTHENTICATION);
+                session.setAttribute(AUTHENTICATION, user);
                 System.out.println(user + " successful authenticated");
                 return Page.HOME;
             } else {

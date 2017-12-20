@@ -53,25 +53,42 @@
     </fmt:bundle>
     <fmt:bundle basename="MessageBundle" prefix="header.">
         <div class="col-sm-offset-2 col-sm-9">
-            <ol class="breadcrumb" style="margin-top: 25px; padding-left: 10px;">
+            <ol class="breadcrumb" style="margin-top: 25px; text-align: center;">
                 <li class="active"><fmt:message key="home"/></li>
-                <li><a href="/salads"><fmt:message key="order"/></a></li>
-                <li><a href="/ingredients"><fmt:message key="ingredients"/></a></li>
-                <li><a href="/create/ingredient"><fmt:message key="ingredient"/></a></li>
-                <li><a href="/create/salad"><fmt:message key="recipe"/></a></li>
+                <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
+                <li>
+                    <a href="<c:url value="/ingredients"/>"><fmt:message key="ingredients"/></a>
+                </li>
+                <c:if test="${not empty sessionScope.auth}">
+                    <li>
+                        <a href="<c:url value="/storekeeper/create/ingredient"/>"><fmt:message
+                                key="ingredient"/></a>
+                    </li>
+                    <li><a href="<c:url value="/chef/create/salad"/>"><fmt:message key="recipe"/></a>
+                    </li>
+                </c:if>
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                             class="glyphicon glyphicon-menu-hamburger"></span></a>
                     <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
+
                         <c:choose>
                             <c:when test="${not empty sessionScope.auth}">
-                                <li style="text-align: center"><fmt:message key="you"/>, <b>${sessionScope.auth.name}</b>!</li>
+                                <li style="text-align: center"><fmt:message key="you"/>,
+                                    <b>${sessionScope.auth.name}</b>!
+                                </li>
                                 <li class="divider"></li>
-                                <li style="text-align: center"><a href="<c:url value="/logout"/>"><fmt:message key="logout"/></a></li>
+                                <li style="text-align: center"><a
+                                        href="<c:url value="/logout"/>"><fmt:message
+                                        key="logout"/></a></li>
                             </c:when>
                             <c:otherwise>
-                                <li style="text-align: center"><a href="<c:url value="/login"/>"><fmt:message key="login"/></a></li>
-                                <li style="text-align: center"><a href="<c:url value="/registration"/>"><fmt:message key="signup"/></a>
+                                <li style="text-align: center"><a
+                                        href="<c:url value="/login"/>"><fmt:message
+                                        key="login"/></a></li>
+                                <li style="text-align: center"><a
+                                        href="<c:url value="/registration"/>"><fmt:message
+                                        key="signup"/></a>
                                 </li>
                             </c:otherwise>
                         </c:choose>

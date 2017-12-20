@@ -4,7 +4,7 @@ import com.epam.trainee.model.dao.jdbc.JdbcRoleDao;
 
 public enum Role {
 
-    ADMIN, CHEF, UNKNOWN;
+    STOREKEEPER, CHEF, UNKNOWN;
 
     static {
         JdbcRoleDao dao = JdbcRoleDao.getInstance();

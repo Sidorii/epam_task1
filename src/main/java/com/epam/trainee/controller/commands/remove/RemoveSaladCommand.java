@@ -9,7 +9,7 @@ import com.epam.trainee.view.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-@WebUrl("/remove/salad")
+@WebUrl("chef/remove/salad")
 public class RemoveSaladCommand implements Command {
 
     @Override

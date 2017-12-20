@@ -41,7 +41,7 @@ public class JDBCUserDaoTest {
         connection = userDao.getConnection();
         user = new User("name", "email", "password");
         roles = new HashSet<>();
-        roles.add(Role.ADMIN);
+        roles.add(Role.STOREKEEPER);
         user.setRoles(roles);
     }
 

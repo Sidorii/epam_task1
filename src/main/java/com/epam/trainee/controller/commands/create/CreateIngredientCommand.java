@@ -13,7 +13,7 @@ import com.epam.trainee.view.View;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebUrl("/create/ingredient")
+@WebUrl("storekeeper/create/ingredient")
 public class CreateIngredientCommand implements Command {
 
     @Override

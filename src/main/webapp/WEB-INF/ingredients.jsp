@@ -22,6 +22,7 @@
                 padding-bottom: 1px;
             }
         }
+
         ul.dropper li a {
             color: #0275d8;
             text-decoration: none;
@@ -36,30 +37,41 @@
                 <h1><fmt:message key="chef"/></h1>
             </div>
             <div class="col-sm-9">
-                <ol class="breadcrumb" style="margin-top: 25px">
+                <ol class="breadcrumb" style="margin-top: 25px; float: right">
                     <li><a href="<c:url value="/"/>"><fmt:message key="home"/></a></li>
                     <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
-                    <li class="active"><fmt:message key="ingredients"/></li>
-                    <li>
-                        <a href="<c:url value="/create/ingredient"/>"><fmt:message key="ingredient"/></a>
+                    <li class="active">
+                        <fmt:message key="ingredients"/>
                     </li>
-                    <li><a href="<c:url value="/create/salad"/>"><fmt:message key="recipe"/></a>
-                    </li>
+                    <c:if test="${not empty sessionScope.auth}">
+                        <li>
+                            <a href="<c:url value="/storekeeper/create/ingredient"/>"><fmt:message
+                                    key="ingredient"/></a>
+                        </li>
+                        <li><a href="<c:url value="/chef/create/salad"/>"><fmt:message key="recipe"/></a>
+                        </li>
+                    </c:if>
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                                 class="glyphicon glyphicon-menu-hamburger"></span></a>
                         <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
+
                             <c:choose>
                                 <c:when test="${not empty sessionScope.auth}">
-                                    <li style="text-align: center"><fmt:message key="you"/>, <b>${sessionScope.auth.name}</b>!</li>
+                                    <li style="text-align: center"><fmt:message key="you"/>,
+                                        <b>${sessionScope.auth.name}</b>!
+                                    </li>
                                     <li class="divider"></li>
-                                    <li style="text-align: center"><a href="<c:url value="/logout"/>"><fmt:message
+                                    <li style="text-align: center"><a
+                                            href="<c:url value="/logout"/>"><fmt:message
                                             key="logout"/></a></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li style="text-align: center"><a href="<c:url value="/login"/>"><fmt:message
+                                    <li style="text-align: center"><a
+                                            href="<c:url value="/login"/>"><fmt:message
                                             key="login"/></a></li>
-                                    <li style="text-align: center"><a href="<c:url value="/registration"/>"><fmt:message
+                                    <li style="text-align: center"><a
+                                            href="<c:url value="/registration"/>"><fmt:message
                                             key="signup"/></a>
                                     </li>
                                 </c:otherwise>
