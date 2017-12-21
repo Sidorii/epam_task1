@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container">
-    <jsp:include page="statelessHeader.jsp"/>
+    <jsp:include page="elements/statelessHeader.jsp"/>
     <div style="color: red;text-align: center">
         <h4>
             <c:if test="${not empty requestScope.invalid}">

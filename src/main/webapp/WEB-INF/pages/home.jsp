@@ -10,34 +10,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 970px;
-            }
-        }
-
-        .dlk-radio input[type="radio"],
-        .dlk-radio input[type="checkbox"] {
-            margin-left: -99999px;
-            display: none;
-        }
-
-        .dlk-radio input[type="radio"] + .fa,
-        .dlk-radio input[type="checkbox"] + .fa {
-            opacity: 0.15
-        }
-
-        .dlk-radio input[type="radio"]:checked + .fa,
-        .dlk-radio input[type="checkbox"]:checked + .fa {
-            opacity: 1
-        }
-
-        ul.dropper li a {
-            color: #0275d8;
-            text-decoration: none;
-        }
-    </style>
+    <link rel="stylesheet" href="/resources/style.css">
 </head>
 <body>
 <div class="container">
@@ -48,14 +21,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-offset-3">
+            <div class="col" style="text-align: center">
                 <h1><fmt:message key="welcome"/></h1>
             </div>
         </div>
     </fmt:bundle>
     <fmt:bundle basename="MessageBundle" prefix="header.">
-        <div class="col-sm-offset-2 col-sm-9">
-            <ol class="breadcrumb" style="margin-top: 25px; text-align: center;">
+        <div class="col-sm-offset-1 col-sm-10">
+            <ol class="breadcrumb" style="margin-top: 25px;position: relative; text-align: center;">
                 <li class="active"><fmt:message key="home"/></li>
                 <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
                 <li>
@@ -69,39 +42,7 @@
                     <li><a href="<c:url value="/chef/create/salad"/>"><fmt:message key="recipe"/></a>
                     </li>
                 </c:if>
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                            class="glyphicon glyphicon-menu-hamburger"></span></a>
-                    <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">
-
-                        <c:choose>
-                            <c:when test="${not empty sessionScope.auth}">
-                                <li style="text-align: center"><fmt:message key="you"/>,
-                                    <b>${sessionScope.auth.name}</b>!
-                                </li>
-                                <li class="divider"></li>
-                                <li style="text-align: center"><a
-                                        href="<c:url value="/logout"/>"><fmt:message
-                                        key="logout"/></a></li>
-                            </c:when>
-                            <c:otherwise>
-                                <li style="text-align: center"><a
-                                        href="<c:url value="/login"/>"><fmt:message
-                                        key="login"/></a></li>
-                                <li style="text-align: center"><a
-                                        href="<c:url value="/registration"/>"><fmt:message
-                                        key="signup"/></a>
-                                </li>
-                            </c:otherwise>
-                        </c:choose>
-                        <li class="divider"></li>
-                        <li style="text-align: center"><b><fmt:message key="lang.caption"/></b></li>
-                        <li class="divider"></li>
-                        <li style="text-align: center"><a href="/locale?land=en_EN">English</a></li>
-                        <li style="text-align: center"><a href="/locale?land=ru_UA">Українська</a></li>
-                        <li style="text-align: center"><a href="/locale?land=ru_RU">Русский</a></li>
-                    </ul>
-                </li>
+                <jsp:include page="elements/dropdownHeader.jsp"/>
             </ol>
         </div>
     </fmt:bundle>

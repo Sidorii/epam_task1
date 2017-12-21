@@ -10,29 +10,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 970px;
-            }
-        }
+    <link rel="stylesheet" href="/resources/style.css" type="text/css">
 
-        @media (min-width: 1200px) {
-            .jumbotron {
-                padding-top: 1px;
-                margin-top: 10px;
-                padding-bottom: 1px;
-            }
-        }
-        ul.dropper li a {
-            color: #0275d8;
-            text-decoration: none;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
-    <jsp:include page="statelessHeader.jsp"/>
+    <jsp:include page="elements/statelessHeader.jsp"/>
     <div class="jumbotron">
         <h2>${requestScope.ingredient.name}</h2>
         Weight: <b>${requestScope.ingredient.weight}</b>
