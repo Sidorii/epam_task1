@@ -1,10 +1,12 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
+<c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}" />
+<fmt:setLocale value="${language}"/>
 <html>
 <head>
-    <title>Salads</title>
+    <title>Available Ingredients</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -23,6 +25,7 @@
                 padding-bottom: 1px;
             }
         }
+
         ul.dropper li a {
             color: #0275d8;
             text-decoration: none;
@@ -39,9 +42,9 @@
             <div class="col-sm-9">
                 <ol class="breadcrumb" style="margin-top: 25px; float: right">
                     <li><a href="<c:url value="/"/>"><fmt:message key="home"/></a></li>
-                    <li class="active"><fmt:message key="order"/></li>
-                    <li>
-                        <a href="<c:url value="/ingredients"/>"><fmt:message key="ingredients"/></a>
+                    <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
+                    <li class="active">
+                        <fmt:message key="ingredients"/>
                     </li>
                     <c:if test="${not empty sessionScope.auth}">
                         <li>
@@ -88,43 +91,29 @@
             </div>
         </div>
     </fmt:bundle>
-    <div class="row">
-        <div class="col-sm-6">
-            <h1>Salads to order:</h1>
-        </div>
-        <div class="col-sm-6">
-            <h2><a href="/order/custom/salad">Make custom salad for yourself</a></h2>
-        </div>
-    </div>
-    <c:forEach items="${requestScope.dishes}" var="dish">
-        <c:url var="salad" value="/salad?name=${dish.name}"/>
+    <h1>Available ingredients :</h1>
+    <c:forEach var="ingredient" items="${requestScope.ingredients}">
         <div class="jumbotron">
-            <h1><a href="${salad}">${dish.name}</a></h1>
-            Weight: <b>${dish.weight}</b>
-            Price:<b> ${dish.price}</b>
-            Calories: <b>${dish.calories}</b>
-            Is vegan: <b>${dish.isVegan()}</b>
-            <h6>${dish.description}</h6>
-            <p>
-                <c:forEach items="${dish.ingredients}" var="ingredient">
-                    ${ingredient.name} / ${ingredient.weight} gr;
-                </c:forEach>
-            </p>
-            <div class="row">
-                <div class="col-sm-11">
-
+            <h2>${ingredient.name}</h2>
+            Weight: <b>${ingredient.weight}</b>
+            Calories: <b>${ingredient.calories}</b>
+            Price:<b> ${ingredient.price}</b>
+            Fresh: <b>${ingredient.fresh}</b>
+            Type: <b>${ingredient.type.name().toLowerCase()}</b>
+            <h6>${ingredient.description}</h6>
+            <ex:hasRole role="STOREKEEPER">
+                <div class="row">
+                    <div class="col-sm-11">
+                    </div>
+                    <div class="col-sm-1">
+                        <form action="<c:url value="/storekeeper/remove/ingredient"/>" method="post">
+                            <input hidden name="id" value="${ingredient.id}">
+                            <input type="submit" style="background-color: lightpink" class="btn btn-danger"
+                                   value="Delete">
+                        </form>
+                    </div>
                 </div>
-                <div class="col-sm-1">
-                    <form action="/order/salad" method="get">
-                        <input hidden name="name" value="${dish.name}">
-                        <input type="submit" class="btn btn-default" value="Order">
-                    </form>
-                    <form action="/remove/salad" method="post">
-                        <input hidden name="id" value="${dish.id}">
-                        <input type="submit" style="background-color: lightpink" class="btn btn-danger" value="Delete">
-                    </form>
-                </div>
-            </div>
+            </ex:hasRole>
         </div>
     </c:forEach>
 </div>

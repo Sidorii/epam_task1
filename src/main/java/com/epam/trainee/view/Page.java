@@ -14,7 +14,7 @@ public enum Page implements View {
     HOME("home"),
     LOGIN("authorization");
 
-    private static final String prefix = "/WEB-INF/";
+    private static final String prefix = "/WEB-INF/pages/";
     private static final String suffix = ".jsp";
 
     private String viewName;

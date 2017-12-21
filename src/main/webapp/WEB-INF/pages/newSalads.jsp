@@ -1,10 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="ex" uri="/WEB-INF/custom.tld" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}" />
+<fmt:setLocale value="${language}"/>
 <html>
 <head>
-    <title>Create Recipe</title>
+    <title>Salads</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -16,20 +18,12 @@
             }
         }
 
-        .dlk-radio input[type="radio"],
-        .dlk-radio input[type="checkbox"] {
-            margin-left: -99999px;
-            display: none;
-        }
-
-        .dlk-radio input[type="radio"] + .fa,
-        .dlk-radio input[type="checkbox"] + .fa {
-            opacity: 0.15
-        }
-
-        .dlk-radio input[type="radio"]:checked + .fa,
-        .dlk-radio input[type="checkbox"]:checked + .fa {
-            opacity: 1
+        @media (min-width: 1200px) {
+            .jumbotron {
+                padding-top: 1px;
+                margin-top: 10px;
+                padding-bottom: 1px;
+            }
         }
 
         ul.dropper li a {
@@ -48,7 +42,7 @@
             <div class="col-sm-9">
                 <ol class="breadcrumb" style="margin-top: 25px; float: right">
                     <li><a href="<c:url value="/"/>"><fmt:message key="home"/></a></li>
-                    <li><a href="<c:url value="/salads"/>"><fmt:message key="order"/></a></li>
+                    <li class="active"><fmt:message key="order"/></li>
                     <li>
                         <a href="<c:url value="/ingredients"/>"><fmt:message key="ingredients"/></a>
                     </li>
@@ -57,7 +51,7 @@
                             <a href="<c:url value="/storekeeper/create/ingredient"/>"><fmt:message
                                     key="ingredient"/></a>
                         </li>
-                        <li class="active"><fmt:message key="recipe"/>
+                        <li><a href="<c:url value="/chef/create/salad"/>"><fmt:message key="recipe"/></a>
                         </li>
                     </c:if>
                     <li>
@@ -97,41 +91,48 @@
             </div>
         </div>
     </fmt:bundle>
-    <c:if test="${not empty requestScope.exception}">
-        <div style="color: red">
-            <h4>${requestScope.exception}</h4>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Salads to order:</h1>
         </div>
-    </c:if>
-    <h2 class="col-sm-offset-4">${requestScope.title}</h2>
-    <form action="${requestScope.action}" class="form-horizontal" method="POST">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Name:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="Enter name" name="name">
-            </div>
+        <div class="col-sm-6">
+            <h2><a href="/order/custom/salad">Make custom salad for yourself</a></h2>
         </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <c:forEach items="${requestScope.ingredients}" var="ingredient">
-                    <div class="dlk-radio btn-group" style="margin-bottom: 10px; margin-right: 5px">
-                        <label class="btn btn-success">
-                            <input name="id" class="form-control" type="checkbox" value="${ingredient.id}">
-                            <i class="fa fa-check glyphicon glyphicon-ok"></i>
-                                ${ingredient.name}
-                        </label>
-                        <input class="form-control" style="max-width: 100px" type="number"
-                               name="${ingredient.id}_weight" min="1" value="50">
-                    </div>
+    </div>
+    <c:forEach items="${requestScope.dishes}" var="dish">
+        <c:url var="salad" value="/salad?name=${dish.name}"/>
+        <div class="jumbotron">
+            <h1><a href="${salad}">${dish.name}</a></h1>
+            Weight: <b>${dish.weight}</b>
+            Price:<b> ${dish.price}</b>
+            Calories: <b>${dish.calories}</b>
+            Is vegan: <b>${dish.isVegan()}</b>
+            <h6>${dish.description}</h6>
+            <p>
+                <c:forEach items="${dish.ingredients}" var="ingredient">
+                    ${ingredient.name} / ${ingredient.weight} gr;
                 </c:forEach>
-            </div>
-        </div>
+            </p>
+            <div class="row">
+                <div class="col-sm-11">
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Create</button>
+                </div>
+                <div class="col-sm-1">
+                    <form action="/order/salad" method="get">
+                        <input hidden name="name" value="${dish.name}">
+                        <input type="submit" class="btn btn-default" value="Order">
+                    </form>
+                    <ex:hasRole role="CHEF">
+                        <form action="<c:url value="/chef/remove/salad"/>" method="post">
+                            <input hidden name="id" value="${dish.id}">
+                            <input type="submit" style="background-color: lightpink" class="btn btn-danger"
+                                   value="Delete">
+                        </form>
+                    </ex:hasRole>
+                </div>
             </div>
         </div>
-    </form>
+    </c:forEach>
 </div>
 </body>
 </html>
