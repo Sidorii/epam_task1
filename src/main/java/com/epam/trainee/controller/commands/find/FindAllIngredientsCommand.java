@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
+import static com.epam.trainee.controller.utils.RequestAttributes.IngredientAttributes.INGREDIENTS;
+
 @WebUrl("/ingredients")
 public class FindAllIngredientsCommand implements Command {
 
@@ -18,7 +20,7 @@ public class FindAllIngredientsCommand implements Command {
     public Page executeGet(HttpServletRequest req, HttpServletResponse resp) {
         IngredientService ingredientService = ServiceFactory.getInstance().getIngredientService();
         Set<Ingredient> ingredients = ingredientService.getAllIngredients();
-        req.setAttribute("ingredients", ingredients);
+        req.setAttribute(INGREDIENTS, ingredients);
 
         return Page.ALL_INGREDIENTS;
     }

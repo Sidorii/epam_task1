@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.DISHES;
+
 @WebUrl("salads")
 public class FindAllSaladsCommand implements Command {
 
@@ -19,7 +21,7 @@ public class FindAllSaladsCommand implements Command {
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
         SaladService saladService = ServiceFactory.getInstance().getSaladService();
         Set<Salad> salads = saladService.getAllSalads();
-        req.setAttribute("dishes", salads);
+        req.setAttribute(DISHES, salads);
         return Page.ALL_SALADS;
     }
 }

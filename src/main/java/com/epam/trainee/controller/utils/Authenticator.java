@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import static com.epam.trainee.controller.utils.RequestAttributes.AUTHENTICATION;

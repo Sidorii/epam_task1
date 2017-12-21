@@ -10,15 +10,18 @@ import com.epam.trainee.model.entities.dishes.Salad;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.NAME;
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.SALAD;
+
 @WebUrl("salad")
 public class FindSaladCommand implements Command {
 
     @Override
     public Page executeGet(HttpServletRequest req, HttpServletResponse resp) {
         SaladService saladService = ServiceFactory.getInstance().getSaladService();
-        Salad salad = saladService.getSaladByName(req.getParameter("name"));
+        Salad salad = saladService.getSaladByName(req.getParameter(NAME));
         salad.setIngredients(saladService.sortIngredients(salad));
-        req.setAttribute("salad", salad);
+        req.setAttribute(SALAD, salad);
         return Page.SINGLE_SALAD;
     }
 }

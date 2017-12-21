@@ -16,15 +16,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.epam.trainee.controller.utils.RequestAttributes.*;
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.NAME;
+import static com.epam.trainee.controller.utils.RequestAttributes.IngredientAttributes.INGREDIENTS;
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.SALAD;
+
 @WebUrl("/order/custom/salad")
 public class OrderCustomSaladCommand implements Command {
 
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
         IngredientService service = ServiceFactory.getInstance().getIngredientService();
-        req.setAttribute("ingredients", service.getAllIngredients());
-        req.setAttribute("action", req.getServletPath());
-        req.setAttribute("title", "Create custom salad for yourself:");
+        req.setAttribute(INGREDIENTS, service.getAllIngredients());
+        req.setAttribute(ACTION, req.getServletPath());
+        req.setAttribute(TITLE, "custom.title");
         return Page.CREATE_SALAD;
     }
 
@@ -34,16 +39,16 @@ public class OrderCustomSaladCommand implements Command {
         IngredientService ingredientService = ServiceFactory.getInstance().getIngredientService();
 
         try {
-            Set<Integer> ingredientsId = convertToInteger(req.getParameterValues("id"));
+            Set<Integer> ingredientsId = convertToInteger(req.getParameterValues(ID));
             Set<Ingredient> saladIngredients = ingredientService.getIngredientsById(ingredientsId);
             processWeightFromRequest(saladIngredients, req);
-            String saladName = req.getParameter("name");
+            String saladName = req.getParameter(NAME);
             Salad salad = new Salad(saladName, saladIngredients);
             salad =  saladService.orderSalad(salad);
-            req.setAttribute("salad", salad);
+            req.setAttribute(SALAD, salad);
             return Page.SINGLE_SALAD;
         } catch (Exception e) {
-            req.setAttribute("exception", e.getMessage());
+            req.setAttribute(INVALID, e.getMessage());
             executeGet(req, resp);
             return Page.CREATE_SALAD;
         }

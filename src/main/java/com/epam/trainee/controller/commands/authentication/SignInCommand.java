@@ -2,6 +2,7 @@ package com.epam.trainee.controller.commands.authentication;
 
 import com.epam.trainee.controller.commands.Command;
 import com.epam.trainee.controller.utils.WebUrl;
+import com.epam.trainee.model.exceptions.ExceptionMessageAttributes;
 import com.epam.trainee.controller.utils.validators.SignInValidator;
 import com.epam.trainee.model.entities.Role;
 import com.epam.trainee.model.entities.User;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,12 +46,13 @@ public class SignInCommand implements Command {
                 System.out.println(user + " successful authenticated");
                 return Page.HOME;
             } else {
-                req.setAttribute("invalid", invalid.stream()
+                //TODO: fix it. Could check in jsp every field that invalid and take messages from Resources Bundle
+                req.setAttribute(INVALID, invalid.stream()
                         .collect(Collectors.joining("is invalid,", "", "is invalid")));
                 return Page.LOGIN;
             }
         } catch (AuthenticationException e) {
-            req.setAttribute("invalid", e.getMessage());
+            req.setAttribute(INVALID, e.getMessage());
             System.out.println("Authentication failed. user: " + e.getUser());
             return Page.LOGIN;
         }
@@ -67,6 +68,6 @@ public class SignInCommand implements Command {
         } catch (MissingEntityException e) {
             System.out.println("User with email: " + email + " not found");
         }
-        throw new AuthenticationException("Authentication failed. Invalid email or password");
+        throw new AuthenticationException(ExceptionMessageAttributes.AUTH_FAILED);
     }
 }

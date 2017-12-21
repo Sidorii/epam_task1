@@ -1,11 +1,11 @@
 package com.epam.trainee.controller.commands.create;
 
 import com.epam.trainee.controller.commands.Command;
+import com.epam.trainee.controller.utils.WebUrl;
 import com.epam.trainee.model.entities.Ingredient;
+import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.service.IngredientService;
 import com.epam.trainee.service.SaladService;
-import com.epam.trainee.controller.utils.WebUrl;
-import com.epam.trainee.model.entities.dishes.Salad;
 import com.epam.trainee.service.ServiceFactory;
 import com.epam.trainee.view.Page;
 import com.epam.trainee.view.View;
@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.epam.trainee.controller.utils.RequestAttributes.*;
+import static com.epam.trainee.controller.utils.RequestAttributes.SaladAttributes.SALAD;
 
 @WebUrl("chef/create/salad")
 public class CreateSaladCommand implements Command {
@@ -29,25 +32,25 @@ public class CreateSaladCommand implements Command {
 
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute("ingredients", ingredientService.getAllIngredients());
-        req.setAttribute("action", req.getServletPath());
-        req.setAttribute("title", "Create new salad recipe:");
+        req.setAttribute(IngredientAttributes.INGREDIENTS, ingredientService.getAllIngredients());
+        req.setAttribute(ACTION, req.getServletPath());
+        req.setAttribute(TITLE, "new.title");
         return Page.CREATE_SALAD;
     }
 
     @Override
     public View executePost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            Set<Integer> ingredientsId = convertToInteger(req.getParameterValues("id"));
+            Set<Integer> ingredientsId = convertToInteger(req.getParameterValues(ID));
             Set<Ingredient> saladIngredients = ingredientService.getIngredientsById(ingredientsId);
             processWeightFromRequest(saladIngredients, req);
-            String saladName = req.getParameter("name");
+            String saladName = req.getParameter(SaladAttributes.NAME);
             saladService.createSaladRecipe(saladName, saladIngredients);
             Salad salad = saladService.getSaladByName(saladName);
-            req.setAttribute("salad", salad);
+            req.setAttribute(SALAD, salad);
             return Page.SINGLE_SALAD;
         } catch (Exception e) {
-            req.setAttribute("exception", e.getMessage());
+            req.setAttribute(INVALID, e.getMessage());
             executeGet(req, resp);
             return Page.CREATE_SALAD;
         }

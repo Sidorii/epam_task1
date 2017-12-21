@@ -9,6 +9,8 @@ import com.epam.trainee.service.UserService;
 
 import java.util.Objects;
 
+import static com.epam.trainee.model.exceptions.ExceptionMessageAttributes.*;
+
 public class UserServiceImpl implements UserService {
 
     private static final UserServiceImpl INSTANCE = new UserServiceImpl();
@@ -36,19 +38,19 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.createUser(user);
         } catch (MissingEntityException e) {
-            throw new AuthenticationException((User) e.getEntity(), "Registration failed");
+            throw new AuthenticationException((User) e.getEntity(), REGISTRATION_FAILED);
         }
     }
 
     private void throwIfUserExists(User user) throws AuthenticationException {
         if (userDao.contains(user)) {
-            throw new AuthenticationException(user, "User already exists");
+            throw new AuthenticationException(user, DUPLICATED_USER);
         }
     }
 
     private void checkUserRoles(User user) throws AuthenticationException {
         if (user.getRoles() == null || user.getRoles().size() == 0) {
-            throw new AuthenticationException(user, "User must have at least one role");
+            throw new AuthenticationException(user, NO_ROLE);
         }
     }
 

@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix = "ex" uri = "/WEB-INF/custom.tld"%>
-<c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}" />
+<%@ taglib prefix="ex" uri="/WEB-INF/custom.tld" %>
+<c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}"/>
 <fmt:setLocale value="${language}"/>
 <html>
 <head>
@@ -41,31 +41,33 @@
             </div>
         </div>
     </fmt:bundle>
-    <h1>Available ingredients :</h1>
-    <c:forEach var="ingredient" items="${requestScope.ingredients}">
-        <div class="jumbotron">
-            <h2>${ingredient.name}</h2>
-            Weight: <b>${ingredient.weight}</b>
-            Calories: <b>${ingredient.calories}</b>
-            Price:<b> ${ingredient.price}</b>
-            Fresh: <b>${ingredient.fresh}</b>
-            Type: <b>${ingredient.type.name().toLowerCase()}</b>
-            <h6>${ingredient.description}</h6>
-            <ex:hasRole role="STOREKEEPER">
-                <div class="row">
-                    <div class="col-sm-11">
+    <fmt:bundle basename="MessageBundle" prefix="ingredient.">
+        <h1><fmt:message key="title"/> :</h1>
+        <c:forEach var="ingredient" items="${requestScope.ingredients}">
+            <div class="jumbotron">
+                <h2>${ingredient.name}</h2>
+                <fmt:message key="name"/>: <b>${ingredient.weight}</b>
+                <fmt:message key="calories"/>: <b>${ingredient.calories}</b>
+                <fmt:message key="price"/>:<b> ${ingredient.price}</b>
+                <fmt:message key="fresh"/>: <b>${ingredient.fresh}</b>
+                <fmt:message key="type"/>: <b>${ingredient.type.name().toLowerCase()}</b>
+                <h6>${ingredient.description}</h6>
+                <ex:hasRole role="STOREKEEPER">
+                    <div class="row">
+                        <div class="col-sm-11">
+                        </div>
+                        <div class="col-sm-1">
+                            <form action="<c:url value="/storekeeper/remove/ingredient"/>" method="post">
+                                <input hidden name="id" value="${ingredient.id}">
+                                <input type="submit" style="background-color: lightpink" class="btn btn-danger"
+                                       value="Delete">
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-sm-1">
-                        <form action="<c:url value="/storekeeper/remove/ingredient"/>" method="post">
-                            <input hidden name="id" value="${ingredient.id}">
-                            <input type="submit" style="background-color: lightpink" class="btn btn-danger"
-                                   value="Delete">
-                        </form>
-                    </div>
-                </div>
-            </ex:hasRole>
-        </div>
-    </c:forEach>
+                </ex:hasRole>
+            </div>
+        </c:forEach>
+    </fmt:bundle>
 </div>
 </body>
 </html>
