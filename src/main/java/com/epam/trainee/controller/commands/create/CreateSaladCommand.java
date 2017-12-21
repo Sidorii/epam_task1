@@ -30,7 +30,7 @@ public class CreateSaladCommand implements Command {
     @Override
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
         req.setAttribute("ingredients", ingredientService.getAllIngredients());
-        req.setAttribute("action", "/create/salad");
+        req.setAttribute("action", req.getServletPath());
         req.setAttribute("title", "Create new salad recipe:");
         return Page.CREATE_SALAD;
     }

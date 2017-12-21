@@ -23,7 +23,7 @@ public class OrderCustomSaladCommand implements Command {
     public View executeGet(HttpServletRequest req, HttpServletResponse resp) {
         IngredientService service = ServiceFactory.getInstance().getIngredientService();
         req.setAttribute("ingredients", service.getAllIngredients());
-        req.setAttribute("action", "/order/custom/salad");
+        req.setAttribute("action", req.getServletPath());
         req.setAttribute("title", "Create custom salad for yourself:");
         return Page.CREATE_SALAD;
     }
