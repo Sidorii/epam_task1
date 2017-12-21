@@ -5,7 +5,7 @@
 <c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}"/>
 <fmt:setLocale value="${language}"/>
 <fmt:bundle basename="MessageBundle" prefix="header.">
-    <li>
+    <li class="central">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                 class="glyphicon glyphicon-menu-hamburger"></span></a>
         <ul class="dropper dropdown-menu dropdown-menu-sw" role="menu">

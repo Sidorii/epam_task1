@@ -117,10 +117,13 @@
     border-color: #1CA347;
 }
 
+li.central{
+    position: relative;
+}
+
 ul.dropper {
-    right: -70px;
     top: 100%;
-    left:auto;
+    left:-50px;
 }
 ul.dropper li a {
     color: #0275d8;
