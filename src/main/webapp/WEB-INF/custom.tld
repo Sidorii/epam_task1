@@ -6,7 +6,7 @@
 
     <tag>
         <name>hasRole</name>
-        <tag-class>com.epam.trainee.controller.utils.JspUserHasRoleTag</tag-class>
+        <tag-class>ua.task1.trainee.controller.utils.JspUserHasRoleTag</tag-class>
         <body-content>scriptless</body-content>
 
         <attribute>

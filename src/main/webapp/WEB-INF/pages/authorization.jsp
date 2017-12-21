@@ -1,13 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page pageEncoding="UTF-8" %>
+
 <c:set var="language" scope="session" value="${empty sessionScope.lang ? 'en_EN' : sessionScope.lang}"/>
 <fmt:setLocale value="${language}"/>
 <html>
 <head>
     <title>Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -46,7 +45,7 @@
                                       style="display: block;">
                                     <div class="form-group">
                                         <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                               placeholder="Email Address" value="">
+                                               placeholder="Email Address">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password" id="password" tabindex="2"
@@ -67,20 +66,19 @@
                                       role="form"
                                       style="display: none;">
                                     <div class="form-group">
-                                        <input type="text" name="name" id="username" tabindex="1" class="form-control"
-                                               placeholder="Username" value="">
+                                        <input type="text" name="name" id="username" class="form-control"
+                                               placeholder="Username">
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" name="email" id="email" tabindex="1" class="form-control"
-                                               placeholder="Email Address" value="">
+                                        <input type="email" name="email" id="email" class="form-control"
+                                               placeholder="Email Address">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" name="password" id="password" tabindex="2"
+                                        <input type="password" name="password" id="password"
                                                class="form-control" placeholder="Password">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="confirm-password" id="confirm-password"
-                                               tabindex="2"
                                                class="form-control" placeholder="Confirm Password">
                                     </div>
                                     <div class="form-group">
